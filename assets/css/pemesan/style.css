@@ -39569,6 +39569,10 @@ iconify-icon:hover {
   margin-bottom: 10px;
 }
 
+.booking-area .searching-home {
+  margin-top: -200px;
+}
+
 .form-pemesanan-wrap, .detail-ruangan-wrap, .review-wrap {
   margin-top: 20px !important;
   padding: 20px 30px 20px 30px;
