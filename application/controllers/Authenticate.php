@@ -18,7 +18,7 @@ class Authenticate extends CI_Controller {
 
   public function logging_in()
   {
-    $this->load->view('includes/booking/main');
+    redirect('/index.php/home');
   }
 
   public function register()
