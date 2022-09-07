@@ -73,7 +73,6 @@
       </div>
 
       <!-- partial:partials/_footer.html -->
-      <!-- <footer class="footer d-flex flex-column flex-md-row align-items-center justify-content-between"> -->
       <?php
         $this->load->view('includes/booking/partials/footer.php');
       ?>

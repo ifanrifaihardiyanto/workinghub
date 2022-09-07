@@ -3,7 +3,7 @@ if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 require APPPATH . '/libraries/BaseController.php';
 
-class Home extends BaseController {
+class Dashboard extends BaseController {
     
     public function __construct()
     {
@@ -12,8 +12,8 @@ class Home extends BaseController {
     
     public function index()
     {
-        $this->metadata->pageView = "booking/index";
+        $this->metadata->pageView = "errors/maintenance";
 
-        $this->loadViews("includes/booking/main", NULL, $this->global, NULL);
+        $this->loadViews("includes/dashboard/main", NULL, $this->global, NULL);
     }
 }

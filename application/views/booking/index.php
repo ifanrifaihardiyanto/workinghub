@@ -1,6 +1,8 @@
+<?php
+$user = $this->session->userdata('user');
+?>
 <div class="grid-margin">
         </div>
-
         <div class="row">
           <div class="col-12 col-xl-12 stretch-card">
             <div class="row flex-grow">
@@ -83,6 +85,7 @@
             <div class="col-12">
               <div class="d-flex justify-content-center">
                 <div class="judul">Pilihan kota dengan penyewaan terbanyak</div>
+                <?php print_r($user); ?>
               </div>
             </div>
           </div>

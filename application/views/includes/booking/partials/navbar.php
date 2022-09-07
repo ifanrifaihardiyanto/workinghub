@@ -52,7 +52,8 @@
                       </a>
                     </li>
                     <li class="nav-item">
-                      <a href="javascript:;" class="nav-link">
+                      <form action="<?php echo base_url(); ?>index.php/authenticate/logged_out" id="loggedOut" method="post"></form>
+                      <a href="javascript:;" onclick="doLogout()" class="nav-link">
                         <i data-feather="log-out"></i>
                         <span>Log Out</span>
                       </a>
@@ -64,3 +65,9 @@
           </ul>
         </div>
       </nav>
+
+<script>
+  function doLogout() {
+    document.getElementById("loggedOut").submit();
+  }
+</script>

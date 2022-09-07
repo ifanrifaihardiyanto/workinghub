@@ -41,18 +41,36 @@
 						<div class="card">
 							<div class="card-body">
 								<h6 class="card-title">Lengkapi Data</h6>
-									<form method="" action="<?php echo base_url(); ?>index.php/authenticate/logging_in">
+									<form action="<?php echo base_url(); ?>index.php/authenticate/completed_data" method="post">
+										<div class="row">
+											<div class="col-sm-6">
+												<div class="form-group">
+													<label class="control-label">Nama</label>
+													<input type="text" class="form-control" placeholder="Nama" name="nama" id="nama" value="<?= set_value('nama'); ?>">
+													<small class="text-danger"><?= form_error('nama'); ?></small>
+												</div>
+											</div><!-- Col -->
+											<div class="col-sm-6">
+												<div class="form-group">
+													<label class="control-label">NIK</label>
+													<input type="text" class="form-control" placeholder="NIK" name="nik" id="nik" value="<?= set_value('nik'); ?>">
+													<small class="text-danger"><?= form_error('nik'); ?></small>
+												</div>
+											</div><!-- Col -->
+										</div><!-- Row -->
 										<div class="row">
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label class="control-label">Nomor Telepon</label>
-													<input type="number" class="form-control" placeholder="Nomor Telepon">
+													<input type="text" class="form-control" placeholder="Nomor Telepon" name="noTelp" id="noTelp" value="<?= set_value('noTelp'); ?>">
+													<small class="text-danger"><?= form_error('noTelp'); ?></small>
 												</div>
 											</div><!-- Col -->
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label class="control-label">Nomor Rekening Bank BNI</label>
-													<input type="number" class="form-control" placeholder="Nomor Rekening Bank BNI">
+													<input type="number" class="form-control" placeholder="Nomor Rekening Bank BNI" name="rekBNI" id="rekBNI" value="<?= set_value('rekBNI'); ?>">
+													<small class="text-danger"><?= form_error('rekBNI'); ?></small>
 												</div>
 											</div><!-- Col -->
 										</div><!-- Row -->
@@ -60,13 +78,15 @@
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label class="control-label">Tempat Lahir</label>
-													<input type="text" class="form-control" placeholder="Tempat Lahir">
+													<input type="text" class="form-control" placeholder="Tempat Lahir" name="tmptLahir" id="tmptLahir" value="<?= set_value('tmptLahir'); ?>">
+													<small class="text-danger"><?= form_error('tmptLahir'); ?></small>
 												</div>
 											</div><!-- Col -->
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label class="control-label">Nomor Rekening Bank BRI</label>
-													<input type="text" class="form-control" placeholder="Nomor Rekening Bank BRI">
+													<input type="text" class="form-control" placeholder="Nomor Rekening Bank BRI" name="rekBRI" id="rekBRI" value="<?= set_value('rekBRI'); ?>">
+													<small class="text-danger"><?= form_error('rekBRI'); ?></small>
 												</div>
 											</div><!-- Col -->
 										</div><!-- Row -->
@@ -74,13 +94,15 @@
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label class="control-label">Tanggal Lahir</label>
-													<input type="date" class="form-control" placeholder="Tanggal Lahir">
+													<input type="date" class="form-control" placeholder="Tanggal Lahir" name="tglLahir" id="tglLahir" value="<?= set_value('tglLahir'); ?>">
+													<small class="text-danger"><?= form_error('tglLahir'); ?></small>
 												</div>
 											</div><!-- Col -->
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label class="control-label">Nomor Rekening Bank Mandiri</label>
-													<input type="number" class="form-control" placeholder="Nomor Rekening Bank Mandiri">
+													<input type="number" class="form-control" placeholder="Nomor Rekening Bank Mandiri" name="rekMandiri" id="rekMandiri" value="<?= set_value('rekMandiri'); ?>">
+													<small class="text-danger"><?= form_error('rekMandiri'); ?></small>
 												</div>
 											</div><!-- Col -->
 										</div><!-- Row -->
@@ -88,19 +110,22 @@
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label class="control-label">Alamat</label>
-													<input type="text" class="form-control" placeholder="Alamat">
+													<input type="text" class="form-control" placeholder="Alamat" name="alamat" id="alamat" value="<?= set_value('alamat'); ?>">
+													<small class="text-danger"><?= form_error('alamat'); ?></small>
 												</div>
 											</div><!-- Col -->
 											<div class="col-sm-6">
 												<div class="form-group">
 													<label class="control-label">Nomor Rekening Bank BCA</label>
-													<input type="number" class="form-control" placeholder="Nomor Rekening Bank BCA">
+													<input type="number" class="form-control" placeholder="Nomor Rekening Bank BCA" name="rekBCA" id="rekBCA" value="<?= set_value('rekBCA'); ?>">
+													<small class="text-danger"><?= form_error('rekBCA'); ?></small>
 												</div>
 											</div><!-- Col -->
 										</div><!-- Row -->
-									<div class="d-flex justify-content-center">
-									<a href="<?php echo base_url(); ?>index.php/authenticate/logging_in" role="button" class="btn btn-primary btn-pemesan">Simpan</a>
-									</div>
+										<div class="d-flex justify-content-center">
+											<input type="submit" value="Simpan" class="btn btn-block btn-primary">
+										</div>
+									</form>
 							</div>
 						</div>
 					</div>

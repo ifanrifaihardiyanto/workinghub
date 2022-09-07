@@ -9,11 +9,6 @@ class BaseController extends CI_Controller
 	{
 		parent::__construct();
 
-		// $user = $this->session->userdata('user');
-		// if (empty($user)) {
-		// 	redirect('/');
-		// }
-
 		$this->metadata = (object) [
 			'pageView' => NULL,
 		];

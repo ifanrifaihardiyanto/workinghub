@@ -29,16 +29,21 @@
           <div class="col-md-7">
             <div class="branding"><span class="text1">Working</span><span class="text2">Hub.</span></div>
             <div class="login">Register</div>
-            <form action="#" method="post">
+            <form action="<?php echo base_url(); ?>index.php/authenticate/register" method="post">
               <div class="form-group first">
-                <label for="email">Email</label>
-                <input type="email" class="form-control" placeholder="your-email@gmail.com" id="email">
+                <input type="text" class="form-control" placeholder="Your Email" id="hideRole" name="hideRole" value="Pemesan" hidden>
+              </div>
+              <div class="form-group first">
+                <label for="nama">Email</label>
+                <input type="email" class="form-control" placeholder="Your Email" id="email" name="email" value="<?= set_value('email'); ?>">
+                <small class="text-danger"><?= form_error('email'); ?></small>
               </div>
               <div class="form-group last mb-3">
                 <label for="password">Password</label>
-                <input type="password" class="form-control" placeholder="Your Password" id="password">
+                <input type="password" class="form-control" placeholder="Your Password" id="password" name="password">
+                <small class="text-danger"><?= form_error('password'); ?></small>
               </div>
-              <a role="button" href="<?php echo base_url(); ?>index.php/authenticate/completed_data" class="btn btn-block btn-primary">Register</a>
+              <input type="submit" value="Register" class="btn btn-block btn-primary">
               <div class="d-block mt-3 text-muted">Sudah punya akun? <a href="<?php echo base_url(); ?>index.php/authenticate/" class="choose-login">Log in</a></div>
             </form>
           </div>

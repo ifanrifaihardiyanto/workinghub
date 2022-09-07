@@ -1,16 +1,10 @@
-<?php
-  $this->load->helper('form');
-  $error = $this->session->flashdata('error');
-  $success = $this->session->flashdata('success');
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Log in</title>
+	<title>Register</title>
   <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 	<!-- core:css -->
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendors/core/core.css">
@@ -34,26 +28,14 @@
         <div class="row align-items-center justify-content-center">
           <div class="col-md-7">
             <div class="branding"><span class="text1">Working</span><span class="text2">Hub.</span></div>
-            <div class="login">Login</div>
-
-            <?php if ($error) : ?>
-              <div class="alert alert-danger alert-dismissable">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <?= $error; ?>
-              </div>
-            <?php endif; ?>
-
-            <?php if ($success) : ?>
-              <div class="alert alert-success alert-dismissable">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <?= $success; ?>
-              </div>
-            <?php endif; ?>
-
-            <form action="<?php echo base_url(); ?>index.php/authenticate/logging_in" method="post">
+            <div class="login">Register</div>
+            <form action="<?php echo base_url(); ?>index.php/authenticate/register" method="post">
               <div class="form-group first">
-                <label for="email">Email</label>
-                <input type="email" class="form-control" placeholder="your-email@gmail.com" id="email" name="email" value="<?= set_value('email'); ?>">
+                <input type="text" class="form-control" placeholder="Your Email" id="hideRole" name="hideRole" value="Partner" hidden>
+              </div>
+              <div class="form-group first">
+                <label for="nama">Email</label>
+                <input type="email" class="form-control" placeholder="Your Email" id="email" name="email" value="<?= set_value('email'); ?>">
                 <small class="text-danger"><?= form_error('email'); ?></small>
               </div>
               <div class="form-group last mb-3">
@@ -61,12 +43,8 @@
                 <input type="password" class="form-control" placeholder="Your Password" id="password" name="password">
                 <small class="text-danger"><?= form_error('password'); ?></small>
               </div>
-              <div class="d-flex mb-5 align-items-center">
-                <span class="ml-auto"><a href="#" class="forgot-pass">Lupa Password?</a></span> 
-              </div>
-              <input type="submit" value="Log In" class="btn btn-block btn-primary">
-              <div class="d-block mt-3 text-muted">Belum punya akun? <a href="<?php echo base_url(); ?>index.php/authenticate/register" class="choose-register">Register</a></div>
-              <div class="d-block mt-3 text-muted">Tertarik mengembangkan bisnis anda? <a href="<?php echo base_url(); ?>index.php/authenticate/partner_registration" class="choose-register">Jadi Partner WorkingHub</a></div>
+              <input type="submit" value="Register" class="btn btn-block btn-primary">
+              <div class="d-block mt-3 text-muted">Sudah menjadi bagian dari partner WorkingHub? <a href="<?php echo base_url(); ?>index.php/authenticate/" class="choose-login">Log in</a></div>
             </form>
           </div>
         </div>
