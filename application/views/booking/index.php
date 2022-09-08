@@ -85,7 +85,6 @@ $user = $this->session->userdata('user');
             <div class="col-12">
               <div class="d-flex justify-content-center">
                 <div class="judul">Pilihan kota dengan penyewaan terbanyak</div>
-                <?php print_r($user); ?>
               </div>
             </div>
           </div>

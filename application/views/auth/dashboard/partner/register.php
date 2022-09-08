@@ -29,7 +29,7 @@
           <div class="col-md-7">
             <div class="branding"><span class="text1">Working</span><span class="text2">Hub.</span></div>
             <div class="login">Register</div>
-            <form action="<?php echo base_url(); ?>index.php/authenticate/register" method="post">
+            <form action="<?php echo base_url(); ?>index.php/authenticate/partner_registration" method="post">
               <div class="form-group first">
                 <input type="text" class="form-control" placeholder="Your Email" id="hideRole" name="hideRole" value="Partner" hidden>
               </div>

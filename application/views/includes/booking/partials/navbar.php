@@ -1,3 +1,6 @@
+<?php
+$user = $this->session->userdata('user');
+?>
 <nav class="navbar">
         <div class="navbar-content">
           <ul class="navbar-nav left">
@@ -25,7 +28,7 @@
                 aria-haspopup="true" aria-expanded="false">
                 <!-- <img src="https://via.placeholder.com/30x30" alt="profile"> -->
                 <iconify-icon icon="carbon:user-avatar" width="24" height="24"></iconify-icon>
-                <span class="ms-1 me-1 d-none d-md-inline-block">Ifan Rifai Hardiyanto</span>
+                <span class="ms-1 me-1 d-none d-md-inline-block"><?= $user[0]->nama; ?></span>
               </a>
               <div class="dropdown-menu" aria-labelledby="profileDropdown">
                 <div class="dropdown-header d-flex flex-column align-items-center">
@@ -33,8 +36,8 @@
                     <img src="https://via.placeholder.com/80x80" alt="">
                   </div>
                   <div class="info text-center">
-                    <p class="name font-weight-bold mb-0">Amiah Burton</p>
-                    <p class="email text-muted mb-3">amiahburton@gmail.com</p>
+                    <p class="name font-weight-bold mb-0"><?= $user[0]->nama; ?></p>
+                    <p class="email text-muted mb-3"><?= $user[0]->email; ?></p>
                   </div>
                 </div>
                 <div class="dropdown-body">

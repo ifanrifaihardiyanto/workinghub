@@ -35,26 +35,32 @@ class Authenticate extends CI_Controller {
     if ($this->form_validation->run() == false) {
       $this->index();
     } else {
-      $email = $this->input->post('email');
+      $email    = $this->input->post('email');
+      $password = $this->input->post('password');
 
-      $result = $this->auth->getData($email);
-      $role   = $result[0]->role;
-
-      // print_r($result[0]->role);
+      $result   = $this->auth->getData($email);
+      $role     = $result[0]->role;
+      $pass     = $result[0]->password;
 
       if (!empty($result)) {
-        $this->session->set_userdata([
-          'user'        => $result,
-          'isLoggedIn'  => true
-        ]);
-
-        if ($role == 'Pemesan') {
-          redirect('/index.php/home');
+        if (password_verify($password, $pass)) {
+          $this->session->set_userdata([
+            'user'        => $result,
+            'isLoggedIn'  => true
+          ]);
+  
+          if ($role == 'Pemesan') {
+            redirect('/index.php/home');
+          } else {
+            redirect('/index.php/dashboard');
+          }
         } else {
-          redirect('/index.php/dashboard');
+          $this->session->set_flashdata('error', 'Password yang anda masukkan salah!');
+
+          redirect('/');
         }
       } else {
-        $this->session->set_flashdata('error', 'Email atau Password salah');
+        $this->session->set_flashdata('error', 'Email belum terdaftar!');
 
         redirect('/');
       }
@@ -78,10 +84,10 @@ class Authenticate extends CI_Controller {
     } else {
       $role    = $this->input->post('hideRole');
       $email    = $this->input->post('email');
-      $password = md5($this->input->post('password'));
+      $password = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
 
       $this->auth->insertUser($email, $password, $role);
-      $result = $this->auth->getData($email, $password);
+      $result = $this->auth->getData($email);
 
       $this->session->set_userdata([
         'user' => $result,
@@ -95,7 +101,7 @@ class Authenticate extends CI_Controller {
 
   public function partner_registration()
   {
-    $this->form_validation->set_rules('email','Email','required|trim|valid_email|is_unique[user.username, user.role]',['is_unique' => 'Email sudah pernah digunakan!']);
+    $this->form_validation->set_rules('email','Email','required|trim|valid_email|is_unique[user.username]',['is_unique' => 'Email sudah pernah digunakan!']);
     $this->form_validation->set_rules('password','Password','required|trim|min_length[8]');
 
     if ($this->form_validation->run() == false) {
@@ -103,10 +109,10 @@ class Authenticate extends CI_Controller {
     } else {
       $role     = $this->input->post('hideRole');
       $email    = $this->input->post('email');
-      $password = md5($this->input->post('password'));
+      $password = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
 
       $this->auth->insertUser($email, $password, $role);
-      $result = $this->auth->getData($email, $password);
+      $result = $this->auth->getData($email);
 
       $this->session->set_userdata([
         'user' => $result,
@@ -139,7 +145,6 @@ class Authenticate extends CI_Controller {
     if ($role == 'partner') {
       $role = 'penyedia';
     }
-    // print_r($user);
 
     if ($this->form_validation->run() == false) {
       $this->load->view('auth/booking/completed_data');
@@ -157,13 +162,9 @@ class Authenticate extends CI_Controller {
       
       $this->auth->completedData($user_id, $nama, $tmptLahir, $tglLahir, $alamat, $nik, $email, $noTelp, $rekBNI, $rekBRI, $rekMandiri, $rekBCA, $role);
 
-      // $this->session->set_flashdata('success', 'Akun berhasil dibuat. Silahkan login!');
+      $this->session->set_flashdata('success', 'Akun berhasil dibuat. Silahkan login!');
 
-      if ($role == 'pemesan') {
-        redirect('/index.php/home');
-      } else {
-        redirect('/index.php/dashboard');
-      }
+      redirect('/index.php/authenticate/logging_in');
     }
   }
 }
