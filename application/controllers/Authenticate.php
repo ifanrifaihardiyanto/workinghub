@@ -1,15 +1,16 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Authenticate extends CI_Controller {
-    
+class Authenticate extends CI_Controller
+{
+
   public function __construct()
-	{
-		parent::__construct();
-		//Do your magic here
+  {
+    parent::__construct();
+    //Do your magic here
     $this->load->model('Auth_model', 'auth');
     $this->load->library('form_validation');
-	}
+  }
 
   public function index()
   {
@@ -23,14 +24,21 @@ class Authenticate extends CI_Controller {
     if (!isset($isLoggedIn) || $isLoggedIn != true) {
       $this->load->view('auth/booking/login');
     } else {
-      redirect('/index.php/home');
+      $user = $this->session->userdata('user');
+      $role = $user[0]->role;
+
+      if ($role == 'Pemesan') {
+        redirect('/index.php/home');
+      } else {
+        redirect('/index.php/dashboard');
+      }
     }
   }
 
   public function logging_in()
   {
-    $this->form_validation->set_rules('email','Email','required|trim|valid_email');
-    $this->form_validation->set_rules('password','Password','required|trim|min_length[8]');
+    $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email');
+    $this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[8]');
 
     if ($this->form_validation->run() == false) {
       $this->index();
@@ -52,12 +60,8 @@ class Authenticate extends CI_Controller {
             'user'        => $getData,
             'isLoggedIn'  => true,
           ]);
-  
-          if ($role == 'Pemesan') {
-            redirect('/index.php/home');
-          } else {
-            redirect('/index.php/dashboard');
-          }
+
+          redirect('/index.php/home');
         } else {
           $this->session->set_flashdata('error', 'Password yang anda masukkan salah!');
 
@@ -88,8 +92,8 @@ class Authenticate extends CI_Controller {
       redirect('/index.php/home');
     }
 
-    $this->form_validation->set_rules('email','Email','required|trim|valid_email|is_unique[user.username]',['is_unique' => 'Email sudah pernah digunakan!']);
-    $this->form_validation->set_rules('password','Password','required|trim|min_length[8]');
+    $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[user.username]', ['is_unique' => 'Email sudah pernah digunakan!']);
+    $this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[8]');
 
     if ($this->form_validation->run() == false) {
       $this->load->view('auth/booking/register');
@@ -121,8 +125,8 @@ class Authenticate extends CI_Controller {
       redirect('/index.php/home');
     }
 
-    $this->form_validation->set_rules('email','Email','required|trim|valid_email|is_unique[user.username]',['is_unique' => 'Email sudah pernah digunakan!']);
-    $this->form_validation->set_rules('password','Password','required|trim|min_length[8]');
+    $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email|is_unique[user.username]', ['is_unique' => 'Email sudah pernah digunakan!']);
+    $this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[8]');
 
     if ($this->form_validation->run() == false) {
       $this->load->view('auth/dashboard/partner/register');
@@ -153,18 +157,18 @@ class Authenticate extends CI_Controller {
     } else {
       redirect('/index.php/home');
     }
-    
-    $this->form_validation->set_rules('nama','Nama','required|trim');
-    $this->form_validation->set_rules('nik','NIK','required|trim');
-    $this->form_validation->set_rules('noTelp','Nomor Telepon','required|trim');
-    $this->form_validation->set_rules('nama','Nama','required|trim');
-    $this->form_validation->set_rules('tmptLahir','Tempat Lahir','required|trim');
-    $this->form_validation->set_rules('tglLahir','Tanggal Lahir','required');
-    $this->form_validation->set_rules('alamat','Alamat','required|trim');
-    $this->form_validation->set_rules('rekBNI','Rekening BNI','required|trim');
-    $this->form_validation->set_rules('rekBRI','Rekening BRI','required|trim');
-    $this->form_validation->set_rules('rekMandiri','Rekening Mandiri','required|trim');
-    $this->form_validation->set_rules('rekBCA','Rekening BCA','required|trim');
+
+    $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
+    $this->form_validation->set_rules('nik', 'NIK', 'required|trim');
+    $this->form_validation->set_rules('noTelp', 'Nomor Telepon', 'required|trim');
+    $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
+    $this->form_validation->set_rules('tmptLahir', 'Tempat Lahir', 'required|trim');
+    $this->form_validation->set_rules('tglLahir', 'Tanggal Lahir', 'required');
+    $this->form_validation->set_rules('alamat', 'Alamat', 'required|trim');
+    $this->form_validation->set_rules('rekBNI', 'Rekening BNI', 'required|trim');
+    $this->form_validation->set_rules('rekBRI', 'Rekening BRI', 'required|trim');
+    $this->form_validation->set_rules('rekMandiri', 'Rekening Mandiri', 'required|trim');
+    $this->form_validation->set_rules('rekBCA', 'Rekening BCA', 'required|trim');
 
     $user = $this->session->userdata('user');
     $user_id  = $user[0]->id_user;
@@ -184,7 +188,7 @@ class Authenticate extends CI_Controller {
       $rekBRI     = $this->input->post('rekBRI');
       $rekMandiri = $this->input->post('rekMandiri');
       $rekBCA     = $this->input->post('rekBCA');
-      
+
       $this->auth->completedData($user_id, $nama, $tmptLahir, $tglLahir, $alamat, $nik, $email, $noTelp, $rekBNI, $rekBRI, $rekMandiri, $rekBCA, $role);
 
       $this->session->set_flashdata('success', 'Akun berhasil dibuat. Silahkan login!');

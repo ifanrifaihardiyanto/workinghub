@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Manageuser_model extends CI_Model {
+class Manageuser_model extends CI_Model
+{
 
     public function __construct()
     {
@@ -19,7 +20,7 @@ class Manageuser_model extends CI_Model {
 
     public function getDataAll($user_id, $role)
     {
-		$sql = "select * from user left outer join $role on user.id_user = $role.user_id_user where user.id_user='$user_id'";
+        $sql = "select * from user left outer join $role on user.id_user = $role.user_id_user where user.id_user='$user_id'";
 
         return $this->db->query($sql)->result();
     }

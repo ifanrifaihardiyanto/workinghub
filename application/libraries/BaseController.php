@@ -2,10 +2,10 @@
 
 class BaseController extends CI_Controller
 {
-    protected $global = array();
-    protected $metadata = null;
+	protected $global = array();
+	protected $metadata = null;
 
-    public function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -21,7 +21,7 @@ class BaseController extends CI_Controller
 	 * @param {mixed} $footerInfo : This is array of footer information
 	 * @return {null} $result : null
 	 */
-	function loadViews($viewName = "", $headerInfo = NULL, $pageInfo = NULL, $footerInfo = NULL)
+	function loadViews($viewName = "", $pageInfo = NULL)
 	{
 		$pageInfo['pageView']   = $this->metadata->pageView;
 
