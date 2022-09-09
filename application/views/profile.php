@@ -1,5 +1,4 @@
 <?php
-// extract($profile);
 $user = $this->session->userdata('user');
 $this->load->helper('form');
 $error = $this->session->flashdata('error');
@@ -53,6 +52,7 @@ $success = $this->session->flashdata('success');
 								<small class="text-danger"><?= form_error('noTelp'); ?></small>
 							</div>
 						</div><!-- Col -->
+						<?php if (in_array($user[0]->role, ['Partner','Pemesan'])) : ?>
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label class="control-label">Nomor Rekening Bank BNI</label>
@@ -60,6 +60,7 @@ $success = $this->session->flashdata('success');
 								<small class="text-danger"><?= form_error('rekBNI'); ?></small>
 							</div>
 						</div><!-- Col -->
+						<?php endif; ?>
 					</div><!-- Row -->
 					<div class="row">
 						<div class="col-sm-6">
@@ -69,6 +70,7 @@ $success = $this->session->flashdata('success');
 								<small class="text-danger"><?= form_error('tmptLahir'); ?></small>
 							</div>
 						</div><!-- Col -->
+						<?php if (in_array($user[0]->role, ['Partner','Pemesan'])) : ?>
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label class="control-label">Nomor Rekening Bank BRI</label>
@@ -76,6 +78,7 @@ $success = $this->session->flashdata('success');
 								<small class="text-danger"><?= form_error('rekBRI'); ?></small>
 							</div>
 						</div><!-- Col -->
+						<?php endif; ?>
 					</div><!-- Row -->
 					<div class="row">
 						<div class="col-sm-6">
@@ -85,6 +88,7 @@ $success = $this->session->flashdata('success');
 								<small class="text-danger"><?= form_error('tglLahir'); ?></small>
 							</div>
 						</div><!-- Col -->
+						<?php if (in_array($user[0]->role, ['Partner','Pemesan'])) : ?>
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label class="control-label">Nomor Rekening Bank Mandiri</label>
@@ -92,6 +96,7 @@ $success = $this->session->flashdata('success');
 								<small class="text-danger"><?= form_error('rekMandiri'); ?></small>
 							</div>
 						</div><!-- Col -->
+						<?php endif; ?>
 					</div><!-- Row -->
 					<div class="row">
 						<div class="col-sm-6">
@@ -101,6 +106,7 @@ $success = $this->session->flashdata('success');
 								<small class="text-danger"><?= form_error('alamat'); ?></small>
 							</div>
 						</div><!-- Col -->
+						<?php if (in_array($user[0]->role, ['Partner','Pemesan'])) : ?>
 						<div class="col-sm-6">
 							<div class="form-group">
 								<label class="control-label">Nomor Rekening Bank BCA</label>
@@ -108,6 +114,7 @@ $success = $this->session->flashdata('success');
 								<small class="text-danger"><?= form_error('rekBCA'); ?></small>
 							</div>
 						</div><!-- Col -->
+						<?php endif; ?>
 					</div><!-- Row -->
 					<div class="d-flex justify-content-center">
 						<input type="submit" value="Simpan" class="btn btn-block btn-primary">

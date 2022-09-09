@@ -2,7 +2,7 @@
   <div class="navbar-content">
     <ul class="navbar-nav left">
       <li class="nav-item float-left">
-        <a class="nav-link" href="<?php echo base_url(); ?>">
+        <a class="nav-link" href="<?php echo base_url(); ?>index.php/home">
           <div class="logo"><span class="text1">Working</span><span class="text2">Hub.</span></div>
         </a>
       </li>
@@ -42,12 +42,6 @@
                 <a href="<?php echo base_url(); ?>index.php/manageuser" class="nav-link">
                   <i data-feather="user"></i>
                   <span>Profile</span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="javascript:;" class="nav-link">
-                  <i data-feather="edit"></i>
-                  <span>Edit Profile</span>
                 </a>
               </li>
               <li class="nav-item">
