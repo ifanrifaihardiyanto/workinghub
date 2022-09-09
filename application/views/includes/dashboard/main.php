@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Dashboard Penyedia</title>
+	<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 	<!-- core:css -->
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendors/core/core.css">
 	<!-- endinject -->
@@ -12,15 +13,15 @@
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendors/select2/select2.min.css">
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendors/font-awesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendors/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.css">
-  <link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+  	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
 	<!-- end plugin css for this page -->
 	<!-- inject:css -->
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/fonts/feather-font/css/iconfont.css">
 	<!-- endinject -->
-  <!-- Layout styles -->  
+  	<!-- Layout styles -->  
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/demo_1/style.css">
-  <!-- End layout styles -->
-  <link rel="shortcut icon" href="<?php echo base_url(); ?>assets/images/favicon.png" />
+	<!-- End layout styles -->
+	<link rel="shortcut icon" href="<?php echo base_url(); ?>assets/images/logo.png" />
 </head>
 <body>
 	<div class="main-wrapper">
@@ -40,9 +41,9 @@
 			<!-- partial -->
 
 			<div class="page-content">
-            <?php
-                $this->load->view($pageView);
-            ?>
+				<?php
+					$this->load->view($pageView);
+				?>
 			</div>
 
 			<!-- partial:../../partials/_footer.html -->
@@ -57,6 +58,7 @@
 	<!-- core:js -->
 	<script src="<?php echo base_url(); ?>assets/vendors/core/core.js"></script>
 	<!-- endinject -->
+	<script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.0-beta.3/dist/iconify-icon.min.js"></script>
 	<!-- plugin js for this page -->
     <script src="<?php echo base_url(); ?>assets/vendors/datatables.net/jquery.dataTables.js"></script>
     <script src="<?php echo base_url(); ?>assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>

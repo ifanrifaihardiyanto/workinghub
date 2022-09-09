@@ -1,7 +1,7 @@
     <nav class="sidebar">
         <div class="sidebar-header">
             <a href="#" class="sidebar-brand">
-            Noble<span>UI</span>
+                <div class="logo"><span class="text1">Working</span><span class="text2">Hub.</span></div>
             </a>
             <div class="sidebar-toggler not-active">
             <span></span>

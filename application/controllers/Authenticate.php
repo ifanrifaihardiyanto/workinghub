@@ -35,18 +35,22 @@ class Authenticate extends CI_Controller {
     if ($this->form_validation->run() == false) {
       $this->index();
     } else {
-      $email    = $this->input->post('email');
-      $password = $this->input->post('password');
+      $email      = $this->input->post('email');
+      $password   = $this->input->post('password');
 
-      $result   = $this->auth->getData($email);
-      $role     = $result[0]->role;
-      $pass     = $result[0]->password;
+      $result     = $this->auth->getData($email);
+      $role       = $result[0]->role;
+      $lowerRole  = strtolower($result[0]->role);
+      $pass       = $result[0]->password;
+      $user_id    = $result[0]->id_user;
+
+      $getData    = $this->auth->getDataAll($user_id, $lowerRole);
 
       if (!empty($result)) {
         if (password_verify($password, $pass)) {
           $this->session->set_userdata([
-            'user'        => $result,
-            'isLoggedIn'  => true
+            'user'        => $getData,
+            'isLoggedIn'  => true,
           ]);
   
           if ($role == 'Pemesan') {
@@ -76,6 +80,14 @@ class Authenticate extends CI_Controller {
 
   public function register()
   {
+    $isLoggedIn = $this->session->userdata('isLoggedIn');
+
+    if (!isset($isLoggedIn) || $isLoggedIn != true) {
+      $this->load->view('auth/booking/login');
+    } else {
+      redirect('/index.php/home');
+    }
+
     $this->form_validation->set_rules('email','Email','required|trim|valid_email|is_unique[user.username]',['is_unique' => 'Email sudah pernah digunakan!']);
     $this->form_validation->set_rules('password','Password','required|trim|min_length[8]');
 
@@ -101,6 +113,14 @@ class Authenticate extends CI_Controller {
 
   public function partner_registration()
   {
+    $isLoggedIn = $this->session->userdata('isLoggedIn');
+
+    if (!isset($isLoggedIn) || $isLoggedIn != true) {
+      $this->load->view('auth/booking/login');
+    } else {
+      redirect('/index.php/home');
+    }
+
     $this->form_validation->set_rules('email','Email','required|trim|valid_email|is_unique[user.username]',['is_unique' => 'Email sudah pernah digunakan!']);
     $this->form_validation->set_rules('password','Password','required|trim|min_length[8]');
 
@@ -126,6 +146,14 @@ class Authenticate extends CI_Controller {
 
   public function completed_data()
   {
+    $isLoggedIn = $this->session->userdata('isLoggedIn');
+
+    if (!isset($isLoggedIn) || $isLoggedIn != true) {
+      $this->load->view('auth/booking/login');
+    } else {
+      redirect('/index.php/home');
+    }
+    
     $this->form_validation->set_rules('nama','Nama','required|trim');
     $this->form_validation->set_rules('nik','NIK','required|trim');
     $this->form_validation->set_rules('noTelp','Nomor Telepon','required|trim');
@@ -142,9 +170,6 @@ class Authenticate extends CI_Controller {
     $user_id  = $user[0]->id_user;
     $email  = $user[0]->username;
     $role     = strtolower($user[0]->role);
-    if ($role == 'partner') {
-      $role = 'penyedia';
-    }
 
     if ($this->form_validation->run() == false) {
       $this->load->view('auth/booking/completed_data');
