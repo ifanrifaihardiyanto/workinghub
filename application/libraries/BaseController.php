@@ -13,7 +13,7 @@ class BaseController extends CI_Controller
 			'pageView' => NULL,
 		];
 
-		$this->load->model('Manageuser_model', 'manage_user');
+		$this->load->model('Manageprofile_model', 'manage_profile');
 	}
 
 	function profile()
@@ -22,13 +22,21 @@ class BaseController extends CI_Controller
         $role = $user[0]->role;
         $user_id  = $user[0]->id_user;
 
-        $profil = $this->manage_user->getDataAll($user_id, $role);
+        $profil = $this->manage_profile->getDataAll($user_id, $role);
 
         $this->metadata->pageView = "profile";
 
         $this->global['data'] = (object) [
             'profile' => $profil
         ];
+	}
+
+	public function response($status_code, $data = NULL)
+	{
+		$this->output
+			->set_status_header($status_code)
+			->set_content_type('application/json', 'utf-8')
+			->set_output(json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
 	}
 	/**
 	 * This function used to load views

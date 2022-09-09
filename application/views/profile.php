@@ -27,7 +27,7 @@ $success = $this->session->flashdata('success');
 				<?php endif; ?>
 
 				<h6 class="card-title">Data Pribadi</h6>
-				<form action="<?php echo base_url(); ?>index.php/manageuser/edit" method="post">
+				<form action="<?php echo base_url(); ?>index.php/manageprofile/edit" method="post">
 					<div class="row">
 						<div class="col-sm-6">
 							<div class="form-group">

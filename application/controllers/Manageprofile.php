@@ -3,13 +3,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 require APPPATH . '/libraries/BaseController.php';
 
-class Manageuser extends BaseController
+class Manageprofile extends BaseController
 {
 
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('Manageuser_model', 'manage_user');
+        $this->load->model('Manageprofile_model', 'manage_profile');
     }
 
     public function index()
@@ -71,9 +71,9 @@ class Manageuser extends BaseController
 
 
 
-            $this->manage_user->edit($user_id, $nama, $tmptLahir, $tglLahir, $alamat, $nik, $noTelp, $rekBNI, $rekBRI, $rekMandiri, $rekBCA, $role);
+            $this->manage_profile->edit($user_id, $nama, $tmptLahir, $tglLahir, $alamat, $nik, $noTelp, $rekBNI, $rekBRI, $rekMandiri, $rekBCA, $role);
 
-            // $profil = $this->manage_user->getDataAll($user_id, $role);
+            // $profil = $this->manage_profile->getDataAll($user_id, $role);
 
             // $this->global['data'] = (object) [
             //     'profile' => $profil
@@ -82,7 +82,7 @@ class Manageuser extends BaseController
 
             $this->session->set_flashdata('success', 'Berhasil mengubah data!');
 
-            redirect('/index.php/manageuser');
+            redirect('/index.php/manageprofile');
         }
     }
 
