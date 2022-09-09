@@ -12,6 +12,23 @@ class BaseController extends CI_Controller
 		$this->metadata = (object) [
 			'pageView' => NULL,
 		];
+
+		$this->load->model('Manageuser_model', 'manage_user');
+	}
+
+	function profile()
+	{
+		$user = $this->session->userdata('user');
+        $role = $user[0]->role;
+        $user_id  = $user[0]->id_user;
+
+        $profil = $this->manage_user->getDataAll($user_id, $role);
+
+        $this->metadata->pageView = "profile";
+
+        $this->global['data'] = (object) [
+            'profile' => $profil
+        ];
 	}
 	/**
 	 * This function used to load views

@@ -17,21 +17,15 @@ class Manageuser extends BaseController
         $isLoggedIn = $this->session->userdata('isLoggedIn');
 
         $user = $this->session->userdata('user');
-        $role = $user[0]->role;
-        $user_id  = $user[0]->id_user;
-
-        $profil = $this->manage_user->getDataAll($user_id, $role);
 
         $load = "booking";
         if ($user[0]->role !== 'Pemesan') {
             $load = "dashboard";
         }
 
-        $this->metadata->pageView = "profile";
+        $this->profile();
 
-        $this->global['data'] = (object) [
-            'profile' => $profil
-        ];
+        $this->metadata->pageView = "profile";
 
         $this->loadViews("includes/" . $load . "/main", $this->global);
     }
@@ -79,11 +73,12 @@ class Manageuser extends BaseController
 
             $this->manage_user->edit($user_id, $nama, $tmptLahir, $tglLahir, $alamat, $nik, $noTelp, $rekBNI, $rekBRI, $rekMandiri, $rekBCA, $role);
 
-            $profil = $this->manage_user->getDataAll($user_id, $role);
+            // $profil = $this->manage_user->getDataAll($user_id, $role);
 
-            $this->global['data'] = (object) [
-                'profile' => $profil
-            ];
+            // $this->global['data'] = (object) [
+            //     'profile' => $profil
+            // ];
+            $this->profile();
 
             $this->session->set_flashdata('success', 'Berhasil mengubah data!');
 

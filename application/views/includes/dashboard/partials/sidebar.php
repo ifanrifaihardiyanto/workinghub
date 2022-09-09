@@ -39,16 +39,16 @@
                                 <div class="collapse" id="Ruangans">
                                     <ul class="nav sub-menu">
                                         <li class="nav-item">
-                                            <a href="<?php echo base_url(); ?>pages/penyedia/data_ruangan.html" class="nav-link">Data Ruangan</a>
+                                            <a href="<?php echo base_url(); ?>index.php/partner/manageruangan" class="nav-link">Data Ruangan</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="<?php echo base_url(); ?>pages/penyedia/gedung.html" class="nav-link">Tambah Data Ruangan</a>
+                                            <a href="<?php echo base_url(); ?>index.php/partner/manageruangan/addGedung" class="nav-link">Tambah Data Ruangan</a>
                                         </li>
                                     </ul>
                                 </div>
                             </li>
                             <li class="nav-item">
-                                <a href="<?php echo base_url(); ?>pages/penyedia/riwayat_penyewaan.html" class="nav-link">Riwayat Penyewaan</a>
+                                <a href="<?php echo base_url(); ?>index.php/partner/manageruangan/penyewaan" class="nav-link">Riwayat Penyewaan</a>
                             </li>
                         </ul>
                     </div>
@@ -57,6 +57,19 @@
                     <div class="collapse" id="pengelolaans">
                         <ul class="nav sub-menu">
                             <li class="nav-item">
+                                <a class="nav-link" data-toggle="collapse" href="#Users" role="button" aria-expanded="false" aria-controls="Users">
+                                    <span>User</span>
+                                    <i class="link-arrow" data-feather="chevron-down"></i>
+                                </a>
+                                <div class="collapse" id="Users">
+                                    <ul class="nav sub-menu">
+                                        <li class="nav-item">
+                                            <a href="<?php echo base_url(); ?>index.php/admin/manageuser" class="nav-link">Data User</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link" data-toggle="collapse" href="#Ruangans" role="button" aria-expanded="false" aria-controls="Ruangans">
                                     <span>Ruangan</span>
                                     <i class="link-arrow" data-feather="chevron-down"></i>
@@ -64,7 +77,7 @@
                                 <div class="collapse" id="Ruangans">
                                     <ul class="nav sub-menu">
                                         <li class="nav-item">
-                                            <a href="<?php echo base_url(); ?>pages/admin/data_user.html" class="nav-link">Data User</a>
+                                            <a href="<?php echo base_url(); ?>index.php/admin/manageruangan" class="nav-link">Data Ruangan</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -89,10 +102,10 @@
                                 <div class="collapse" id="pembayaran">
                                     <ul class="nav sub-menu">
                                         <li class="nav-item">
-                                            <a href="<?php echo base_url(); ?>pages/admin/data_pembayaran.html" class="nav-link">Data Pembayaran</a>
+                                            <a href="<?php echo base_url(); ?>index.php/admin/managepembayaran" class="nav-link">Data Pembayaran</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="<?php echo base_url(); ?>pages/admin/validasi_pembayaran.html" class="nav-link">Validasi Pembayaran</a>
+                                            <a href="<?php echo base_url(); ?>index.php/admin/managepembayaran/validasi" class="nav-link">Validasi Pembayaran</a>
                                         </li>
                                     </ul>
                                 </div>
