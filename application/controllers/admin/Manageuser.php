@@ -12,11 +12,18 @@ class Manageuser extends BaseController {
         // $this->load->model('Auth_model', 'auth');
         $this->load->model('admin/manageuser_model', 'manage_user');
         $this->load->model('user_model', 'user');
-        // $this->load->library('form_validation');
+        $this->load->model('Manageprofile_model', 'manage_profile');
+        $this->load->library('form_validation');
 	}
 
     public function index()
     {
+        $isLoggedIn = $this->session->userdata('isLoggedIn');
+
+        if (!isset($isLoggedIn) || $isLoggedIn != true) {
+            $this->get_data();
+        }
+
         $this->get_data();
     }
 
@@ -53,21 +60,53 @@ class Manageuser extends BaseController {
 
         $result = $this->manage_user->hapus($id, $role);
 
-        if (empty($result)) {
-            $this->session->flashdata('error', 'Data gagal dihapus!');
-        }
+        $this->session->set_flashdata('success', 'Data berhasil dihapus!');
 
-        $this->session->flashdata('success', 'Data berhasil dihapus!');
-
-        $this->loadView();
+        redirect('index.php/admin/manageuser');
     }
 
-    public function loadView()
+    public function edit($id)
     {
-        $this->profile();
+        $user = $this->user->getUser($id);
+        $role = $user[0]->role;
 
-        $this->metadata->pageView = "dashboard/admin/data_user";
+        $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
+        $this->form_validation->set_rules('nik', 'NIK', 'required|trim');
+        $this->form_validation->set_rules('noTelp', 'Nomor Telepon', 'required|trim');
+        $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
+        $this->form_validation->set_rules('tmptLahir', 'Tempat Lahir', 'required|trim');
+        $this->form_validation->set_rules('tglLahir', 'Tanggal Lahir', 'required');
+        $this->form_validation->set_rules('alamat', 'Alamat', 'required|trim');
+        $this->form_validation->set_rules('rekBNI', 'Rekening BNI', 'required|trim');
+        $this->form_validation->set_rules('rekBRI', 'Rekening BRI', 'required|trim');
+        $this->form_validation->set_rules('rekMandiri', 'Rekening Mandiri', 'required|trim');
+        $this->form_validation->set_rules('rekBCA', 'Rekening BCA', 'required|trim');
 
-        $this->loadViews("includes/dashboard/main", $this->global);
+        // print_r($role);
+            $nama       = $this->input->post('nama');
+            $nik        = $this->input->post('nik');
+            $noTelp     = $this->input->post('noTelp');
+            $tmptLahir  = $this->input->post('tmptLahir');
+            $tglLahir   = $this->input->post('tglLahir');
+            $alamat     = $this->input->post('alamat');
+            $rekBNI     = $this->input->post('rekBNI');
+            $rekBRI     = $this->input->post('rekBRI');
+            $rekMandiri = $this->input->post('rekMandiri');
+            $rekBCA     = $this->input->post('rekBCA');
+
+            $this->manage_profile->edit($id, $nama, $tmptLahir, $tglLahir, $alamat, $nik, $noTelp, $rekBNI, $rekBRI, $rekMandiri, $rekBCA, $role);
+
+            $this->profile();
+
+            $this->session->set_flashdata('success', 'Berhasil mengubah data!');
+
+            redirect('index.php/admin/manageuser');
+
+        // if ($this->form_validation->run() == false) {
+        //     // redirect('index.php/admin/manageuser');
+        //     print_r($role);
+        // } else {
+            
+        // }
     }
 }

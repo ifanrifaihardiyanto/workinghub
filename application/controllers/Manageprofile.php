@@ -80,8 +80,4 @@ class Manageprofile extends BaseController
             redirect('/index.php/manageprofile');
         }
     }
-
-    public function delete()
-    {
-    }
 }

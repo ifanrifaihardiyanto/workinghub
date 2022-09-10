@@ -115,12 +115,6 @@ class Authenticate extends CI_Controller {
     if ($this->form_validation->run() == false) {
       $this->load->view('auth/dashboard/partner/register');
     } else {
-      $isLoggedIn = $this->session->userdata('isLoggedIn');
-
-      if (!isset($isLoggedIn) || $isLoggedIn != true) {
-        $this->load->view('auth/booking/register');
-      }
-      
       $role     = $this->input->post('hideRole');
       $email    = $this->input->post('email');
       $password = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
