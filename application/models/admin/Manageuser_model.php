@@ -24,8 +24,17 @@ class Manageuser_model extends CI_Model
             from user a left outer join admin b on a.id_user = b.user_id_user where a.role='Admin'
         ) data_user";
 
-        var_dump($sql);
-
         return $this->db->query($sql)->result();
+    }
+
+    public function hapus($id, $role)
+    {
+        $role = "delete from $role where user_id_user='$id'";
+
+        $this->db->query($role);
+
+        $sql = "delete from user where id_user='$id'";
+
+        $this->db->query($sql);
     }
 }

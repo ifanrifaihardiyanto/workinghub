@@ -73,11 +73,6 @@ class Manageprofile extends BaseController
 
             $this->manage_profile->edit($user_id, $nama, $tmptLahir, $tglLahir, $alamat, $nik, $noTelp, $rekBNI, $rekBRI, $rekMandiri, $rekBCA, $role);
 
-            // $profil = $this->manage_profile->getDataAll($user_id, $role);
-
-            // $this->global['data'] = (object) [
-            //     'profile' => $profil
-            // ];
             $this->profile();
 
             $this->session->set_flashdata('success', 'Berhasil mengubah data!');

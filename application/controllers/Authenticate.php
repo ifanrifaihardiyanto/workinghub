@@ -39,14 +39,16 @@ class Authenticate extends CI_Controller {
       $password   = $this->input->post('password');
 
       $result     = $this->auth->getData($email);
-      $role       = $result[0]->role;
-      $lowerRole  = strtolower($result[0]->role);
-      $pass       = $result[0]->password;
-      $user_id    = $result[0]->id_user;
-
-      $getData    = $this->auth->getDataAll($user_id, $lowerRole);
 
       if (!empty($result)) {
+        $lowerRole  = strtolower($result[0]->role);
+        $pass       = $result[0]->password;
+        $user_id    = $result[0]->id_user;
+
+        print_r($result);
+
+        $getData    = $this->auth->getDataAll($user_id, $lowerRole);
+        
         if (password_verify($password, $pass)) {
           $this->session->set_userdata([
             'user'        => $getData,
@@ -76,18 +78,18 @@ class Authenticate extends CI_Controller {
 
   public function register()
   {
-    $isLoggedIn = $this->session->userdata('isLoggedIn');
-
-    if (!isset($isLoggedIn) || $isLoggedIn != true) {
-      $this->load->view('auth/booking/register');
-    }
-
     $this->form_validation->set_rules('email','Email','required|trim|valid_email|is_unique[user.username]',['is_unique' => 'Email sudah pernah digunakan!']);
     $this->form_validation->set_rules('password','Password','required|trim|min_length[8]');
 
     if ($this->form_validation->run() == false) {
       $this->load->view('auth/booking/register');
     } else {
+      $isLoggedIn = $this->session->userdata('isLoggedIn');
+
+      if (!isset($isLoggedIn) || $isLoggedIn != true) {
+        $this->load->view('auth/booking/register');
+      }
+
       $role    = $this->input->post('hideRole');
       $email    = $this->input->post('email');
       $password = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
@@ -107,18 +109,18 @@ class Authenticate extends CI_Controller {
 
   public function partner_registration()
   {
-    $isLoggedIn = $this->session->userdata('isLoggedIn');
-
-    if (!isset($isLoggedIn) || $isLoggedIn != true) {
-      $this->load->view('auth/dashboard/partner/register');
-    }
-
     $this->form_validation->set_rules('email','Email','required|trim|valid_email|is_unique[user.username]',['is_unique' => 'Email sudah pernah digunakan!']);
     $this->form_validation->set_rules('password','Password','required|trim|min_length[8]');
 
     if ($this->form_validation->run() == false) {
       $this->load->view('auth/dashboard/partner/register');
     } else {
+      $isLoggedIn = $this->session->userdata('isLoggedIn');
+
+      if (!isset($isLoggedIn) || $isLoggedIn != true) {
+        $this->load->view('auth/booking/register');
+      }
+      
       $role     = $this->input->post('hideRole');
       $email    = $this->input->post('email');
       $password = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
