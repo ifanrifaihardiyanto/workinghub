@@ -1,3 +1,6 @@
+<?php
+print_r($gedung);
+?>
 <nav class="page-breadcrumb">
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a href="#">Table</a></li>
@@ -14,11 +17,17 @@
                   <table id="dataTableExample" class="table">
                     <thead>
                       <tr>
+                        <th rowspan="2">No</th>
                         <th rowspan="2">Nama Gedung</th>
+                        <th rowspan="2">Jenis Gedung</th>
                         <th rowspan="2">Nama Ruangan</th>
-                        <th rowspan="2">Tipe Durasi</th>
+                        <th rowspan="2">Luas Ruangan</th>
                         <th rowspan="2">Kapasitas</th>
+                        <th rowspan="2">Fasilitas</th>
+                        <th rowspan="2">Tipe Durasi</th>
                         <th colspan="4">Harga</th>
+                        <th rowspan="2">Status Penyewaan</th>
+                        <th rowspan="2">Status Pemberhentian</th>
                         <th rowspan="2">Aksi</th>
                       </tr>
                       <tr>
@@ -29,15 +38,22 @@
                       </tr>
                     </thead>
                     <tbody>
+                    <?php foreach($gedung['ruangan'] as $index => $r): ?>
                       <tr>
-                        <td>Tiger Nixon</td>
-                        <td>System Architect</td>
-                        <td>Edinburgh</td>
-                        <td>61</td>
-                        <td>2011/04/25</td>
-                        <td>$320,800</td>
-                        <td>61</td>
-                        <td>2011/04/25</td>
+                        <td><?= ++$index ?></td>
+                        <td><?= $r->nama_gedung ?></td>
+                        <td><?= $r->jenis_gedung ?></td>
+                        <td><?= $r->nama_ruangan ?></td>
+                        <td><?= $r->ukuran ?>m</td>
+                        <td><?= $r->kapasitas ?> Orang</td>
+                        <td><?= $r->fasilitas ?></td>
+                        <td></td>
+                        <td><?= $r->harga_jam ?></td>
+                        <td><?= $r->harga_harian ?></td>
+                        <td><?= $r->harga_mingguan ?></td>
+                        <td><?= $r->harga_bulanan ?></td>
+                        <td><?= $r->pengaktifan ?></td>
+                        <td><?= $r->pemberhentian ?></td>
                         <td>
                           <button type="button" class="btn btn-warning btn-icon">
                             <i data-feather="edit"></i>
@@ -47,78 +63,7 @@
                           </button>
                         </td>
                       </tr>
-                      <tr>
-                        <td>Garrett Winters</td>
-                        <td>Accountant</td>
-                        <td>Tokyo</td>
-                        <td>63</td>
-                        <td>2011/07/25</td>
-                        <td>$170,750</td>
-                        <td>61</td>
-                        <td>2011/04/25</td>
-                        <td>
-                          <button type="button" class="btn btn-warning btn-icon">
-                            <i data-feather="edit"></i>
-                          </button>
-                          <button type="button" class="btn btn-danger btn-icon">
-                            <i data-feather="trash"></i>
-                          </button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Ashton Cox</td>
-                        <td>Junior Technical Author</td>
-                        <td>San Francisco</td>
-                        <td>66</td>
-                        <td>2009/01/12</td>
-                        <td>$86,000</td>
-                        <td>61</td>
-                        <td>2011/04/25</td>
-                        <td>
-                          <button type="button" class="btn btn-warning btn-icon">
-                            <i data-feather="edit"></i>
-                          </button>
-                          <button type="button" class="btn btn-danger btn-icon">
-                            <i data-feather="trash"></i>
-                          </button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Cedric Kelly</td>
-                        <td>Senior Javascript Developer</td>
-                        <td>Edinburgh</td>
-                        <td>22</td>
-                        <td>2012/03/29</td>
-                        <td>$433,060</td>
-                        <td>61</td>
-                        <td>2011/04/25</td>
-                        <td>
-                          <button type="button" class="btn btn-warning btn-icon">
-                            <i data-feather="edit"></i>
-                          </button>
-                          <button type="button" class="btn btn-danger btn-icon">
-                            <i data-feather="trash"></i>
-                          </button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Airi Satou</td>
-                        <td>Accountant</td>
-                        <td>Tokyo</td>
-                        <td>33</td>
-                        <td>2008/11/28</td>
-                        <td>$162,700</td>
-                        <td>61</td>
-                        <td>2011/04/25</td>
-                        <td>
-                          <button type="button" class="btn btn-warning btn-icon">
-                            <i data-feather="edit"></i>
-                          </button>
-                          <button type="button" class="btn btn-danger btn-icon">
-                            <i data-feather="trash"></i>
-                          </button>
-                        </td>
-                      </tr>
+                      <?php endforeach; ?>
                     </tbody>
                   </table>
                 </div>

@@ -39,10 +39,13 @@
                                 <div class="collapse" id="Ruangans">
                                     <ul class="nav sub-menu">
                                         <li class="nav-item">
-                                            <a href="<?php echo base_url(); ?>index.php/partner/manageruangan" class="nav-link">Data Ruangan</a>
+                                            <a href="<?php echo base_url(); ?>index.php/partner/manageruangan/addGedung" class="nav-link">Tambah Data Gedung</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="<?php echo base_url(); ?>index.php/partner/manageruangan/addGedung" class="nav-link">Tambah Data Ruangan</a>
+                                            <a href="<?php echo base_url(); ?>index.php/partner/manageruangan/manage_data_ruangan" class="nav-link">Data Ruangan</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="<?php echo base_url(); ?>index.php/partner/manageruangan/addRuangan" class="nav-link">Tambah Data Ruangan</a>
                                         </li>
                                     </ul>
                                 </div>
