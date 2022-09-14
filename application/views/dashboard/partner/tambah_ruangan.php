@@ -76,10 +76,10 @@
 												<div class="form-group">
 												<label>Fasilitas</label>
 												<select class="js-example-basic-multiple w-100" multiple="multiple" name="fasilitas[]" id="fasilitas">
-													<option value="TX">WiFi</option>
-													<option value="NY">Papan Tulis</option>
-													<option value="FL">Proyektor</option>
-													<option value="KN">Snack</option>
+													<option value="WiFi">WiFi</option>
+													<option value="Papan Tulis">Papan Tulis</option>
+													<option value="Proyektor">Proyektor</option>
+													<option value="Snack">Snack</option>
 												</select>
 												<small class="text-danger"><?= form_error('fasilitas[]'); ?></small>
 												</div>

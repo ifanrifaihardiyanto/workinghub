@@ -70,11 +70,11 @@ class Manageruangan_model extends CI_Model
         return $this->db->query($sql)->result();
     }
 
-    public function insertRuangan($id_gedung, $nmRuangan, $ukuran, $kapasitas, $hargaJam, $hargaHarian, $hargaMingguan, $hargaBulanan, $deskripsi, $user_id)
+    public function insertRuangan($id_gedung, $nmRuangan, $ukuran, $kapasitas, $hargaJam, $hargaHarian, $hargaMingguan, $hargaBulanan, $deskripsi, $pengaktifan, $pemberhentian, $user_id)
     {
-        $sql = "insert into ruangan (nama_ruangan, ukuran, kapasitas, harga_jam, harga_harian, harga_mingguan, harga_bulanan, deskripsi, gedung_id_gedung, gedung_penyedia_id_penyedia) 
+        $sql = "insert into ruangan (nama_ruangan, ukuran, kapasitas, harga_jam, harga_harian, harga_mingguan, harga_bulanan, deskripsi, pengaktifan, pemberhentian, gedung_id_gedung, gedung_penyedia_id_penyedia) 
         values 
-        ('$nmRuangan','$ukuran','$kapasitas','$hargaJam','$hargaHarian','$hargaMingguan','$hargaBulanan','$deskripsi','$id_gedung','$user_id')";
+        ('$nmRuangan','$ukuran','$kapasitas','$hargaJam','$hargaHarian','$hargaMingguan','$hargaBulanan','$deskripsi','$pengaktifan','$pemberhentian','$id_gedung','$user_id')";
 
         $this->db->query($sql);
     }
@@ -95,8 +95,8 @@ class Manageruangan_model extends CI_Model
 
     public function find_data_ruangan()
     {
-        $sql = "select b.id_ruangan, a.nama_gedung, b.nama_ruangan, jg.jenis_gedung, b.ukuran, b.kapasitas, 
-        b.harga_jam, b.harga_harian, b.harga_mingguan, b.harga_bulanan, b.pengaktifan, b.pemberhentian, 
+        $sql = "select a.id_gedung, b.id_ruangan, a.nama_gedung, b.nama_ruangan, jg.jenis_gedung, b.ukuran, b.kapasitas, 
+        b.harga_jam, b.harga_harian, b.harga_mingguan, b.harga_bulanan, b.deskripsi, b.pengaktifan, b.pemberhentian, 
         group_concat(f.fasilitas separator ', ') as fasilitas
         from gedung a
         left outer join ruangan b
@@ -105,8 +105,8 @@ class Manageruangan_model extends CI_Model
         on a.jenis_id_jenis = jg.id_jenis_gedung 
         left outer join fasilitas f 
         on b.id_ruangan = f.id_ruangan
-        group by b.id_ruangan, a.nama_gedung, b.nama_ruangan, jg.jenis_gedung, b.ukuran, b.kapasitas, 
-        b.harga_jam, b.harga_harian, b.harga_mingguan, b.harga_bulanan, b.pengaktifan, b.pemberhentian";
+        group by a.id_gedung, b.id_ruangan, a.nama_gedung, b.nama_ruangan, jg.jenis_gedung, b.ukuran, b.kapasitas, 
+        b.harga_jam, b.harga_harian, b.harga_mingguan, b.harga_bulanan, b.deskripsi, b.pengaktifan, b.pemberhentian";
 
         return $this->db->query($sql)->result();
     }
@@ -116,5 +116,23 @@ class Manageruangan_model extends CI_Model
         $sql = "select * from fasilitas where id_ruangan='$id_ruangan'";
 
         return $this->db->query($sql)->result();
+    }
+
+    public function nonaktif($id)
+    {
+        $sql = "update ruangan set pemberhentian='0' where id_ruangan='$id'";
+
+        $this->db->query($sql);
+    }
+
+    public function edit($id, $nmRuangan, $ukuran, $kapasitas, $hargaJam, $hargaHarian, $hargaMingguan, $hargaBulanan, $deskripsi)
+    {
+        $sql = "update ruangan set nama_ruangan='$nmRuangan', deskripsi='$deskripsi', ukuran='$ukuran', kapasitas='$kapasitas',
+        harga_jam='$hargaJam', harga_harian='$hargaHarian', harga_mingguan='$hargaMingguan', harga_bulanan='$hargaBulanan'
+        where id_ruangan='$id'";
+        $this->db->query($sql);
+
+        $delete = "delete from fasilitas where id_ruangan='$id'";
+        $this->db->query($delete);
     }
 }
