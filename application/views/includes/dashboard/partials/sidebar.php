@@ -80,7 +80,7 @@
                                 <div class="collapse" id="Ruangans">
                                     <ul class="nav sub-menu">
                                         <li class="nav-item">
-                                            <a href="<?php echo base_url(); ?>index.php/admin/manageruangan" class="nav-link">Data Ruangan</a>
+                                            <a href="<?php echo base_url(); ?>index.php/admin/manageruangan/manage_data_ruangan" class="nav-link">Validasi Data Ruangan</a>
                                         </li>
                                     </ul>
                                 </div>

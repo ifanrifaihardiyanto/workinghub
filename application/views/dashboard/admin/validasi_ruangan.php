@@ -1,7 +1,13 @@
+<?php
+  // print_r($gedung);
+  $this->load->helper('form');
+  $error = $this->session->flashdata('error');
+  $success = $this->session->flashdata('success');
+?>
 <nav class="page-breadcrumb">
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a href="#">Table</a></li>
-						<li class="breadcrumb-item active" aria-current="page">Data Ruangan</li>
+						<li class="breadcrumb-item active" aria-current="page">Validasi Data Ruangan</li>
 					</ol>
 				</nav>
 
@@ -9,116 +15,84 @@
 					<div class="col-md-12 grid-margin stretch-card">
             <div class="card">
               <div class="card-body">
+                <?php if ($error) : ?>
+                  <div class="alert alert-danger alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <?= $error; ?>
+                  </div>
+                <?php endif; ?>
+
+                <?php if ($success) : ?>
+                  <div class="alert alert-success alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <?= $success; ?>
+                  </div>
+                <?php endif; ?>
                 <h6 class="card-title">Data Ruangan</h6>
                 <div class="table-responsive">
                   <table id="dataTableExample" class="table">
                     <thead>
                       <tr>
+                        <th rowspan="2">No</th>  
                         <th rowspan="2">Nama Gedung</th>
+                        <th rowspan="2">Jenis Gedung</th>
                         <th rowspan="2">Nama Ruangan</th>
-                        <th rowspan="2">Tipe Durasi</th>
-                        <th rowspan="2">Kapasitas</th>
-                        <th colspan="4">Harga</th>
+                        <th rowspan="2">Status Ruangan</th>
+                        <th rowspan="2">Status Penyewaan</th>
                         <th rowspan="2">Aksi</th>
-                      </tr>
-                      <tr>
-                        <th>Jam</th>
-                        <th>Hari</th>
-                        <th>Minggu</th>
-                        <th>Bulan</th>
                       </tr>
                     </thead>
                     <tbody>
+                    <?php foreach($gedung['ruangan'] as $index => $r): 
+                      if ($r->pengaktifan == '1') {
+                        $aktif = "Aktif";
+                      } else {
+                        $aktif = "Belum aktif";
+                      }
+
+                      if ($r->pemberhentian == '1') {
+                        $henti = "Disewakan";
+                      } else {
+                        $henti = "Dihentikan";
+                      }
+                    ?>
                       <tr>
-                        <td>Tiger Nixon</td>
-                        <td>System Architect</td>
-                        <td>Edinburgh</td>
-                        <td>61</td>
-                        <td>2011/04/25</td>
-                        <td>$320,800</td>
-                        <td>61</td>
-                        <td>2011/04/25</td>
+                        <!-- <?php if (count($gedung['ruangan']) > 0) { ?> -->
+                        <td><?= ++$index ?></td>
+                        <td><?= $r->nama_gedung ?></td>
+                        <td><?= $r->jenis_gedung ?></td>
+                        <td><?= $r->nama_ruangan ?></td>
+                        <td><?= $aktif ?></td>
+                        <td><?= $henti ?></td>
                         <td>
-                          <button type="button" class="btn btn-warning btn-icon">
-                            <i data-feather="edit"></i>
-                          </button>
-                          <button type="button" class="btn btn-danger btn-icon">
-                            <i data-feather="trash"></i>
-                          </button>
+                          <button type="button" class="btn btn-primary btn-icon" data-toggle="modal" data-target="#delete<?= $r->id_ruangan ?>"><i data-feather="eye"></i></button>
+                          <!-- <button type="button" class="btn btn-warning btn-icon" data-toggle="modal" data-target="#edit<?= $r->id_ruangan ?>"><i data-feather="edit"></i></button> -->
                         </td>
+                        <!-- <?php } else { ?>
+                          <td colspan="100%">Data tidak ditemukan</td>
+                        <?php } ?> -->
                       </tr>
-                      <tr>
-                        <td>Garrett Winters</td>
-                        <td>Accountant</td>
-                        <td>Tokyo</td>
-                        <td>63</td>
-                        <td>2011/07/25</td>
-                        <td>$170,750</td>
-                        <td>61</td>
-                        <td>2011/04/25</td>
-                        <td>
-                          <button type="button" class="btn btn-warning btn-icon">
-                            <i data-feather="edit"></i>
-                          </button>
-                          <button type="button" class="btn btn-danger btn-icon">
-                            <i data-feather="trash"></i>
-                          </button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Ashton Cox</td>
-                        <td>Junior Technical Author</td>
-                        <td>San Francisco</td>
-                        <td>66</td>
-                        <td>2009/01/12</td>
-                        <td>$86,000</td>
-                        <td>61</td>
-                        <td>2011/04/25</td>
-                        <td>
-                          <button type="button" class="btn btn-warning btn-icon">
-                            <i data-feather="edit"></i>
-                          </button>
-                          <button type="button" class="btn btn-danger btn-icon">
-                            <i data-feather="trash"></i>
-                          </button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Cedric Kelly</td>
-                        <td>Senior Javascript Developer</td>
-                        <td>Edinburgh</td>
-                        <td>22</td>
-                        <td>2012/03/29</td>
-                        <td>$433,060</td>
-                        <td>61</td>
-                        <td>2011/04/25</td>
-                        <td>
-                          <button type="button" class="btn btn-warning btn-icon">
-                            <i data-feather="edit"></i>
-                          </button>
-                          <button type="button" class="btn btn-danger btn-icon">
-                            <i data-feather="trash"></i>
-                          </button>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>Airi Satou</td>
-                        <td>Accountant</td>
-                        <td>Tokyo</td>
-                        <td>33</td>
-                        <td>2008/11/28</td>
-                        <td>$162,700</td>
-                        <td>61</td>
-                        <td>2011/04/25</td>
-                        <td>
-                          <button type="button" class="btn btn-warning btn-icon">
-                            <i data-feather="edit"></i>
-                          </button>
-                          <button type="button" class="btn btn-danger btn-icon">
-                            <i data-feather="trash"></i>
-                          </button>
-                        </td>
-                      </tr>
+                      <!-- Start Modal Delete -->
+                      <div class="modal fade" id="delete<?= $r->id_ruangan ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Aktifkan Penyewaan Ruangan</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <div>Apakah anda yakin ingin mengaktifkan penyewaan pada ruangan ini?</div>
+                            </div>
+                            <div class="modal-footer">
+                              <a href="<?php echo base_url()?>index.php/admin/manageruangan/activation/<?= $r->id_ruangan ?>" type="button" class="btn btn-primary">Aktifkan</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- End Modal Delete -->
+                      <?php endforeach; ?>
                     </tbody>
                   </table>
                 </div>

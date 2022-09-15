@@ -115,7 +115,7 @@ class Manageruangan extends BaseController {
             $hargaBulanan   = $this->input->post('hargaBulanan');
             $deskripsi      = $this->input->post('deskripsi');
             $pengaktifan    = 0;
-            $pemberhentian  = 0;
+            $pemberhentian  = 1;
 
             $this->manage_ruangan->insertRuangan($idGedung, $nmRuangan, $ukuran, $kapasitas, $hargaJam, $hargaHarian, $hargaMingguan, $hargaBulanan, $deskripsi, $pengaktifan, $pemberhentian, $user_id);
 

@@ -1,3 +1,6 @@
+<?php
+$user = $this->session->userdata('user');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,7 +8,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Dashboard Penyedia</title>
+	<title>Dashboard <?= $user[0]->role ?></title>
 	<link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 	<!-- core:css -->
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendors/core/core.css">

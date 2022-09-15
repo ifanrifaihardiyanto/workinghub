@@ -42,8 +42,8 @@
                         <th rowspan="2">Fasilitas</th>
                         <th rowspan="2">Tipe Durasi</th>
                         <th colspan="4">Harga</th>
+                        <th rowspan="2">Status Ruangan</th>
                         <th rowspan="2">Status Penyewaan</th>
-                        <th rowspan="2">Status Pemberhentian</th>
                         <th rowspan="2">Aksi</th>
                       </tr>
                       <tr>
@@ -54,7 +54,19 @@
                       </tr>
                     </thead>
                     <tbody>
-                    <?php foreach($gedung['ruangan'] as $index => $r): ?>
+                    <?php foreach($gedung['ruangan'] as $index => $r): 
+                      if ($r->pengaktifan == '1') {
+                        $aktif = "Aktif";
+                      } else {
+                        $aktif = "Menunggu persetujuan admin";
+                      }
+
+                      if ($r->pemberhentian == '1') {
+                        $henti = "Disewakan";
+                      } else {
+                        $henti = "Dihentikan";
+                      }
+                    ?>
                       <tr>
                         <td><?= ++$index ?></td>
                         <td><?= $r->nama_gedung ?></td>
@@ -68,8 +80,8 @@
                         <td><?= $r->harga_harian ?></td>
                         <td><?= $r->harga_mingguan ?></td>
                         <td><?= $r->harga_bulanan ?></td>
-                        <td><?= $r->pengaktifan ?></td>
-                        <td><?= $r->pemberhentian ?></td>
+                        <td><?= $aktif ?></td>
+                        <td><?= $henti ?></td>
                         <td>
                         <button type="button" class="btn btn-warning btn-icon" data-toggle="modal" data-target="#edit<?= $r->id_ruangan ?>"><i data-feather="edit"></i></button>
                           <button type="button" class="btn btn-danger btn-icon" data-toggle="modal" data-target="#delete<?= $r->id_ruangan ?>"><i data-feather="x-circle"></i></button>
@@ -217,9 +229,7 @@
                               <div>Apakah anda yakin ingin menonaktifkan penyewaan pada ruangan ini?</div>
                             </div>
                             <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                              <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-                              <a href="<?php echo base_url()?>index.php/partner/manageruangan/nonaktif/<?= $r->id_ruangan ?>" type="button" class="btn btn-primary">Hapus</a>
+                              <a href="<?php echo base_url()?>index.php/partner/manageruangan/nonaktif/<?= $r->id_ruangan ?>" type="button" class="btn btn-primary">Non Aktifkan</a>
                             </div>
                           </div>
                         </div>
