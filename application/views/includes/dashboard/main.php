@@ -85,6 +85,7 @@ $user = $this->session->userdata('user');
 	<script src="<?php echo base_url(); ?>assets/js/select2.js"></script>
 	<script src="<?php echo base_url(); ?>assets/js/timepicker.js"></script>
 	<script src="<?php echo base_url(); ?>assets/js/data-table.js"></script>
+	<script src="<?php echo base_url(); ?>assets/js/file-upload.js"></script>
 	<!-- end custom js for this page -->
 </body>
 

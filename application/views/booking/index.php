@@ -1,5 +1,6 @@
 <?php
 $user = $this->session->userdata('user');
+// print_r($search);
 ?>
 <div class="grid-margin">
         </div>
@@ -21,37 +22,20 @@ $user = $this->session->userdata('user');
           <div class="container">
             <div class="row">
               <div class="col-12">
-                <form action="">
+                <form action="<?php echo base_url(); ?>index.php/search/find" method="post">
                   <div class="booking-wrap d-flex justify-content-between align-items-center" style="margin-top: -200px;">
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                       <div class="form-group">
+                        <!-- <?php print_r($search->lokasi); ?> -->
                         <label>Kota / Lokasi</label>
-                        <select class="js-example-basic-single w-100">
-                          <option value="TX">Jakarta</option>
-                          <option value="NY">Bandung</option>
-                          <option value="FL">Yogyakarta</option>
-                          <option value="KN">Surabaya</option>
+                        <select class="js-example-basic-single w-100" name="lokasi" id="lokasi">
+                          <?php foreach ($search->lokasi as $lokasi) : ?>
+														<option value="<?= $lokasi->lokasi ?>" <?= $lokasi->lokasi == $lokasi->lokasi ? 'selected' : '' ?>><?= $lokasi->lokasi ?></option>
+													<?php endforeach; ?>
                         </select>
                       </div>
                     </div>
-                    <div class="col-md-3">
-                      <div class="form-group">
-                        <label for="Tanggal Penyewaan">Tanggal Penyewaan</label>
-                        <input id="tglPenyewaan" class="form-control" name="tglPenyewaan" type="date">
-                      </div>
-                    </div>
-                    <div class="col-md-3">
-                      <div class="form-group">
-                        <label>Durasi</label>
-                        <select class="js-example-basic-single w-100">
-                          <option value="TX">Jam</option>
-                          <option value="NY">Harian</option>
-                          <option value="FL">Mingguan</option>
-                          <option value="KN">Bulanan</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                       <div class="form-group">
                         <label>Kapasitas</label>
                         <select class="js-example-basic-single w-100">
@@ -69,7 +53,8 @@ $user = $this->session->userdata('user');
                     <div class="col-md-9"></div>
                     <div class="col-md-3">
                       <div class="form-group">
-                        <a role="button" href="pages/pemesan/pencarian.html" class="btn btn-block btn-primary">Cari</a>
+                        <!-- <a role="button" href="pages/pemesan/pencarian.html" class="btn btn-block btn-primary">Cari</a> -->
+                        <input type="submit" value="Cari" class="btn btn-block btn-primary">
                       </div>
                     </div>
                   </div>

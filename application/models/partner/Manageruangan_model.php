@@ -79,9 +79,11 @@ class Manageruangan_model extends CI_Model
         $this->db->query($sql);
     }
 
-    public function find_idruangan_by_id($nmRuangan)
+    public function find_idruangan_by_id($nmRuangan, $idGedung)
     {
-        $sql = "select * from ruangan where nama_ruangan='$nmRuangan'";
+        $sql = "select * from ruangan where nama_ruangan='$nmRuangan' and gedung_id_gedung='$idGedung'";
+
+        // var_dump($sql);
 
         return $this->db->query($sql)->result();
     }
@@ -89,6 +91,16 @@ class Manageruangan_model extends CI_Model
     public function insertFasilitas($fasilitas, $id_ruangan)
     {
         $sql = "insert into fasilitas (fasilitas, id_ruangan) values ('$fasilitas','$id_ruangan')";
+
+        $this->db->query($sql);
+    }
+
+    public function insertImage($image, $id_gedung, $id_ruangan, $id_user)
+    {
+        $sql = "insert into gambar (gambar, ruangan_id_ruangan, ruangan_gedung_id_gedung, ruangan_gedung_penyedia_id_penyedia) 
+        values ('$image','$id_ruangan','$id_gedung','$id_user')";
+
+        // print_r($sql);
 
         $this->db->query($sql);
     }
@@ -108,6 +120,8 @@ class Manageruangan_model extends CI_Model
         group by a.id_gedung, b.id_ruangan, a.nama_gedung, b.nama_ruangan, jg.jenis_gedung, b.ukuran, b.kapasitas, 
         b.harga_jam, b.harga_harian, b.harga_mingguan, b.harga_bulanan, b.deskripsi, b.pengaktifan, b.pemberhentian";
 
+        // print_r($sql);
+
         return $this->db->query($sql)->result();
     }
 
@@ -120,7 +134,7 @@ class Manageruangan_model extends CI_Model
 
     public function nonaktif($id)
     {
-        $sql = "update ruangan set pemberhentian='0' where id_ruangan='$id'";
+        $sql = "update ruangan set pengaktifan='0', pemberhentian='0' where id_ruangan='$id'";
 
         $this->db->query($sql);
     }

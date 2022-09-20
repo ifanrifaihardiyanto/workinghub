@@ -1,9 +1,4 @@
 <?php
-// print_r($gedung['nm_gedung']);
-// // print_r($gedung->nama_gedung[0]->nama_gedung);
-// if (empty($gedung->nama_gedung[0]->nama_gedung)) {
-// 	print_r("Data kosong");
-// }
 	$this->load->helper('form');
   	$error = $this->session->flashdata('error');
   	$success = $this->session->flashdata('success');
@@ -33,7 +28,7 @@
 								</div>
 								<?php endif; ?>
 								<h6 class="card-title">Form Ruangan</h6>
-									<form action="<?php echo base_url(); ?>index.php/partner/manageruangan/addRuangan" method="post">
+									<form action="<?php echo base_url(); ?>index.php/partner/manageruangan/addRuangan" method="post" enctype="multipart/form-data">
 									<div class="row">
 											<div class="col-sm-12">
 												<div class="form-group">
@@ -150,6 +145,18 @@
 												<label class="control-label">Deskripsi</label>
 												<textarea id="deskripsi" name="deskripsi" class="form-control" maxlength="1000" rows="8" placeholder="This textarea has a limit of 1000 chars."></textarea>
 												<small class="text-danger"><?= form_error('deskripsi'); ?></small>
+											</div>
+										</div>
+										<div class="col-sm-12">
+											<div class="form-group">
+												<label>File upload</label>
+												<input type="file" name="image[]" id="image" class="file-upload-default" multiple>
+												<div class="input-group col-xs-12">
+													<input type="text" class="form-control file-upload-info" disabled="" placeholder="Upload Image">
+													<span class="input-group-append">
+														<button class="file-upload-browse btn btn-primary" type="button">Browse</button>
+													</span>
+												</div>
 											</div>
 										</div>
 									</div>

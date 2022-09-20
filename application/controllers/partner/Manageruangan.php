@@ -9,7 +9,8 @@ class Manageruangan extends BaseController {
 	{
 		parent::__construct();
 		//Do your magic here
-        $this->load->library('form_validation');
+        $this->load->helper('url');
+        $this->load->library('form_validation','upload');
         $this->load->model('user_model', 'user');
         $this->load->model('partner/Manageruangan_model', 'manage_ruangan');
 	}
@@ -119,17 +120,44 @@ class Manageruangan extends BaseController {
 
             $this->manage_ruangan->insertRuangan($idGedung, $nmRuangan, $ukuran, $kapasitas, $hargaJam, $hargaHarian, $hargaMingguan, $hargaBulanan, $deskripsi, $pengaktifan, $pemberhentian, $user_id);
 
-            $getRuangan     = $this->manage_ruangan->find_idruangan_by_id($nmRuangan);
+            $getRuangan     = $this->manage_ruangan->find_idruangan_by_id($nmRuangan, $idGedung);
             $idRuangan    = $getRuangan[0]->id_ruangan;
 
             $cntFasilitas   = count($this->input->post('fasilitas'));
 
             for ($i = 0; $i < $cntFasilitas; $i++) {
                 $fasilitas[$i] = $this->input->post('fasilitas['.$i.']');
-                // print_r($fasilitas[$i]);
 
                 $this->manage_ruangan->insertFasilitas($fasilitas[$i], $idRuangan);
             }
+
+            $upload = $_FILES['image']['name'];
+            if ($upload) {
+                $numberOfFile = sizeof($upload);
+                $files = $_FILES['image'];
+                $config['allowed_types'] = 'png|jpg|jpeg';
+                $config['max_size'] = 2048;
+                $config['upload_path'] = '././assets/upload/';
+                $this->load->library('upload', $config);
+                
+                for ($i=0; $i < $numberOfFile; $i++) { 
+                    $_FILES['image']['name'] = $files['name'][$i];
+                    $_FILES['image']['type'] = $files['type'][$i];
+                    $_FILES['image']['tmp_name'] = $files['tmp_name'][$i];
+                    $_FILES['image']['error'] = $files['error'][$i];
+                    $_FILES['image']['size'] = $files['size'][$i];
+
+                    $this->upload->initialize($config);
+                    if ($this->upload->do_upload('image')) {
+                        $data = $this->upload->data();
+                        $imageName = $data['file_name'];
+                        $insertImage[$i]['image'] = $imageName;
+                    }
+                    $this->manage_ruangan->insertImage($insertImage[$i]['image'], $idGedung, $idRuangan, $user_id);
+                }
+            }
+
+            $this->session->set_flashdata('success', 'Data ruangan berhasil ditambahkan!');
 
             redirect('index.php/partner/manageruangan/addRuangan');
         }
@@ -138,7 +166,6 @@ class Manageruangan extends BaseController {
     public function manage_data_ruangan()
     {
         $ruangan = $this->manage_ruangan->find_data_ruangan();
-        // print_r($ruangan);
 
         $this->global['gedung'] = [
             'ruangan' => $ruangan
@@ -203,7 +230,6 @@ class Manageruangan extends BaseController {
 
             for ($i = 0; $i < $cntFasilitas; $i++) {
                 $fasilitas[$i] = $this->input->post('fasilitas['.$i.']');
-                // print_r($fasilitas[$i]);
 
                 $this->manage_ruangan->insertFasilitas($fasilitas[$i], $id);
             }

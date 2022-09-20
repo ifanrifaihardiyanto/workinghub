@@ -57,14 +57,18 @@
                     <?php foreach($gedung['ruangan'] as $index => $r): 
                       if ($r->pengaktifan == '1') {
                         $aktif = "Aktif";
+                        $status = "success";
                       } else {
                         $aktif = "Menunggu persetujuan admin";
+                        $status = "warning";
                       }
 
                       if ($r->pemberhentian == '1') {
                         $henti = "Disewakan";
+                        $statusa = "success";
                       } else {
                         $henti = "Dihentikan";
+                        $statusa = "danger";
                       }
                     ?>
                       <tr>
@@ -80,8 +84,8 @@
                         <td><?= $r->harga_harian ?></td>
                         <td><?= $r->harga_mingguan ?></td>
                         <td><?= $r->harga_bulanan ?></td>
-                        <td><?= $aktif ?></td>
-                        <td><?= $henti ?></td>
+                        <td><span class="badge badge-<?= $status ?>"><?= $aktif ?></span></td>
+                        <td><span class="badge badge-<?= $statusa ?>"><?= $henti ?></span></td>
                         <td>
                         <button type="button" class="btn btn-warning btn-icon" data-toggle="modal" data-target="#edit<?= $r->id_ruangan ?>"><i data-feather="edit"></i></button>
                           <button type="button" class="btn btn-danger btn-icon" data-toggle="modal" data-target="#delete<?= $r->id_ruangan ?>"><i data-feather="x-circle"></i></button>

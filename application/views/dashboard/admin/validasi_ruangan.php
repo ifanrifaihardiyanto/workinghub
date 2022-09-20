@@ -46,8 +46,10 @@
                     <?php foreach($gedung['ruangan'] as $index => $r): 
                       if ($r->pengaktifan == '1') {
                         $aktif = "Aktif";
+                        $status = "success";
                       } else {
                         $aktif = "Belum aktif";
+                        $status = "warning";
                       }
 
                       if ($r->pemberhentian == '1') {
@@ -62,10 +64,10 @@
                         <td><?= $r->nama_gedung ?></td>
                         <td><?= $r->jenis_gedung ?></td>
                         <td><?= $r->nama_ruangan ?></td>
-                        <td><?= $aktif ?></td>
-                        <td><?= $henti ?></td>
+                        <td><span class="badge badge-<?= $status ?>"><?= $aktif ?></span></td>
+                        <td><span class="badge badge-success"><?= $henti ?></span></td>
                         <td>
-                          <button type="button" class="btn btn-primary btn-icon" data-toggle="modal" data-target="#delete<?= $r->id_ruangan ?>"><i data-feather="eye"></i></button>
+                          <button type="button" class="btn btn-primary btn-icon" data-toggle="modal" data-target="#delete<?= $r->id_ruangan ?>"><i data-feather="check"></i></button>
                           <!-- <button type="button" class="btn btn-warning btn-icon" data-toggle="modal" data-target="#edit<?= $r->id_ruangan ?>"><i data-feather="edit"></i></button> -->
                         </td>
                         <!-- <?php } else { ?>
