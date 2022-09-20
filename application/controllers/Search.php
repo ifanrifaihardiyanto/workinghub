@@ -34,7 +34,7 @@ class Search extends BaseController
         }
 
         $test = $this->session->userdata('nama_lokasi');
-        print_r($test);
+        // print_r($test);
         // print_r($nmLokasi);
 
         $cntResult = $this->search->count_ruangan($nmLokasi);
@@ -43,7 +43,7 @@ class Search extends BaseController
 
         $config['base_url'] = $link;
         $config['total_rows'] = $cntResult;
-        $config['per_page'] = 1;
+        $config['per_page'] = 2;
 
         // customize pagination
         $config['full_tag_open'] = '<nav aria-label="Page navigation example"><ul class="pagination pagination-rounded justify-content-end">';
@@ -91,38 +91,4 @@ class Search extends BaseController
 
         $this->loadViews("includes/booking/main", $this->global);
     }
-
-    // public function get_Ruangan()
-    // {
-    //     if ($this->input->post('submit')) {
-    //         $nmLokasi = $this->input->post('lokasi');
-    //         $this->session->set_userdata('nama_lokasi', $nmLokasi);
-    //     } else {
-    //         $nmLokasi = $this->session->userdata('nama_lokasi');
-    //     }
-
-    //     $cntResult = $this->search->count_ruangan($nmLokasi);
-
-    //     $link = 'http://localhost/workinghub/index.php/search/find';
-
-    //     $config['base_url'] = $link;
-    //     $config['total_rows'] = $cntResult;
-    //     $config['per_page'] = 1;
-
-    //     $this->pagination->initialize($config);
-
-    //     $pagination = $this->pagination->create_links();
-
-	// 	$segment = $this->uri->segment(3);
-
-    //     $result = $this->search->find_ruangan($nmLokasi, $config['per_page'], $segment);
-
-    //     // print_r($result);
-        
-    //     return $this->response(200, [
-    //         "message" => "Successfully get witels.",
-    //         "data" => $result,
-    //         "pagination" => $pagination
-    //     ]);
-    // }
 }
