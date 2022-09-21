@@ -27,12 +27,9 @@ class Home extends BaseController
         // var_dump($user); die;
         $load = "booking";
 
-        $profil = [
-            'nama' => 'test',
-            'email' => 'test'
-        ];
+        $profil = [];
 
-        if ($user != null) {
+        if (!empty($user)) {
             $user_id  = $user[0]->id_user;
             $role     = strtolower($user[0]->role);
 
@@ -46,6 +43,9 @@ class Home extends BaseController
             // var_dump($profil);
             // die;
         }
+
+        // var_dump($profil);
+        // die;
 
         $this->global['data'] = (object) [
             'profile' => $profil

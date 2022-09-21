@@ -45,8 +45,6 @@ class Authenticate extends CI_Controller {
         $pass       = $result[0]->password;
         $user_id    = $result[0]->id_user;
 
-        print_r($result);
-
         $getData    = $this->auth->getDataAll($user_id, $lowerRole);
         
         if (password_verify($password, $pass)) {

@@ -19,10 +19,14 @@ class BaseController extends CI_Controller
 	function profile()
 	{
 		$user = $this->session->userdata('user');
-        $role = $user[0]->role;
-        $user_id  = $user[0]->id_user;
+		
+		$profil = [];
+		if (!empty($user)) {
+			$role = $user[0]->role;
+			$user_id  = $user[0]->id_user;
 
-        $profil = $this->manage_profile->getDataAll($user_id, $role);
+			$profil = $this->manage_profile->getDataAll($user_id, $role);
+		}
 
         $this->metadata->pageView = "profile";
 

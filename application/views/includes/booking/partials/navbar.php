@@ -1,3 +1,9 @@
+<?php
+// print_r($data->profile[0]);
+if ($data->profile == null) {
+  print_r('data null');
+}
+?>
 <nav class="navbar">
   <div class="navbar-content">
     <ul class="navbar-nav left">
@@ -20,9 +26,18 @@
           <span class="ms-1 me-1 d-none d-md-inline-block">Pesanan Saya</span>
         </a>
       </li>
+      <?php if ($data->profile == null) { ?>
+      <li class="nav-item dropdown nav-notifications">
+        <a class="nav-link" href="<?php echo base_url(); ?>index.php/authenticate/isLoggedIn" role="button">
+          <span class="ms-1 me-1 d-none d-md-inline-block">Login</span>
+        </a>
+      </li>
+      <li class="nav-item dropdown nav-notifications">
+          <a role="button" href="<?php echo base_url(); ?>index.php/authenticate/register" class="btn btn-block btn-primary">Daftar</a>
+      </li>
+      <?php } else { ?>
       <li class="nav-item dropdown nav-profile">
         <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <!-- <img src="https://via.placeholder.com/30x30" alt="profile"> -->
           <iconify-icon icon="carbon:user-avatar" width="24" height="24"></iconify-icon>
           <!-- <span class="ms-1 me-1 d-none d-md-inline-block"><?= $data->profile[0]->nama; ?></span> -->
         </a>
@@ -39,7 +54,7 @@
           <div class="dropdown-body">
             <ul class="profile-nav p-0 pt-3">
               <li class="nav-item">
-                <a href="<?php echo base_url(); ?>index.php/manageprofile" class="nav-link">
+                <!-- <a href="<?php echo base_url(); ?>index.php/manageprofile" class="nav-link"> -->
                   <i data-feather="user"></i>
                   <span>Profile</span>
                 </a>
@@ -55,6 +70,7 @@
           </div>
         </div>
       </li>
+      <?php } ?>
     </ul>
   </div>
 </nav>
