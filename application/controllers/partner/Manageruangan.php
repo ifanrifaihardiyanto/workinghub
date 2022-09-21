@@ -140,7 +140,7 @@ class Manageruangan extends BaseController {
                 $config['upload_path'] = '././assets/upload/';
                 $this->load->library('upload', $config);
                 
-                for ($i=0; $i < $numberOfFile; $i++) { 
+                for ($i=0; $i < $numberOfFile; $i++) {
                     $_FILES['image']['name'] = $files['name'][$i];
                     $_FILES['image']['type'] = $files['type'][$i];
                     $_FILES['image']['tmp_name'] = $files['tmp_name'][$i];
@@ -150,10 +150,18 @@ class Manageruangan extends BaseController {
                     $this->upload->initialize($config);
                     if ($this->upload->do_upload('image')) {
                         $data = $this->upload->data();
+                        $imagePath[$i]['image'] = $data['full_path'];
+                        $fullPath = file_get_contents($data['full_path']);
+                        $file_encode = base64_encode($fullPath);
                         $imageName = $data['file_name'];
                         $insertImage[$i]['image'] = $imageName;
+                        $insertFullPath[$i]['image'] = $file_encode;
+                        // var_dump($insertFullPath[$i]['image']);
+                        // die;
+                        $type[$i]['image'] = $data['file_type'];
                     }
-                    $this->manage_ruangan->insertImage($insertImage[$i]['image'], $idGedung, $idRuangan, $user_id);
+                    $this->manage_ruangan->insertImage($insertImage[$i]['image'], $insertFullPath[$i]['image'], $type[$i]['image'], $idGedung, $idRuangan, $user_id);
+                    unlink($imagePath[$i]['image']);
                 }
             }
 
@@ -196,8 +204,11 @@ class Manageruangan extends BaseController {
         redirect('index.php/partner/manageruangan/manage_data_ruangan');
     }
 
-    public function edit($id)
+    public function edit($id, $idGedung)
     {
+        $user = $this->session->userdata('user');
+        $user_id  = $user[0]->id_penyedia;
+
         $this->form_validation->set_rules('nmRuangan', 'Nama Ruangan', 'required|trim');
         $this->form_validation->set_rules('ukuran', 'Ukuran', 'required|trim');
         $this->form_validation->set_rules('kapasitas', 'Kapasitas', 'required|trim');
@@ -232,6 +243,38 @@ class Manageruangan extends BaseController {
                 $fasilitas[$i] = $this->input->post('fasilitas['.$i.']');
 
                 $this->manage_ruangan->insertFasilitas($fasilitas[$i], $id);
+            }
+
+            $upload = $_FILES['image']['name'];
+            if ($upload) {
+                $numberOfFile = sizeof($upload);
+                $files = $_FILES['image'];
+                $config['allowed_types'] = 'png|jpg|jpeg';
+                $config['max_size'] = 2048;
+                $config['upload_path'] = '././assets/upload/';
+                $this->load->library('upload', $config);
+                
+                for ($i=0; $i < $numberOfFile; $i++) {
+                    $_FILES['image']['name'] = $files['name'][$i];
+                    $_FILES['image']['type'] = $files['type'][$i];
+                    $_FILES['image']['tmp_name'] = $files['tmp_name'][$i];
+                    $_FILES['image']['error'] = $files['error'][$i];
+                    $_FILES['image']['size'] = $files['size'][$i];
+
+                    $this->upload->initialize($config);
+                    if ($this->upload->do_upload('image')) {
+                        $data = $this->upload->data();
+                        $imagePath[$i]['image'] = $data['full_path'];
+                        $fullPath = file_get_contents($data['full_path']);
+                        $file_encode = base64_encode($fullPath);
+                        $imageName = $data['file_name'];
+                        $insertImage[$i]['image'] = $imageName;
+                        $insertFullPath[$i]['image'] = $file_encode;
+                        $type[$i]['image'] = $data['file_type'];
+                    }
+                    $this->manage_ruangan->insertImage($insertImage[$i]['image'], $insertFullPath[$i]['image'], $type[$i]['image'], $idGedung, $id, $user_id);
+                    unlink($imagePath[$i]['image']);
+                }
             }
 
             $this->session->set_flashdata('success', 'Data berhasil diubah!');

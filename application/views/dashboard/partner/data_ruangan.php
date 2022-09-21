@@ -42,6 +42,7 @@
                         <th rowspan="2">Fasilitas</th>
                         <th rowspan="2">Tipe Durasi</th>
                         <th colspan="4">Harga</th>
+                        <th rowspan="2">Gambar</th>
                         <th rowspan="2">Status Ruangan</th>
                         <th rowspan="2">Status Penyewaan</th>
                         <th rowspan="2">Aksi</th>
@@ -84,6 +85,18 @@
                         <td><?= $r->harga_harian ?></td>
                         <td><?= $r->harga_mingguan ?></td>
                         <td><?= $r->harga_bulanan ?></td>
+                        <td>
+                          <?php
+                            $data_gambar = $r->gambar;
+                            if (!empty($r->gambar)) {
+                              $data_gambar = explode(', ', $r->gambar);
+                            }
+                            
+                            foreach ($data_gambar as $item) : 
+                          ?>
+                          <img src="data:image;base64,<?= $item ?>">
+                          <?php endforeach; ?>
+                        </td>
                         <td><span class="badge badge-<?= $status ?>"><?= $aktif ?></span></td>
                         <td><span class="badge badge-<?= $statusa ?>"><?= $henti ?></span></td>
                         <td>
@@ -102,7 +115,7 @@
                               </button>
                             </div>
                             <div class="modal-body">
-                            <form action="<?php echo base_url(); ?>index.php/partner/manageruangan/edit/<?= $r->id_ruangan ?>" method="post">
+                            <form action="<?php echo base_url(); ?>index.php/partner/manageruangan/edit/<?= $r->id_ruangan ?>/<?= $r->id_gedung ?>" method="post" enctype="multipart/form-data">
                                 <!-- Row -->	
                                 <div class="row">
                                   <div class="col-sm-6">
@@ -209,6 +222,18 @@
                                     <label class="control-label">Deskripsi</label>
                                     <textarea id="deskripsi" name="deskripsi" class="form-control" maxlength="1000" rows="8" placeholder="This textarea has a limit of 1000 chars." value="<?= $r->deskripsi; ?>"><?= $r->deskripsi; ?></textarea>
                                     <small class="text-danger"><?= form_error('deskripsi'); ?></small>
+                                  </div>
+                                </div>
+                                <div class="col-sm-12">
+                                  <div class="form-group">
+                                    <label>File upload</label>
+                                    <input type="file" name="image[]" id="image" class="file-upload-default" multiple>
+                                    <div class="input-group col-xs-12">
+                                      <input type="text" class="form-control file-upload-info" disabled="" placeholder="Upload Image">
+                                      <span class="input-group-append">
+                                        <button class="file-upload-browse btn btn-primary" type="button">Browse</button>
+                                      </span>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
