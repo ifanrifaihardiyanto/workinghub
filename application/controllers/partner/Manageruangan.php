@@ -93,6 +93,7 @@ class Manageruangan extends BaseController {
         $this->form_validation->set_rules('ukuran', 'Ukuran', 'required|trim');
         $this->form_validation->set_rules('kapasitas', 'Kapasitas', 'required|trim');
         $this->form_validation->set_rules('fasilitas[]', 'Fasilitas', 'required|trim');
+        $this->form_validation->set_rules('durasi[]', 'Durasi', 'required|trim');
         $this->form_validation->set_rules('hargaJam', 'Harga Jam', 'required|trim');
         $this->form_validation->set_rules('hargaHarian', 'Harga Harian', 'required|trim');
         $this->form_validation->set_rules('hargaMingguan', 'Harga Mingguan', 'required|trim');
@@ -129,6 +130,13 @@ class Manageruangan extends BaseController {
                 $fasilitas[$i] = $this->input->post('fasilitas['.$i.']');
 
                 $this->manage_ruangan->insertFasilitas($fasilitas[$i], $idRuangan);
+            }
+
+            $cntdurasi   = count($this->input->post('durasi'));
+            for ($i = 0; $i < $cntdurasi; $i++) {
+                $durasi[$i] = $this->input->post('durasi['.$i.']');
+
+                $this->manage_ruangan->insertdurasi($durasi[$i], $idRuangan);
             }
 
             $upload = $_FILES['image']['name'];
@@ -213,6 +221,7 @@ class Manageruangan extends BaseController {
         $this->form_validation->set_rules('ukuran', 'Ukuran', 'required|trim');
         $this->form_validation->set_rules('kapasitas', 'Kapasitas', 'required|trim');
         $this->form_validation->set_rules('fasilitas[]', 'Fasilitas', 'required|trim');
+        $this->form_validation->set_rules('durasi[]', 'Durasi', 'required|trim');
         $this->form_validation->set_rules('hargaJam', 'Harga Jam', 'required|trim');
         $this->form_validation->set_rules('hargaHarian', 'Harga Harian', 'required|trim');
         $this->form_validation->set_rules('hargaMingguan', 'Harga Mingguan', 'required|trim');
@@ -220,12 +229,12 @@ class Manageruangan extends BaseController {
         $this->form_validation->set_rules('deskripsi', 'Deskripsi', 'required|trim');
 
         if ($this->form_validation->run() == false) {
-            $this->profile();
-
-            $this->metadata->pageView = "dashboard/partner/tambah_ruangan";
-
-            $this->loadViews("includes/dashboard/main", $this->global);
+            redirect('index.php/partner/manageruangan/manage_data_ruangan');
         } else {
+            $upload = $_FILES['image']['name'];
+            $nmUpload = $upload[0];
+            $cntUpload = count($upload);
+            
             $nmRuangan      = $this->input->post('nmRuangan');
             $ukuran         = $this->input->post('ukuran');
             $kapasitas      = $this->input->post('kapasitas');
@@ -235,45 +244,52 @@ class Manageruangan extends BaseController {
             $hargaBulanan   = $this->input->post('hargaBulanan');
             $deskripsi      = $this->input->post('deskripsi');
 
-            $this->manage_ruangan->edit($id, $nmRuangan, $ukuran, $kapasitas, $hargaJam, $hargaHarian, $hargaMingguan, $hargaBulanan, $deskripsi);
+            $this->manage_ruangan->edit($id, $nmRuangan, $ukuran, $kapasitas, $hargaJam, $hargaHarian, $hargaMingguan, $hargaBulanan, $deskripsi, $nmUpload, $cntUpload);
 
             $cntFasilitas   = count($this->input->post('fasilitas'));
-
             for ($i = 0; $i < $cntFasilitas; $i++) {
                 $fasilitas[$i] = $this->input->post('fasilitas['.$i.']');
 
                 $this->manage_ruangan->insertFasilitas($fasilitas[$i], $id);
             }
 
-            $upload = $_FILES['image']['name'];
-            if ($upload) {
-                $numberOfFile = sizeof($upload);
-                $files = $_FILES['image'];
-                $config['allowed_types'] = 'png|jpg|jpeg';
-                $config['max_size'] = 2048;
-                $config['upload_path'] = '././assets/upload/';
-                $this->load->library('upload', $config);
-                
-                for ($i=0; $i < $numberOfFile; $i++) {
-                    $_FILES['image']['name'] = $files['name'][$i];
-                    $_FILES['image']['type'] = $files['type'][$i];
-                    $_FILES['image']['tmp_name'] = $files['tmp_name'][$i];
-                    $_FILES['image']['error'] = $files['error'][$i];
-                    $_FILES['image']['size'] = $files['size'][$i];
+            $cntdurasi   = count($this->input->post('durasi'));
+            for ($i = 0; $i < $cntdurasi; $i++) {
+                $durasi[$i] = $this->input->post('durasi['.$i.']');
 
-                    $this->upload->initialize($config);
-                    if ($this->upload->do_upload('image')) {
-                        $data = $this->upload->data();
-                        $imagePath[$i]['image'] = $data['full_path'];
-                        $fullPath = file_get_contents($data['full_path']);
-                        $file_encode = base64_encode($fullPath);
-                        $imageName = $data['file_name'];
-                        $insertImage[$i]['image'] = $imageName;
-                        $insertFullPath[$i]['image'] = $file_encode;
-                        $type[$i]['image'] = $data['file_type'];
+                $this->manage_ruangan->insertdurasi($durasi[$i], $id);
+            }
+
+            if (count($upload) >= 1 && $upload[0] != '') {
+                if ($upload) {
+                    $numberOfFile = sizeof($upload);
+                    $files = $_FILES['image'];
+                    $config['allowed_types'] = 'png|jpg|jpeg';
+                    $config['max_size'] = 2048;
+                    $config['upload_path'] = '././assets/upload/';
+                    $this->load->library('upload', $config);
+                    
+                    for ($i=0; $i < $numberOfFile; $i++) {
+                        $_FILES['image']['name'] = $files['name'][$i];
+                        $_FILES['image']['type'] = $files['type'][$i];
+                        $_FILES['image']['tmp_name'] = $files['tmp_name'][$i];
+                        $_FILES['image']['error'] = $files['error'][$i];
+                        $_FILES['image']['size'] = $files['size'][$i];
+    
+                        $this->upload->initialize($config);
+                        if ($this->upload->do_upload('image')) {
+                            $data = $this->upload->data();
+                            $imagePath[$i]['image'] = $data['full_path'];
+                            $fullPath = file_get_contents($data['full_path']);
+                            $file_encode = base64_encode($fullPath);
+                            $imageName = $data['file_name'];
+                            $insertImage[$i]['image'] = $imageName;
+                            $insertFullPath[$i]['image'] = $file_encode;
+                            $type[$i]['image'] = $data['file_type'];
+                        }
+                        $this->manage_ruangan->insertImage($insertImage[$i]['image'], $insertFullPath[$i]['image'], $type[$i]['image'], $idGedung, $id, $user_id);
+                        unlink($imagePath[$i]['image']);
                     }
-                    $this->manage_ruangan->insertImage($insertImage[$i]['image'], $insertFullPath[$i]['image'], $type[$i]['image'], $idGedung, $id, $user_id);
-                    unlink($imagePath[$i]['image']);
                 }
             }
 

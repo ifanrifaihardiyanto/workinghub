@@ -80,7 +80,7 @@
                         <td><?= $r->ukuran ?>m</td>
                         <td><?= $r->kapasitas ?> Orang</td>
                         <td><?= $r->fasilitas ?></td>
-                        <td></td>
+                        <td><?= $r->durasi ?></td>
                         <td><?= $r->harga_jam ?></td>
                         <td><?= $r->harga_harian ?></td>
                         <td><?= $r->harga_mingguan ?></td>
@@ -105,8 +105,8 @@
                         </td>
                       </tr>
                       <!-- Start Modal Edit -->
-                      <div class="modal fade" id="edit<?= $r->id_ruangan ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
+                      <div class="modal fade bd-example-modal-xl" id="edit<?= $r->id_ruangan ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
                               <h5 class="modal-title" id="exampleModalLabel">Edit Data</h5>
@@ -144,9 +144,9 @@
                                   <div class="col-sm-6">
                                     <div class="form-group">
                                     <label>Fasilitas</label>
-                                    <select class="js-example-basic-multiple w-100" multiple="multiple" name="fasilitas[]" id="fasilitas" value="<?= $r->fasilitas; ?>">
+                                    <select class="js-example-basic-multiple w-100" multiple="multiple" name="fasilitas[]" id="fasilitas<?= $r->id_ruangan ?>">
                                     <?php
-                                      $data_fas = explode(',', $r->fasilitas);
+                                      $data_fas = explode(', ', $r->fasilitas);
                                       
                                       foreach ($data_fas as $item) : 
                                     ?>
@@ -191,27 +191,48 @@
                                     <div class="col-sm-2">
                                     <div class="form-group">
                                     <label for="customRange1">Tipe Durasi</label>
+                                    <?php
+                                      $data_durasi = $r->durasi;
+                                      if (!empty($r->durasi)) {
+                                        $data_durasi = explode(', ', $r->durasi);
+                                      }
+                                      $durasiJ = '';
+                                      $durasiH = '';
+                                      $durasiM = '';
+                                      $durasiB = '';
+                                      foreach ($data_durasi as $item) {
+                                        if ($item == 'Jam') {
+                                          $durasiJ = 'Jam';
+                                        } elseif ($item == 'Hari') {
+                                          $durasiH = 'Hari';
+                                        } elseif ($item == 'Minggu') {
+                                          $durasiM = 'Minggu';
+                                        } else {
+                                          $durasiB = 'Bulan';
+                                        }
+                                      }
+                                    ?>
                                     <div class="form-check">
                                       <label class="form-check-label">
-                                      <input type="checkbox" class="form-check-input">
+                                      <input type="checkbox" <?php if($durasiJ != '') { echo 'checked'; } ?> class="form-check-input" name="durasi[]" id="durasi" value="Jam">
                                       Jam
                                       </label>
                                     </div>
                                     <div class="form-check">
                                       <label class="form-check-label">
-                                      <input type="checkbox" class="form-check-input">
+                                      <input type="checkbox" <?php if($durasiH != '') { echo 'checked'; } ?> class="form-check-input" name="durasi[]" id="durasi" value="Hari">
                                       Hari
                                       </label>
                                     </div>
                                     <div class="form-check">
                                       <label class="form-check-label">
-                                      <input type="checkbox" checked class="form-check-input">
+                                      <input type="checkbox" <?php if($durasiM != '') { echo 'checked'; } ?> class="form-check-input" name="durasi[]" id="durasi" value="Minggu">
                                       Minggu
                                       </label>
                                     </div>
                                     <div class="form-check">
                                       <label class="form-check-label">
-                                      <input type="checkbox" class="form-check-input">
+                                      <input type="checkbox" <?php if($durasiB != '') { echo 'checked'; } ?> class="form-check-input" name="durasi[]" id="durasi" value="Bulan">
                                       Bulan
                                       </label>
                                     </div>
