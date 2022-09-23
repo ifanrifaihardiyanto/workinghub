@@ -128,7 +128,7 @@
 												</div>
 												<div class="form-check">
 													<label class="form-check-label">
-													<input type="checkbox" checked class="form-check-input" name="durasi[]" id="durasi" value="Minggu">
+													<input type="checkbox" class="form-check-input" name="durasi[]" id="durasi" value="Minggu">
 													Minggu
 													</label>
 												</div>
