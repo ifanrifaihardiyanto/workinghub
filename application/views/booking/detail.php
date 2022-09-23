@@ -15,7 +15,7 @@
                     if (!empty($result->ruangan[0]->gambar)) {
                         $data_gambar = explode(', ', $result->ruangan[0]->gambar);
                     }
-                    // $no = 0;
+                    
                     $cntDataGambar = count($data_gambar);
                     for ($i=0; $i < $cntDataGambar; $i++) {
                 ?>
@@ -107,8 +107,8 @@
                 <div class="detail-ruangan-wrap">
                   <div class="title-detail"><strong>Ukuran dan Kapasitas</strong></div>
                   <div class="content-detail">
-                    <p>Ukuran Ruangan : 100 m<sup>2</sup></p>
-                    <p>kapasitas Ruangan : 20 orang</p>
+                    <p>Ukuran Ruangan : <?= $result->ruangan[0]->ukuran ?> m<sup>2</sup></p>
+                    <p>kapasitas Ruangan : <?= $result->ruangan[0]->kapasitas ?> orang</p>
                   </div>
                   <hr>
                   <div class="title-detail"><strong>Deskripsi</strong></div>

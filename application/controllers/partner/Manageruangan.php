@@ -175,7 +175,7 @@ class Manageruangan extends BaseController {
 
             $this->session->set_flashdata('success', 'Data ruangan berhasil ditambahkan!');
 
-            redirect('index.php/partner/manageruangan/addRuangan');
+            redirect('index.php/partner/manageruangan/manage_data_ruangan');
         }
     }
 

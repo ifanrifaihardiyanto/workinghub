@@ -57,12 +57,12 @@ class Authenticate extends CI_Controller {
         } else {
           $this->session->set_flashdata('error', 'Password yang anda masukkan salah!');
 
-          redirect('/');
+          $this->load->view('auth/booking/login');
         }
       } else {
         $this->session->set_flashdata('error', 'Email belum terdaftar!');
 
-        redirect('/');
+        $this->load->view('auth/booking/login');
       }
     }
   }

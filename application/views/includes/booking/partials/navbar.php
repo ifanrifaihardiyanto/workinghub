@@ -28,7 +28,7 @@ if ($data->profile == null) {
       </li>
       <?php if ($data->profile == null) { ?>
       <li class="nav-item dropdown nav-notifications">
-        <a class="nav-link" href="<?php echo base_url(); ?>index.php/authenticate/isLoggedIn" role="button">
+        <a class="nav-link" href="<?php echo base_url(); ?>index.php/authenticate" role="button">
           <span class="ms-1 me-1 d-none d-md-inline-block">Login</span>
         </a>
       </li>

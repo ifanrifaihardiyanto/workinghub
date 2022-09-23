@@ -116,25 +116,25 @@
 												<label for="customRange1">Tipe Durasi</label>
 												<div class="form-check">
 													<label class="form-check-label">
-													<input type="checkbox" class="form-check-input">
+													<input type="checkbox" class="form-check-input" name="durasi[]" id="durasi" value="Jam">
 													Jam
 													</label>
 												</div>
 												<div class="form-check">
 													<label class="form-check-label">
-													<input type="checkbox" class="form-check-input">
+													<input type="checkbox" class="form-check-input" name="durasi[]" id="durasi" value="Hari">
 													Hari
 													</label>
 												</div>
 												<div class="form-check">
 													<label class="form-check-label">
-													<input type="checkbox" checked class="form-check-input">
+													<input type="checkbox" checked class="form-check-input" name="durasi[]" id="durasi" value="Minggu">
 													Minggu
 													</label>
 												</div>
 												<div class="form-check">
 													<label class="form-check-label">
-													<input type="checkbox" class="form-check-input">
+													<input type="checkbox" class="form-check-input" name="durasi[]" id="durasi" value="Bulan">
 													Bulan
 													</label>
 												</div>

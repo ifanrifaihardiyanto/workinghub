@@ -15,7 +15,34 @@ class Search extends BaseController
     
     public function find()
     {
+        $lokasi = $this->search->find_lokasi();
+
+        $this->global['search'] = [
+            'lokasi' => $lokasi
+        ];
+
+        $nmLokasi = $this->input->post('lokasi');
         $kapasitas = $this->input->post('kapasitas');
+
+        if ($nmLokasi != '' || $kapasitas != '') {
+            $this->session->set_userdata([
+                'nama_lokasi' => $nmLokasi,
+                'kapasitas' => $kapasitas
+            ]);
+        } else {
+            if ($this->input->post('submit')) {
+                $nmLokasi = $this->input->post('lokasi');
+                $kapasitas = $this->input->post('kapasitas');
+                $this->session->set_userdata([
+                    'nama_lokasi' => $nmLokasi,
+                    'kapasitas' => $kapasitas
+                ]);
+            } else {
+                $nmLokasi = $this->session->userdata('nama_lokasi');
+                $kapasitas = $this->session->userdata('kapasitas');
+            }
+        }
+
         if ($kapasitas == '%' || $kapasitas == '100') {
             $kapAwal    = $kapasitas;
             $kapAkhir   = "";
@@ -24,34 +51,10 @@ class Search extends BaseController
             $kapAwal    = $kapasitasExp[0];
             $kapAkhir   = $kapasitasExp[1];
         }
-        // print_r($kapAkhir);
 
-        $lokasi = $this->search->find_lokasi();
-
-        $this->global['search'] = [
-            'lokasi' => $lokasi
-        ];
-
-        $nmLokasi = $this->input->post('lokasi');
-        if ($nmLokasi != '') {
-            $this->session->set_userdata([
-                'nama_lokasi' => $nmLokasi,
-                'kapasitas' => $kapasitas
-            ]);
-        } else {
-            if ($this->input->post('submit')) {
-                $nmLokasi = $this->input->post('lokasi');
-                $this->session->set_userdata([
-                    'nama_lokasi' => $nmLokasi,
-                    'kapasitas' => $kapasitas
-                ]);
-            } else {
-                $nmLokasi = $this->session->userdata('nama_lokasi');
-            }
-        }
-
-        $test = $this->session->userdata('nama_lokasi');
+        $test = $this->session->userdata('kapasitas');
         // print_r($test);
+        // die;
         // print_r($nmLokasi);
 
         $cntResult = $this->search->count_ruangan($nmLokasi, $kapAwal, $kapAkhir);
@@ -63,7 +66,7 @@ class Search extends BaseController
         $config['per_page'] = 5;
 
         // customize pagination
-        $config['full_tag_open'] = '<nav aria-label="Page navigation example"><ul class="pagination pagination-rounded justify-content-end">';
+        $config['full_tag_open'] = '<nav aria-label="Page navigation example" id="pagelist"><ul class="pagination pagination-rounded justify-content-end">';
         $config['full_tag_close'] = '</ul></nav>';
 
         $config['first_link'] = 'First';
