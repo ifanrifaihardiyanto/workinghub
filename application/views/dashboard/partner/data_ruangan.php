@@ -100,7 +100,7 @@
                         <td><span class="badge badge-<?= $status ?>"><?= $aktif ?></span></td>
                         <td><span class="badge badge-<?= $statusa ?>"><?= $henti ?></span></td>
                         <td>
-                        <button type="button" class="btn btn-warning btn-icon" data-toggle="modal" data-target="#edit<?= $r->id_ruangan ?>"><i data-feather="edit"></i></button>
+                          <button type="button" class="btn btn-warning btn-icon" data-toggle="modal" data-target="#edit<?= $r->id_ruangan ?>"><i data-feather="edit"></i></button>
                           <button type="button" class="btn btn-danger btn-icon" data-toggle="modal" data-target="#delete<?= $r->id_ruangan ?>"><i data-feather="x-circle"></i></button>
                         </td>
                       </tr>

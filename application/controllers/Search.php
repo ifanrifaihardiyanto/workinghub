@@ -15,6 +15,17 @@ class Search extends BaseController
     
     public function find()
     {
+        $kapasitas = $this->input->post('kapasitas');
+        if ($kapasitas == '%' || $kapasitas == '100') {
+            $kapAwal    = $kapasitas;
+            $kapAkhir   = "";
+        } else {
+            $kapasitasExp = explode(' - ', $kapasitas);
+            $kapAwal    = $kapasitasExp[0];
+            $kapAkhir   = $kapasitasExp[1];
+        }
+        // print_r($kapAkhir);
+
         $lokasi = $this->search->find_lokasi();
 
         $this->global['search'] = [
@@ -23,11 +34,17 @@ class Search extends BaseController
 
         $nmLokasi = $this->input->post('lokasi');
         if ($nmLokasi != '') {
-            $this->session->set_userdata('nama_lokasi', $nmLokasi);
+            $this->session->set_userdata([
+                'nama_lokasi' => $nmLokasi,
+                'kapasitas' => $kapasitas
+            ]);
         } else {
             if ($this->input->post('submit')) {
                 $nmLokasi = $this->input->post('lokasi');
-                $this->session->set_userdata('nama_lokasi', $nmLokasi);
+                $this->session->set_userdata([
+                    'nama_lokasi' => $nmLokasi,
+                    'kapasitas' => $kapasitas
+                ]);
             } else {
                 $nmLokasi = $this->session->userdata('nama_lokasi');
             }
@@ -37,13 +54,13 @@ class Search extends BaseController
         // print_r($test);
         // print_r($nmLokasi);
 
-        $cntResult = $this->search->count_ruangan($nmLokasi);
+        $cntResult = $this->search->count_ruangan($nmLokasi, $kapAwal, $kapAkhir);
 
         $link = 'http://localhost/workinghub/index.php/search/find';
 
         $config['base_url'] = $link;
         $config['total_rows'] = $cntResult;
-        $config['per_page'] = 2;
+        $config['per_page'] = 5;
 
         // customize pagination
         $config['full_tag_open'] = '<nav aria-label="Page navigation example"><ul class="pagination pagination-rounded justify-content-end">';
@@ -79,7 +96,7 @@ class Search extends BaseController
 
 		$segment = $this->uri->segment(SEGMENT);
 
-        $result = $this->search->find_ruangan($nmLokasi, $config['per_page'], $segment);
+        $result = $this->search->find_ruangan($nmLokasi, $config['per_page'], $segment, $kapAwal, $kapAkhir);
 
         $this->global['result'] = (object) [
             'ruangan' => $result
@@ -88,6 +105,21 @@ class Search extends BaseController
         $this->profile();
 
         $this->metadata->pageView = "booking/pencarian";
+
+        $this->loadViews("includes/booking/main", $this->global);
+    }
+
+    public function detail($id)
+    {
+        $result = $this->search->detail($id);
+
+        $this->global['result'] = (object) [
+            'ruangan' => $result
+        ];
+
+        $this->profile();
+
+        $this->metadata->pageView = "booking/detail";
 
         $this->loadViews("includes/booking/main", $this->global);
     }

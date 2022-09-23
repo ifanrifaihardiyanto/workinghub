@@ -38,15 +38,15 @@ $user = $this->session->userdata('user');
                     <div class="col-md-6">
                       <div class="form-group">
                         <label>Kapasitas</label>
-                        <select class="js-example-basic-single w-100">
-                          <option value="KN">Semua Kapasitas</option>
-                          <option value="TX">1 - 5 Orang</option>
-                          <option value="NY">6 - 10 Orang</option>
-                          <option value="FL">11 - 20 Orang</option>
-                          <option value="KN">21 - 30 Orang</option>
-                          <option value="TX">31 - 50 Orang</option>
-                          <option value="NY">51 - 100 Orang</option>
-                          <option value="FL">100+ Orang</option>
+                        <select class="js-example-basic-single w-100" name="kapasitas" id="kapasitas">
+                          <option value="%">Semua Kapasitas</option>
+                          <option value="1 - 5">1 - 5 Orang</option>
+                          <option value="6 - 10">6 - 10 Orang</option>
+                          <option value="11 - 20">11 - 20 Orang</option>
+                          <option value="21 - 30">21 - 30 Orang</option>
+                          <option value="31 - 50">31 - 50 Orang</option>
+                          <option value="51 - 100">51 - 100 Orang</option>
+                          <option value="100">100+ Orang</option>
                         </select>
                       </div>
                     </div>

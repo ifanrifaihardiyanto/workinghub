@@ -1,6 +1,7 @@
 <?php
 // print_r($result->ruangan);
-$nama_lokasi = $this->session->userdata('nama_lokasi');
+$nama_lokasi  = $this->session->userdata('nama_lokasi');
+$kapasitas    = $this->session->userdata('kapasitas');
 ?>
 <div class="grid-margin">
         </div>
@@ -15,8 +16,7 @@ $nama_lokasi = $this->session->userdata('nama_lokasi');
                     <div class="col-md-6">
                       <div class="form-group">
                         <?php
-                          // print_r($search['lokasi']);
-                          // print_r($nama_lokasi);
+                          
                         ?>
                         <label>Kota / Lokasi</label>
                         <select class="js-example-basic-single w-100" name="lokasi" id="lokasi">
@@ -29,22 +29,21 @@ $nama_lokasi = $this->session->userdata('nama_lokasi');
                     <div class="col-md-6">
                       <div class="form-group">
                         <label>Kapasitas</label>
-                        <select class="js-example-basic-single w-100">
-                          <option value="KN">Semua Kapasitas</option>
-                          <option value="TX">1 - 5 Orang</option>
-                          <option value="NY">6 - 10 Orang</option>
-                          <option value="FL">11 - 20 Orang</option>
-                          <option value="KN">21 - 30 Orang</option>
-                          <option value="TX">31 - 50 Orang</option>
-                          <option value="NY">51 - 100 Orang</option>
-                          <option value="FL">100+ Orang</option>
+                        <select class="js-example-basic-single w-100" name="kapasitas" id="kapasitas">
+                          <option value="%" <?= $kapasitas == '%' ? 'selected' : '' ?>>Semua Kapasitas</option>
+                          <option value="1 - 5" <?= $kapasitas == '1 - 5' ? 'selected' : '' ?>>1 - 5 Orang</option>
+                          <option value="6 - 10" <?= $kapasitas == '6 - 10' ? 'selected' : '' ?>>6 - 10 Orang</option>
+                          <option value="11 - 20" <?= $kapasitas == '11 - 20' ? 'selected' : '' ?>>11 - 20 Orang</option>
+                          <option value="21 - 30" <?= $kapasitas == '21 - 30' ? 'selected' : '' ?>>21 - 30 Orang</option>
+                          <option value="31 - 50" <?= $kapasitas == '31 - 50' ? 'selected' : '' ?>>31 - 50 Orang</option>
+                          <option value="51 - 100" <?= $kapasitas == '51 - 100' ? 'selected' : '' ?>>51 - 100 Orang</option>
+                          <option value="100" <?= $kapasitas == '100' ? 'selected' : '' ?>>100+ Orang</option>
                         </select>
                       </div>
                     </div>
                       <div class="col-md-9"></div>
                       <div class="col-md-3">
                         <div class="form-group">
-                          <!-- <a role="button" href="pencarian.html" class="btn btn-block btn-primary">Ubah Pencarian</a> -->
                           <input type="submit" value="Ubah Pencarian" class="btn btn-block btn-primary">
                         </div>
                       </div>
@@ -134,35 +133,61 @@ $nama_lokasi = $this->session->userdata('nama_lokasi');
                     </div>
                   </form>
                 </div>
-                <div class="row">
-                  <div class="col-md-12">
-                    <div class="list-ruangan">
-                    <?php foreach($result->ruangan as $index => $r): ?>
-                      <div class="card-ruangan">
-                        <div class="card">
-                          <div class="row">
-                            <div class="col-md-4">
-                              <svg class="bd-placeholder-img img-fluid rounded-start" width="100%" height="250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image</text></svg>
-                            </div>
-                            <div class="col-md-8">
-                              <div class="card-body">
-                                <h5 class="card-title"><?= $r->nama_ruangan ?></h5>
-                                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                
+                <?php foreach($result->ruangan as $index => $r): ?>
+                  <?php
+                    // print_r($index);
+                  ?>
+                    <div class="col-md-12">
+                      <a href="<?php echo base_url(); ?>index.php/search/detail/<?= $r->id_ruangan ?>" target="_blank">
+                        <div class="list-ruangan">
+                          <div class="card-ruangan">
+                            <div class="card">
+                              <div class="row">
+                                <div class="col-md-4">
+                                  <?php
+                                    if (!empty($r->gambar)) {
+                                      $data_gambar = explode(', ', $r->gambar);
+                                    }
+
+                                    $cntDataGambar = count($data_gambar);
+                                    for ($i=0; $i < $cntDataGambar; $i++) { 
+                                      if ($i == 0) {
+                                  ?>
+                                    <img src="data:image;base64,<?= $data_gambar[$i] ?>" width="100%" height="250">
+                                  <?php
+                                      }
+                                    }
+                                  ?>
+                                </div>
+                                <div class="col-md-8">
+                                  <div class="card-body">
+                                    <h5 class="card-title"><?= $r->nama_gedung.' - '.$r->nama_ruangan ?></h5>
+                                    <div class="d-flex justify-content-start">
+                                      <p class="p-1 card-tipe-ruangan"><?= $r->jenis_gedung ?></p>
+                                    </div>
+                                    <br>
+                                    <p class="card-text">
+                                      <iconify-icon icon="ci:location-outline" width="28" height="28"></iconify-icon> <?= $r->lokasi ?>
+                                    </p>
+                                    <p class="card-text">
+                                      <iconify-icon icon="tabler:users" width="28" height="28"></iconify-icon> <?= $r->kapasitas ?> Orang
+                                    </p>
+                                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <?php endforeach; ?>
+                      </a>
                     </div>
-                  </div>
-                  <?= $this->pagination->create_links(); ?>
-                </div>
+                  <?php endforeach; ?>
                 <!-- <div class="row">
                   <div id="dataRuangan"></div>
                 </div> -->
               </div>
+              <?= $this->pagination->create_links(); ?>
               <!-- <div id="pagination"></div> -->
             </div>
           </div>
