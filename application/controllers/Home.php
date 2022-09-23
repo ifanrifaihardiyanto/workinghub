@@ -43,9 +43,7 @@ class Home extends BaseController
             // var_dump($profil);
             // die;
         }
-
-        // var_dump($profil);
-        // die;
+        var_dump($profil);
 
         $this->global['data'] = (object) [
             'profile' => $profil
