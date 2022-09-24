@@ -33,32 +33,31 @@
                   <table id="dataTableExample" class="table">
                     <thead>
                       <tr>
-                        <th rowspan="2">No</th>
-                        <th rowspan="2">Nama Gedung</th>
-                        <th rowspan="2">Jenis Gedung</th>
-                        <th rowspan="2">Nama Ruangan</th>
-                        <th rowspan="2">Luas Ruangan</th>
-                        <th rowspan="2">Kapasitas</th>
-                        <th rowspan="2">Fasilitas</th>
-                        <th rowspan="2">Tipe Durasi</th>
-                        <th colspan="4">Harga</th>
-                        <th rowspan="2">Gambar</th>
-                        <th rowspan="2">Status Ruangan</th>
-                        <th rowspan="2">Status Penyewaan</th>
-                        <th rowspan="2">Aksi</th>
-                      </tr>
-                      <tr>
-                        <th>Jam</th>
-                        <th>Hari</th>
-                        <th>Minggu</th>
-                        <th>Bulan</th>
+                        <th>No</th>
+                        <th>Nama Gedung</th>
+                        <th>Jenis Gedung</th>
+                        <th>Nama Ruangan</th>
+                        <th>Luas Ruangan</th>
+                        <th>Kapasitas</th>
+                        <th>Status Ruangan</th>
+                        <th>Status Penyewaan</th>
+                        <th>Aksi</th>
                       </tr>
                     </thead>
                     <tbody>
                     <?php foreach($gedung['ruangan'] as $index => $r): 
+                      $disable = "";
                       if ($r->pengaktifan == '1') {
                         $aktif = "Aktif";
                         $status = "success";
+                      } elseif ($r->pengaktifan == '2') {
+                        $aktif = "Ditolak";
+                        $status = "danger";
+                        $disable = "disabled";
+                      } elseif ($r->pengaktifan == '3') {
+                        $aktif = "Tidak aktif";
+                        $status = "danger";
+                        $disable = "disabled";
                       } else {
                         $aktif = "Menunggu persetujuan admin";
                         $status = "warning";
@@ -79,29 +78,11 @@
                         <td><?= $r->nama_ruangan ?></td>
                         <td><?= $r->ukuran ?>m</td>
                         <td><?= $r->kapasitas ?> Orang</td>
-                        <td><?= $r->fasilitas ?></td>
-                        <td><?= $r->durasi ?></td>
-                        <td><?= $r->harga_jam ?></td>
-                        <td><?= $r->harga_harian ?></td>
-                        <td><?= $r->harga_mingguan ?></td>
-                        <td><?= $r->harga_bulanan ?></td>
-                        <td>
-                          <?php
-                            $data_gambar = $r->gambar;
-                            if (!empty($r->gambar)) {
-                              $data_gambar = explode(', ', $r->gambar);
-                            }
-                            
-                            foreach ($data_gambar as $item) : 
-                          ?>
-                          <img src="data:image;base64,<?= $item ?>">
-                          <?php endforeach; ?>
-                        </td>
                         <td><span class="badge badge-<?= $status ?>"><?= $aktif ?></span></td>
                         <td><span class="badge badge-<?= $statusa ?>"><?= $henti ?></span></td>
                         <td>
-                          <button type="button" class="btn btn-warning btn-icon" data-toggle="modal" data-target="#edit<?= $r->id_ruangan ?>"><i data-feather="edit"></i></button>
-                          <button type="button" class="btn btn-danger btn-icon" data-toggle="modal" data-target="#delete<?= $r->id_ruangan ?>"><i data-feather="x-circle"></i></button>
+                          <button type="button" class="btn btn-warning btn-icon" data-toggle="modal" data-target="#edit<?= $r->id_ruangan ?>" <?= $disable?>><i data-feather="edit"></i></button>
+                          <button type="button" class="btn btn-danger btn-icon" data-toggle="modal" data-target="#nonaktif<?= $r->id_ruangan ?>" <?= $disable?>><i data-feather="x-circle"></i></button>
                         </td>
                       </tr>
                       <!-- Start Modal Edit -->
@@ -265,26 +246,36 @@
                         </div>
                       </div>
                       <!-- End Modal Edit -->
-                      <!-- Start Modal Delete -->
-                      <div class="modal fade" id="delete<?= $r->id_ruangan ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <!-- Start Modal Non Aktivasi -->
+                      <div class="modal fade" id="nonaktif<?= $r->id_ruangan ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLabel">Hentikan Penyewaan Ruangan</h5>
+                              <h5 class="modal-title" id="exampleModalLabel">Penolakan Penyewaan Ruangan</h5>
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                               </button>
                             </div>
                             <div class="modal-body">
-                              <div>Apakah anda yakin ingin menonaktifkan penyewaan pada ruangan ini?</div>
-                            </div>
-                            <div class="modal-footer">
-                              <a href="<?php echo base_url()?>index.php/partner/manageruangan/nonaktif/<?= $r->id_ruangan ?>" type="button" class="btn btn-primary">Non Aktifkan</a>
-                            </div>
+                              <form action="<?php echo base_url(); ?>index.php/partner/manageruangan/nonaktif/<?= $r->id_ruangan ?>" method="post">
+                                <div class="row">
+                                  <div class="col-sm-12">
+                                    <div class="form-group">
+                                      <label class="control-label">Apa alasan anda, menghentikan penyewaan ruangan ini?</label>
+                                      <textarea id="pemberhentian" name="pemberhentian" class="form-control" maxlength="1000" rows="8" placeholder=""></textarea>
+                                      <small class="text-danger"><?= form_error('pemberhentian'); ?></small>
+                                    </div>
+                                  </div><!-- Col -->
+                                </div><!-- Row -->
+                              </div>
+                              <div class="modal-footer">
+                                <input type="submit" value="Simpan" class="btn btn-block btn-primary">
+                              </div>
+                              </form>
                           </div>
                         </div>
                       </div>
-                      <!-- End Modal Delete -->
+                      <!-- End Modal Non Aktivasi -->
                       <?php endforeach; ?>
                     </tbody>
                   </table>

@@ -27,7 +27,10 @@
                   <?= $success; ?>
                 </div>
               <?php endif; ?>
-                <h6 class="card-title">Data User</h6>
+                <div class="d-flex justify-content-between">
+                  <h6 class="card-title">Data User</h6>
+                  <button type="button" class="btn btn-info btn-icon" data-toggle="modal" data-target="#tambah"><i data-feather="plus-circle"></i></button>
+                </div>
                 <div class="table-responsive">
                   <table id="dataTableExample" class="table">
                     <thead>
@@ -38,8 +41,8 @@
                         <th>Tempat Lahir</th>
                         <th>Tanggal Lahir</th>
                         <th>Nomor Telepon</th>
-                        <th>Alamat</th>
                         <th>Role</th>
+                        <th>Status</th>
                         <th>Aksi</th>
                       </tr>
                     </thead>
@@ -52,11 +55,22 @@
                         <td><?= $q->tempat_lahir ?></td>
                         <td><?= $q->tanggal_lahir ?></td>
                         <td><?= $q->no_tlp ?></td>
-                        <td><?= $q->alamat ?></td>
                         <td><?= $q->role ?></td>
                         <td>
+                          <?php
+                            if ($q->aktivasi == '1') {
+                              $aktif = "Aktif";
+                              $status = "success";
+                            } else {
+                              $aktif = "Tidak aktif";
+                              $status = "warning";
+                            }
+                          ?>
+                          <span class="badge badge-<?= $status ?>"><?= $aktif ?></span>
+                        </td>
+                        <td>
                           <button type="button" class="btn btn-warning btn-icon" data-toggle="modal" data-target="#edit<?= $q->id_user ?>"><i data-feather="edit"></i></button>
-                          <button type="button" class="btn btn-danger btn-icon" data-toggle="modal" data-target="#delete<?= $q->id_user ?>"><i data-feather="trash"></i></button>
+                          <button type="button" class="btn btn-danger btn-icon" data-toggle="modal" data-target="#nonaktif<?= $q->id_user ?>"><i data-feather="x-circle"></i></button>
                         </td>
                       </tr>
                       <!-- Start Modal Edit -->
@@ -169,7 +183,7 @@
                       </div>
                       <!-- End Modal Edit -->
                       <!-- Start Modal Delete -->
-                      <div class="modal fade" id="delete<?= $q->id_user ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal fade" id="nonaktif<?= $q->id_user ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
@@ -179,12 +193,11 @@
                               </button>
                             </div>
                             <div class="modal-body">
-                              <div>Apakah anda yakin ingin menghapus data ini?</div>
+                              <div>Apakah anda yakin ingin menonaktifkan user ini?</div>
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                              <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-                              <a href="<?php echo base_url()?>index.php/admin/manageuser/hapus/<?= $q->id_user ?>" type="button" class="btn btn-primary">Hapus</a>
+                              <a href="<?php echo base_url()?>index.php/admin/manageuser/nonaktif/<?= $q->id_user ?>" type="button" class="btn btn-primary">Hapus</a>
                             </div>
                           </div>
                         </div>
@@ -199,62 +212,52 @@
 					</div>
 				</div>
 
-<script>
-//   $(document).ready(function () {
-//     $('#dataUser').DataTable({
-//         ajax: '<?php echo base_url() . "index.php/admin/manageuser/get_data_by_ajax" ?>',
-//         columns: [
-//             { data: 'nik_ktp' },
-//             { data: 'nama' },
-//             { data: 'tempat_lahir' },
-//             { data: 'tanggal_lahir' },
-//             { data: 'no_tlp' },
-//             { data: 'alamat' },
-//             { data: 'role' },
-//             { data: null },
-//         ],
-//     });
-// });
-  // getDataRegional();
-
-  // function getDataRegional() {
-  //       $(document).ready(() => {
-  //           $.ajax({
-  //               type: "POST",
-  //               url: '<?php echo base_url() . "index.php/admin/manageuser/get_data_by_ajax" ?>',
-  //               data: {},
-  //               success: (response) => {
-  //                   let textHtml = '';
-
-  //                   let keys = Object.keys(response.data);
-
-  //                   if (response.data && keys.length !== 0) {
-  //                       $.each(response.data, (user, items) => {
-  //                         console.log(items);
-  //                         textHtml += `
-  //                           <td>${items.nik_ktp}</td>
-  //                           <td>${items.nama}</td>
-  //                           <td>${items.tempat_lahir}</td>
-  //                           <td>${items.tanggal_lahir}</td>
-  //                           <td>${items.no_tlp}</td>
-  //                           <td>${items.alamat}</td>
-  //                           <td>${items.role}</td>
-  //                           <td>
-  //                             <a href="<?php echo base_url()?>index.php/admin/manageuser/hapus/${items.id_user}" type="button" class="btn btn-danger btn-icon">hapus</a>
-  //                           </td>
-  //                         `
-
-  //                         textHtml += `</tr>`
-  //                       });
-  //                   } else {
-  //                       textHtml += `<tr>
-  //                                       <td colspan="100%" class="text-center">No data found.</td>
-  //                                   </tr>`
-  //                   }
-
-  //                   $('#dataUser')[0].innerHTML = textHtml;
-  //               }
-  //           });
-  //       });
-  //   }
-</script>        
+                      <!-- Start Modal Tambah -->
+                      <div class="modal fade" id="tambah" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Tambah Data</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                            <form action="<?php echo base_url(); ?>index.php/admin/manageuser/tambah" method="post">
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                    <label for="nama">Email</label>
+                                    <input type="email" class="form-control" placeholder="Your Email" id="email" name="email" value="<?= set_value('email'); ?>">
+                                    <small class="text-danger"><?= form_error('email'); ?></small>
+                                  </div>
+                                </div>
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input type="password" class="form-control" placeholder="Your Password" id="password" name="password">
+                                    <small class="text-danger"><?= form_error('password'); ?></small>
+                                  </div>
+                                </div>
+                                <div class="col-md-12">
+                                  <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Role</label>
+                                    <select class="form-control" id="exampleFormControlSelect1" id="role" name="role">
+                                      <option selected disabled>Pilih role</option>
+                                      <option value="Admin">Admin</option>
+                                      <option value="Penyedia">Penyedia</option>
+                                      <option value="Pemesan">Pemesan</option>
+                                    </select>
+                                    <small class="text-danger"><?= form_error('role'); ?></small>
+                                  </div>
+                                </div>
+                              </div><!-- Row -->
+                              <div class="d-flex justify-content-center">
+                                <input type="submit" value="Simpan" class="btn btn-primary submit">
+                              </div>
+                            </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- End Modal Tambah -->

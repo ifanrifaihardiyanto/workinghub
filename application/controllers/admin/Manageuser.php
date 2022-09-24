@@ -9,11 +9,12 @@ class Manageuser extends BaseController {
 	{
 		parent::__construct();
 		//Do your magic here
-        // $this->load->model('Auth_model', 'auth');
+        $this->load->helper('url');
+        $this->load->library('form_validation','upload');
+        $this->load->model('Auth_model', 'auth');
         $this->load->model('admin/manageuser_model', 'manage_user');
         $this->load->model('user_model', 'user');
         $this->load->model('Manageprofile_model', 'manage_profile');
-        $this->load->library('form_validation');
 	}
 
     public function index()
@@ -40,25 +41,47 @@ class Manageuser extends BaseController {
         $this->loadViews("includes/dashboard/main", $this->global);
     }
 
-    // public function get_data_by_ajax()
-    // {
-    //     $result = $this->manage_user->getDataAllUser();
-    //     // var_dump($result);
-
-    //     print_r($result);
-
-    //     return $this->response(200, [
-    //         "message"           => "Successfully get data.",
-    //         "data"              => $result
-    //     ]);
-    // }
-
-    public function hapus($id)
+    public function tambah()
     {
-        $user = $this->user->getUser($id);
-        $role = $user[0]->role;
+        $this->form_validation->set_rules('email','Email','required|trim|valid_email|is_unique[user.username]',['is_unique' => 'Email sudah pernah digunakan!']);
+        $this->form_validation->set_rules('role','Role','required|trim');
+        $this->form_validation->set_rules('password','Password','required|trim|min_length[8]');
 
-        $result = $this->manage_user->hapus($id, $role);
+        $email  = $this->input->post('email');
+
+        if ($this->form_validation->run() == false) {
+            if ($email == '') {
+                $this->session->set_flashdata('error', 'Data input ada yang kosong!');
+            } else {
+                $this->session->set_flashdata('error', 'Akun gagal ditambahkan, email sudah pernah dipakai!');
+            }
+            
+            redirect('index.php/admin/manageuser');
+        } else {
+            $isLoggedIn = $this->session->userdata('isLoggedIn');
+
+            if (!isset($isLoggedIn) || $isLoggedIn != true) {
+                $this->load->view('auth/booking/login');
+            }
+
+            $email      = $this->input->post('email');
+            $role       = $this->input->post('role');
+            $password   = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
+            $activation = 1;
+
+            $this->auth->insertUser($email, $password, $role, $activation);
+
+            $this->profile();
+
+            $this->session->set_flashdata('success', 'Akun berhasil dibuat. Silahkan login!');
+
+            redirect('/index.php/admin/manageuser');
+        }
+    }
+
+    public function nonaktif($id)
+    {
+        $this->manage_user->nonaktif($id);
 
         $this->session->set_flashdata('success', 'Data berhasil dihapus!');
 
@@ -101,12 +124,5 @@ class Manageuser extends BaseController {
             $this->session->set_flashdata('success', 'Berhasil mengubah data!');
 
             redirect('index.php/admin/manageuser');
-
-        // if ($this->form_validation->run() == false) {
-        //     // redirect('index.php/admin/manageuser');
-        //     print_r($role);
-        // } else {
-            
-        // }
     }
 }

@@ -34,4 +34,14 @@ class Manageruangan_model extends CI_Model
 
         $this->db->query($sql);
     }
+
+    public function non_activation_ruangan($penolakan, $id, $user_id)
+    {
+        $sql = "update ruangan set pengaktifan='2' where id_ruangan='$id'";
+
+        $this->db->query($sql);
+
+        $insert_alasan = "insert into penolakan_sewa (alasan, id_user, id_ruangan) values ('$penolakan','$user_id','$id')";
+        $this->db->query($insert_alasan);
+    }
 }

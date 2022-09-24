@@ -42,7 +42,21 @@ class Manageruangan extends BaseController {
     {
         $this->manage_ruangan->activation_ruangan($id);
 
-        $this->session->set_flashdata('success', 'Aktivasi data berhasil!');
+        $this->session->set_flashdata('success', 'Aktivasi data ruangan berhasil!');
+
+        redirect('index.php/admin/manageruangan/manage_data_ruangan');
+    }
+
+    public function nonActivation($id)
+    {
+        $user = $this->session->userdata('user');
+        $user_id  = $user[0]->id_user;
+
+        $penolakan = $this->input->post('penolakan');
+
+        $this->manage_ruangan->non_activation_ruangan($penolakan, $id, $user_id);
+
+        $this->session->set_flashdata('success', 'Penolakan penyewaan data ruangan berhasil!');
 
         redirect('index.php/admin/manageruangan/manage_data_ruangan');
     }

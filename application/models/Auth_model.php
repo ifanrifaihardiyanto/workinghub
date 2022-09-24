@@ -22,9 +22,9 @@ class Auth_model extends CI_Model {
         return $this->db->query($sql)->result();
     }
 
-    public function insertUser($email, $password, $role)
+    public function insertUser($email, $password, $role, $activation)
     {
-        $sql = "insert into user (username, password, role) values ('$email','$password','$role')";
+        $sql = "insert into user (username, password, role, aktivasi) values ('$email','$password','$role','$activation')";
 
         $this->db->query($sql);
     }

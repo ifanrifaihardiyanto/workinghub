@@ -138,11 +138,14 @@ class Manageruangan_model extends CI_Model
         return $this->db->query($sql)->result();
     }
 
-    public function nonaktif($id)
+    public function nonaktif($pemberhentian, $id, $user_id)
     {
-        $sql = "update ruangan set pengaktifan='0', pemberhentian='0' where id_ruangan='$id'";
+        $sql = "update ruangan set pengaktifan='3', pemberhentian='0' where id_ruangan='$id'";
 
         $this->db->query($sql);
+
+        $insert_alasan = "insert into pemberhentian_sewa (alasan, id_user, id_ruangan) values ('$pemberhentian','$user_id','$id')";
+        $this->db->query($insert_alasan);
     }
 
     public function edit($id, $nmRuangan, $ukuran, $kapasitas, $hargaJam, $hargaHarian, $hargaMingguan, $hargaBulanan, $deskripsi, $nmUpload, $cntUpload)

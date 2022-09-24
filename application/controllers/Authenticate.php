@@ -91,8 +91,9 @@ class Authenticate extends CI_Controller {
       $role    = $this->input->post('hideRole');
       $email    = $this->input->post('email');
       $password = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
+      $activation = 1;
 
-      $this->auth->insertUser($email, $password, $role);
+      $this->auth->insertUser($email, $password, $role, $activation);
       $result = $this->auth->getData($email);
 
       $this->session->set_userdata([
@@ -116,8 +117,9 @@ class Authenticate extends CI_Controller {
       $role     = $this->input->post('hideRole');
       $email    = $this->input->post('email');
       $password = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
+      $activation = 1;
 
-      $this->auth->insertUser($email, $password, $role);
+      $this->auth->insertUser($email, $password, $role, $activation);
       $result = $this->auth->getData($email);
 
       $this->session->set_userdata([

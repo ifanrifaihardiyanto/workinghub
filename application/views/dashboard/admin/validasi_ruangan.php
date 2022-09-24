@@ -68,13 +68,13 @@
                         <td><span class="badge badge-success"><?= $henti ?></span></td>
                         <td>
                           <button type="button" class="btn btn-primary btn-icon" data-toggle="modal" data-target="#delete<?= $r->id_ruangan ?>"><i data-feather="check"></i></button>
-                          <!-- <button type="button" class="btn btn-warning btn-icon" data-toggle="modal" data-target="#edit<?= $r->id_ruangan ?>"><i data-feather="edit"></i></button> -->
+                          <button type="button" class="btn btn-danger btn-icon" data-toggle="modal" data-target="#nonaktif<?= $r->id_ruangan ?>"><i data-feather="x-circle"></i></button>
                         </td>
                         <!-- <?php } else { ?>
                           <td colspan="100%">Data tidak ditemukan</td>
                         <?php } ?> -->
                       </tr>
-                      <!-- Start Modal Delete -->
+                      <!-- Start Modal Aktivasi -->
                       <div class="modal fade" id="delete<?= $r->id_ruangan ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
@@ -93,7 +93,37 @@
                           </div>
                         </div>
                       </div>
-                      <!-- End Modal Delete -->
+                      <!-- End Modal Aktivasi -->
+                      <!-- Start Modal Non Aktivasi -->
+                      <div class="modal fade" id="nonaktif<?= $r->id_ruangan ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Penolakan Penyewaan Ruangan</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <form action="<?php echo base_url(); ?>index.php/admin/manageruangan/nonActivation/<?= $r->id_ruangan ?>" method="post">
+                                <div class="row">
+                                  <div class="col-sm-12">
+                                    <div class="form-group">
+                                      <label class="control-label">Apa alasan anda, tidak menyetujui ruangan ini untuk disewakan?</label>
+                                      <textarea id="penolakan" name="penolakan" class="form-control" maxlength="1000" rows="8" placeholder=""></textarea>
+                                      <small class="text-danger"><?= form_error('penolakan'); ?></small>
+                                    </div>
+                                  </div><!-- Col -->
+                                </div><!-- Row -->
+                              </div>
+                              <div class="modal-footer">
+                                <input type="submit" value="Simpan" class="btn btn-block btn-primary">
+                              </div>
+                              </form>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- End Modal Non Aktivasi -->
                       <?php endforeach; ?>
                     </tbody>
                   </table>

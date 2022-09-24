@@ -205,9 +205,14 @@ class Manageruangan extends BaseController {
 
     public function nonaktif($id)
     {
-        $this->manage_ruangan->nonaktif($id);
+        $user = $this->session->userdata('user');
+        $user_id  = $user[0]->id_user;
 
-        $this->session->set_flashdata('success', 'Data berhasil dihapus!');
+        $pemberhentian = $this->input->post('pemberhentian');
+
+        $this->manage_ruangan->nonaktif($pemberhentian, $id, $user_id);
+
+        $this->session->set_flashdata('success', 'Data ruangan berhasil dinonaktifkan dari penyewaan!');
 
         redirect('index.php/partner/manageruangan/manage_data_ruangan');
     }

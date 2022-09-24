@@ -12,28 +12,24 @@ class Manageuser_model extends CI_Model
     public function getDataAllUser()
     {
         $sql = "
-        select id_user, role, nama, tempat_lahir, tanggal_lahir, alamat, nik_ktp, email, no_tlp, rek_bni, rek_bri, rek_mandiri, rek_bca from
+        select id_user, role, aktivasi, nama, tempat_lahir, tanggal_lahir, alamat, nik_ktp, email, no_tlp, rek_bni, rek_bri, rek_mandiri, rek_bca from
         (
-            select a.id_user as id_user, a.role as role, b.nama, b.tempat_lahir, b.tanggal_lahir, b.alamat, b.nik_ktp, b.email, b.no_tlp, b.rek_bni, b.rek_bri, b.rek_mandiri, b.rek_bca 
+            select a.id_user as id_user, a.role as role, a.aktivasi as aktivasi, b.nama, b.tempat_lahir, b.tanggal_lahir, b.alamat, b.nik_ktp, b.email, b.no_tlp, b.rek_bni, b.rek_bri, b.rek_mandiri, b.rek_bca 
             from user a left outer join pemesan b on a.id_user = b.user_id_user where a.role='Pemesan'
             union all
-            select a.id_user as id_user, a.role as role, b.nama, b.tempat_lahir, b.tanggal_lahir, b.alamat, b.nik_ktp, b.email, b.no_tlp, b.rek_bni, b.rek_bri, b.rek_mandiri, b.rek_bca 
+            select a.id_user as id_user, a.role as role, a.aktivasi as aktivasi, b.nama, b.tempat_lahir, b.tanggal_lahir, b.alamat, b.nik_ktp, b.email, b.no_tlp, b.rek_bni, b.rek_bri, b.rek_mandiri, b.rek_bca 
             from user a left outer join partner b on a.id_user = b.user_id_user where a.role='Partner'
             union all
-            select a.id_user as id_user, a.role as role, b.nama, b.tempat_lahir, b.tanggal_lahir, b.alamat, b.nik_ktp, b.email, b.no_tlp, '0' as rek_bni, '0' as rek_bri, '0' as rek_mandiri, '0' as rek_bca 
+            select a.id_user as id_user, a.role as role, a.aktivasi as aktivasi, b.nama, b.tempat_lahir, b.tanggal_lahir, b.alamat, b.nik_ktp, b.email, b.no_tlp, '0' as rek_bni, '0' as rek_bri, '0' as rek_mandiri, '0' as rek_bca 
             from user a left outer join admin b on a.id_user = b.user_id_user where a.role='Admin'
         ) data_user";
 
         return $this->db->query($sql)->result();
     }
 
-    public function hapus($id, $role)
+    public function nonaktif($id)
     {
-        $role = "delete from $role where user_id_user='$id'";
-
-        $this->db->query($role);
-
-        $sql = "delete from user where id_user='$id'";
+        $sql = "update user set aktivasi='0' where id_user='$id'";
 
         $this->db->query($sql);
     }
