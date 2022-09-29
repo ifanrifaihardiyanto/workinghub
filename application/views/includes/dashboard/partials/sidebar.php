@@ -51,7 +51,7 @@
                                 </div>
                             </li>
                             <li class="nav-item">
-                                <a href="<?php echo base_url(); ?>index.php/partner/manageruangan/penyewaan" class="nav-link">Riwayat Penyewaan</a>
+                                <a href="<?php echo base_url(); ?>index.php/partner/managepenyewaan/" class="nav-link">Riwayat Penyewaan</a>
                             </li>
                         </ul>
                     </div>
@@ -105,10 +105,10 @@
                                 <div class="collapse" id="pembayaran">
                                     <ul class="nav sub-menu">
                                         <li class="nav-item">
-                                            <a href="<?php echo base_url(); ?>index.php/admin/managepembayaran" class="nav-link">Data Pembayaran</a>
+                                            <a href="<?php echo base_url(); ?>index.php/admin/managetransaksi" class="nav-link">Data Pemesanan</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a href="<?php echo base_url(); ?>index.php/admin/managepembayaran/validasi" class="nav-link">Validasi Pembayaran</a>
+                                            <a href="<?php echo base_url(); ?>index.php/admin/managetransaksi/validasi" class="nav-link">Validasi Pembayaran</a>
                                         </li>
                                     </ul>
                                 </div>
