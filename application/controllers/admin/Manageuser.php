@@ -83,7 +83,7 @@ class Manageuser extends BaseController {
     {
         $this->manage_user->nonaktif($id);
 
-        $this->session->set_flashdata('success', 'Data berhasil dihapus!');
+        $this->session->set_flashdata('success', 'Data berhasil dinonaktifkan!');
 
         redirect('index.php/admin/manageuser');
     }
