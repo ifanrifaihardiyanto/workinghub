@@ -24,7 +24,7 @@ $user = $this->session->userdata('user');
               <div class="col-12">
                 <form action="<?php echo base_url(); ?>index.php/search/find" method="post">
                   <div class="booking-wrap d-flex justify-content-between align-items-center" style="margin-top: -200px;">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                       <div class="form-group">
                         <!-- <?php print_r($search->lokasi); ?> -->
                         <label>Kota / Lokasi</label>
@@ -35,7 +35,19 @@ $user = $this->session->userdata('user');
                         </select>
                       </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label>Durasi</label>
+                        <select class="js-example-basic-single w-100" name="durasi" id="durasi">
+                          <option value="%">Semua Durasi</option>
+                          <option value="Jam">Jam</option>
+                          <option value="Hari">Hari</option>
+                          <option value="Minggu">Minggu</option>
+                          <option value="Bulan">Bulan</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
                       <div class="form-group">
                         <label>Kapasitas</label>
                         <select class="js-example-basic-single w-100" name="kapasitas" id="kapasitas">
@@ -53,7 +65,6 @@ $user = $this->session->userdata('user');
                     <div class="col-md-9"></div>
                     <div class="col-md-3">
                       <div class="form-group">
-                        <!-- <a role="button" href="pages/pemesan/pencarian.html" class="btn btn-block btn-primary">Cari</a> -->
                         <input type="submit" value="Cari" class="btn btn-block btn-primary">
                       </div>
                     </div>

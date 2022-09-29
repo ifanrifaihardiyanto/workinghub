@@ -1,7 +1,10 @@
 <?php
 // print_r($result->ruangan);
 $nama_lokasi  = $this->session->userdata('nama_lokasi');
+$durasi       = $this->session->userdata('durasi');
 $kapasitas    = $this->session->userdata('kapasitas');
+
+// $jenis        = "%";
 ?>
 <div class="grid-margin">
         </div>
@@ -11,13 +14,13 @@ $kapasitas    = $this->session->userdata('kapasitas');
             <div class="container">
               <div class="row">
                 <div class="col-12">
-                  <form action="<?php echo base_url(); ?>index.php/search/find" method="post">
+                  <!-- <form action="<?php echo base_url(); ?>index.php/search/find" method="post"> -->
+                  <?php
+                    // print_r($search['jenis_gedung']);
+                  ?>
                     <div class="booking-wrap d-flex justify-content-between align-items-center">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                       <div class="form-group">
-                        <?php
-                          
-                        ?>
                         <label>Kota / Lokasi</label>
                         <select class="js-example-basic-single w-100" name="lokasi" id="lokasi">
                         <?php foreach ($search['lokasi'] as $lokasi) : ?>
@@ -26,7 +29,19 @@ $kapasitas    = $this->session->userdata('kapasitas');
                         </select>
                       </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label>Durasi</label>
+                        <select class="js-example-basic-single w-100" name="durasi" id="durasi">
+                          <option value="%" <?= $durasi == '%' ? 'selected' : '' ?>>Semua Durasi</option>
+                          <option value="Jam" <?= $durasi == 'Jam' ? 'selected' : '' ?>>Jam</option>
+                          <option value="Hari" <?= $durasi == 'Hari' ? 'selected' : '' ?>>Hari</option>
+                          <option value="Minggu" <?= $durasi == 'Minggu' ? 'selected' : '' ?>>Minggu</option>
+                          <option value="Bulan" <?= $durasi == 'Bulan' ? 'selected' : '' ?>>Bulan</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
                       <div class="form-group">
                         <label>Kapasitas</label>
                         <select class="js-example-basic-single w-100" name="kapasitas" id="kapasitas">
@@ -44,11 +59,11 @@ $kapasitas    = $this->session->userdata('kapasitas');
                       <div class="col-md-9"></div>
                       <div class="col-md-3">
                         <div class="form-group">
-                          <input type="submit" value="Ubah Pencarian" class="btn btn-block btn-primary">
+                          <input id="filterButton" type="submit" value="Ubah Pencarian" class="btn btn-block btn-primary" onclick="onFilterSubmitted()">
                         </div>
                       </div>
                     </div>
-                  </form>
+                  <!-- </form> -->
                 </div>
               </div>
             </div>
@@ -58,191 +73,71 @@ $kapasitas    = $this->session->userdata('kapasitas');
             <div class="container">
               <div class="row">
                 <div class="col-md-12">
-                  <form action="">
-                    <div class="booking-wrap d-flex align-items-center">
-                      <div class="col-md-1">
-                        <label>Filter :</label>
-                      </div>
-                      <div class="col-md-2">
-                        <div class="dropdown">
-                          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Urutkan
-                          </button>
-                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
-                            <h6 class="dropdown-header">Urutkan berdasarkan harga</h6>
-                            <div class="form-group">
-                              <div class="form-check">
-                                <label class="form-check-label">
-                                  <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios" value="option1">
-                                  Harga Terendah
-                                </label>
-                              </div>
-                              <div class="form-check">
-                                <label class="form-check-label">
-                                  <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option1">
-                                  Harga Tertinggi
-                                </label>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2">
-                        <div class="dropdown">
-                          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Tipe Gedung
-                          </button>
-                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
-                            <h6 class="dropdown-header">Pilih tipe gedung</h6>
-                            <div class="form-group">
-                              <div class="form-check">
-                                <label class="form-check-label">
-                                  <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios" value="option1">
-                                  All
-                                </label>
-                              </div>
-                              <div class="form-check">
-                                <label class="form-check-label">
-                                  <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option1">
-                                  Hotel
-                                </label>
-                              </div>
-                              <div class="form-check">
-                                <label class="form-check-label">
-                                  <input type="radio" class="form-check-input" name="optionsRadios2" id="optionsRadios2" value="option2" checked="">
-                                  Co-Working Space
-                                </label>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-2">
-                        <div class="dropdown">
-                          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Harga
-                          </button>
-                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
-                            <h6 class="dropdown-header">Pilih rentang harga</h6>
-                            <a class="dropdown-item" href="#">All</a>
-                            <a class="dropdown-item" href="#">Hotel</a>
-                            <a class="dropdown-item" href="#">Co-Working Space</a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </form>
+                  <!-- <form action=""> -->
+                  <!-- </form> -->
                 </div>
-                
-                <?php foreach($result->ruangan as $index => $r): ?>
-                  <?php
-                    // print_r($index);
-                  ?>
-                    <div class="col-md-12">
-                      <a href="<?php echo base_url(); ?>index.php/search/detail/<?= $r->id_ruangan ?>" target="_blank">
-                        <div class="list-ruangan">
-                          <div class="card-ruangan">
-                            <div class="card">
-                              <div class="row">
-                                <div class="col-md-4">
-                                  <?php
-                                    if (!empty($r->gambar)) {
-                                      $data_gambar = explode(', ', $r->gambar);
-                                    }
-
-                                    $cntDataGambar = count($data_gambar);
-                                    for ($i=0; $i < $cntDataGambar; $i++) { 
-                                      if ($i == 0) {
-                                  ?>
-                                    <img src="data:image;base64,<?= $data_gambar[$i] ?>" width="100%" height="250">
-                                  <?php
-                                      }
-                                    }
-                                  ?>
-                                </div>
-                                <div class="col-md-8">
-                                  <div class="card-body">
-                                    <h5 class="card-title"><?= $r->nama_gedung.' - '.$r->nama_ruangan ?></h5>
-                                    <div class="d-flex justify-content-start">
-                                      <p class="p-1 card-tipe-ruangan"><?= $r->jenis_gedung ?></p>
-                                    </div>
-                                    <br>
-                                    <p class="card-text">
-                                      <iconify-icon icon="ci:location-outline" width="28" height="28"></iconify-icon> <?= $r->lokasi ?>
-                                    </p>
-                                    <p class="card-text">
-                                      <iconify-icon icon="tabler:users" width="28" height="28"></iconify-icon> <?= $r->kapasitas ?> Orang
-                                    </p>
-                                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                  <?php endforeach; ?>
-                <!-- <div class="row">
+                <div class="col-md-12">
                   <div id="dataRuangan"></div>
-                </div> -->
+                </div>
               </div>
-              <?= $this->pagination->create_links(); ?>
-              <!-- <div id="pagination"></div> -->
+              <!-- <?= $this->pagination->create_links(); ?> -->
+              <div id="pagination"></div>
             </div>
           </div>
           <!-- filter bar -->
         </div>
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-<script>
-    $(document).ready(() => {
-      let lokasi = $("#lokasi option:selected").text();
-      console.log(lokasi)
 
-      getDataRuangan(lokasi);
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js" type="text/javascript"></script>
+<script>
+    function test() {
+      // return $('input[type=radio][name="urut_harga"]').change(function() {
+      //   let urutHarga = this.value;
+      //   return urutHarga;
+      // });
+    }
+
+    $(document).ready(() => {
+      // let tes = test();
+      // console.log(tes);
+
+      onFilterSubmitted();
     });
 
-    function getDataRuangan(lokasi) {
+    function onFilterSubmitted() {
+      getDataRuangan(page_url = false);
+      // var select = document.querySelector('input[type=radio][name="urut_harga"]').value;
 
-        $(document).ready(() => {
-            $.ajax({
-                type: "POST",
-                url: '<?php echo base_url() . "index.php/search/get_Ruangan" ?>',
-                data: {
-                  "lokasi": lokasi
-                },
-                success: (response) => {
+      $(document).on('click', ".pagination li a", function() {
+        var page_url = $(this).attr('href');
+        getDataRuangan(page_url);
+        return false;
+      })
+    }
 
-                    console.log(response.pagination);
-                    let textHtml = '';
+    function getDataRuangan(page_url) {
+      let lokasi = $("#lokasi option:selected").text();
+      let kapasitas = $("#kapasitas option:selected").val();
+      let durasi = $("#durasi option:selected").val();
 
-                    let keys = Object.keys(response.data);
-                    console.log(keys);
+      var base_url = '<?php echo base_url() . "index.php/search/get_Ruangan" ?>';
 
+      if (page_url) {
+        base_url = page_url;
+      }
 
-                    if (response.data && keys.length !== 0) {
-                        $.each(response.data, (index, items) => {
-                          // console.log(items);
-
-                          textHtml +=`
-                          <div class="col-md-12 grid-margin stretch-card">
-                            <div class="card">
-                              <div class="card-body">
-                                <h6 class="card-title">Data Ruangan</h6>
-                                <div>${items.nama_ruangan}</div>
-                                <div id="datatables"></div>
-                              </div>
-                            </div>
-                          </div>
-                          `
-                        });
-                    } else {
-                    }
-
-                    $('#dataRuangan')[0].innerHTML = textHtml;
-                    $('#pagination').html(response.pagination);
-                }
-            });
+      $(document).ready(() => {
+        $.ajax({
+          type: "POST",
+          url: base_url,
+          data: {
+            "lokasi": lokasi,
+            "kapasitas": kapasitas,
+            "durasi": durasi
+          },
+          success: (response) => {
+            $('#dataRuangan').html(response);
+          }
         });
+      });
     }
 </script>

@@ -1,11 +1,8 @@
-
+<?php
+  $this->load->helper('form');
+?>
         <div class="grid-margin">
         </div>
-        <?php
-            // print_r($result->ruangan);
-
-            // print_r($result->ruangan[0]->gambar);
-        ?>
         <div class="carousel-img-ruangan">
           <div class="container">
             <div class="card">
@@ -56,41 +53,43 @@
           <div class="container">
             <div class="row">
               <div class="col-12">
-                <form action="">
+                <form action="<?php echo base_url(); ?>index.php/search/pemesanan/<?= $result->ruangan[0]->id_ruangan."/".$result->durasi ?>" method="post">
                   <div class="form-pemesanan-wrap d-flex justify-content-between align-items-center">
-                    <div class="col-md-3">
-                      <div class="form-group">
-                        <label>Durasi</label>
-                        <select class="js-example-basic-single w-100">
-                          <option value="TX">Jam</option>
-                          <option value="NY">Harian</option>
-                          <option value="FL">Mingguan</option>
-                          <option value="KN">Bulanan</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                       <div class="form-group">
                         <label for="Tanggal Penyewaan">Mulai Penyewaan</label>
                         <input id="tglPenyewaan" class="form-control" name="tglPenyewaan" type="date">
+                        <small class="text-danger"><?= form_error('tglPenyewaan'); ?></small>
                       </div>
                     </div>
-                    <div class="col-md-3">
+                    <?php if ($result->durasi !== 'Jam') { ?>
+                    <div class="col-md-4">
                       <div class="form-group">
-                        <label for="Tanggal Penyewaan">Selesai Penyewaan</label>
-                        <input id="tglPenyewaan" class="form-control" name="tglPenyewaan" type="date">
+                        <label for="Tanggal Penyewaan">Jumlah <?= $result->durasi ?></label>
+                        <input id="jmlDurasi" class="form-control" name="jmlDurasi" type="number">
+                        <small class="text-danger"><?= form_error('jmlDurasi'); ?></small>
                       </div>
                     </div>
-                    <div class="col-md-3">
+                    <?php } else { ?>
+
+                    <?php } ?>
+                    <div class="col-md-4">
                       <div class="form-group">
-                        <label for="Jumlah Penyewa">Jumlah Penyewa</label>
-                        <input id="jmlPenyewaan" class="form-control" name="jmlPenyewaan" type="text">
+                        <label for="">Detail Harga</label>
+                        <div class="d-flex justify-content-between">
+                          <div class="rincian-pemesanan">
+                            <div id="rincian"></div>
+                          </div>
+                          <div class="total-pemesanan">
+                            <div id="hasil"></div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div class="col-md-9"></div>
                     <div class="col-md-3">
                       <div class="form-group">
-                        <a role="button" href="pemesanan.html" class="btn btn-block btn-primary">Pesan Sekarang</a>
+                        <input type="submit" value="Pesan Sekarang" id="pesan" class="btn btn-block btn-primary">
                       </div>
                     </div>
                   </div>
@@ -113,7 +112,7 @@
                   <hr>
                   <div class="title-detail"><strong>Deskripsi</strong></div>
                   <div class="content-detail">
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tempus in ultrices facilisis sagittis tellus justo. Sociis elit bibendum blandit velit quis in semper praesent. Eget magna quis tortor velit elit, mattis augue sit. Adipiscing porttitor nunc facilisi sit nulla morbi at turpis dui. Blandit auctor integer egestas mauris varius est quam lobortis. Nec id volutpat urna consectetur viverra auctor non. Nunc tempor dignissim ipsum egestas. Consectetur lectus non, in vel, mauris gravida ultrices. Leo auctor quis ipsum morbi semper. Sagittis sit ac ante malesuada sed vehicula. Tristique a dignissim ornare sed porta purus lorem massa in. Sit fringilla hac dictumst eros neque. Vestibulum, elit dictum ultrices scelerisque arcu pretium sit pellentesque vestibulum. Faucibus viverra aliquam ultricies enim quis lacus.</p>
+                    <p><?= $result->ruangan[0]->deskripsi ?></p>
                   </div>
                   <hr>
                   <div class="title-detail"><strong>Fasilitas</strong></div>
@@ -161,3 +160,81 @@
             </div>
           </div>
         </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js" type="text/javascript"></script>
+<script>
+  let durasi = "<?= $result->durasi ?>";
+  let id_ruangan = "<?= $result->ruangan[0]->id_ruangan ?>";
+
+  $(document).ready( function() {
+    if (durasi != 'Jam') {
+      var today = new Date();
+      var dd = String(today.getDate() + 1).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0');
+      var yyyy = today.getFullYear();
+
+      today = yyyy + '-' + mm + '-' + dd;
+      $('#tglPenyewaan').attr('min',today);
+    }
+
+    let jmlDurasi = 0;
+    getHarga(durasi, jmlDurasi, id_ruangan);
+    $("#pesan").prop("disabled",true);
+
+    document.getElementById('jmlDurasi').addEventListener('focus', function() {
+      $("#jmlDurasi").on("input", null, null, function(e) {
+        if($("#jmlDurasi").val().length >= 1) {
+          let jmlDurasi = $("#jmlDurasi").val();
+
+          getHarga(durasi, jmlDurasi, id_ruangan);
+          $("#pesan").prop("disabled",false);
+        } else {
+          let jmlDurasi = 0;
+          getHarga(durasi, jmlDurasi, id_ruangan);
+          $("#pesan").prop("disabled",true);
+        }
+      });
+    });
+  });
+  
+  function getHarga(durasi, jmlDurasi, id_ruangan) {
+    $(document).ready(() => {
+      $.ajax({
+        type: "POST",
+        url: '<?php echo base_url() . "index.php/search/get_RincianHarga" ?>',
+        data: {
+          "id_ruangan": id_ruangan,
+          "durasi": durasi,
+          "jmlDurasi": jmlDurasi
+        },
+        success: (response) => {
+          let textHtmlRincian = '';
+          let textHtmlHasil = '';
+
+          $.each(response.data, (hrga, items) => {
+            let harga = items.harga;
+            let total_harga = jmlDurasi*harga;
+
+            textHtmlRincian += `<div>${jmlDurasi} ${durasi} x Rp ${rubah(harga)}</div>
+            <input type="text" class="form-control" id="hidejmlDurasi" name="hidejmlDurasi" value="${jmlDurasi}" hidden>
+            `;
+            
+            textHtmlHasil += `Rp ${rubah(total_harga)}
+            <input type="text" class="form-control" id="hidejmlHarga" name="hidejmlHarga" value="${total_harga}" hidden>
+            `;
+
+          });
+
+          $('#rincian')[0].innerHTML = textHtmlRincian;
+          $('#hasil')[0].innerHTML = textHtmlHasil;
+        }
+      });
+    });
+  }
+  
+  function rubah(angka){
+    var reverse = angka.toString().split('').reverse().join(''),
+    ribuan = reverse.match(/\d{1,3}/g);
+    ribuan = ribuan.join('.').split('').reverse().join('');
+    return ribuan;
+ }
+</script>

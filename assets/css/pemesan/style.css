@@ -39654,3 +39654,19 @@ iconify-icon:hover {
 #pagelist {
   margin-top: 1rem;
 }
+
+.pd-btm-10 {
+  padding-bottom: 10px;
+}
+
+.pd-btm-20 {
+  padding-bottom: 20px;
+}
+
+.pd-top-10 {
+  padding-top: 10px;
+}
+
+.width-30 {
+  width: 30%;
+}

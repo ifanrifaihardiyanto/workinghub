@@ -16,18 +16,33 @@ class Search extends BaseController
     public function find()
     {
         $lokasi = $this->search->find_lokasi();
+        $jenis_gedung = $this->search->find_jenis_gedung();
+
+        // var_dump($jenis_gedung);
 
         $this->global['search'] = [
-            'lokasi' => $lokasi
+            'lokasi' => $lokasi,
+            'jenis_gedung' => $jenis_gedung
         ];
 
+        $this->profile();
+
+        $this->metadata->pageView = "booking/pencarian";
+
+        $this->loadViews("includes/booking/main", $this->global);
+    }
+
+    public function get_Ruangan()
+    {
         $nmLokasi = $this->input->post('lokasi');
         $kapasitas = $this->input->post('kapasitas');
+        $durasi = $this->input->post('durasi');
 
         if ($nmLokasi != '' || $kapasitas != '') {
             $this->session->set_userdata([
                 'nama_lokasi' => $nmLokasi,
-                'kapasitas' => $kapasitas
+                'kapasitas' => $kapasitas,
+                'durasi' => $durasi
             ]);
         } else {
             if ($this->input->post('submit')) {
@@ -35,11 +50,13 @@ class Search extends BaseController
                 $kapasitas = $this->input->post('kapasitas');
                 $this->session->set_userdata([
                     'nama_lokasi' => $nmLokasi,
-                    'kapasitas' => $kapasitas
+                    'kapasitas' => $kapasitas,
+                    'durasi' => $durasi
                 ]);
             } else {
                 $nmLokasi = $this->session->userdata('nama_lokasi');
                 $kapasitas = $this->session->userdata('kapasitas');
+                $durasi = $this->session->userdata('durasi');
             }
         }
 
@@ -57,9 +74,9 @@ class Search extends BaseController
         // die;
         // print_r($nmLokasi);
 
-        $cntResult = $this->search->count_ruangan($nmLokasi, $kapAwal, $kapAkhir);
+        $cntResult = $this->search->count_ruangan($nmLokasi, $kapAwal, $kapAkhir, $durasi);
 
-        $link = 'http://localhost/workinghub/index.php/search/find';
+        $link = 'http://localhost/workinghub/index.php/search/get_Ruangan';
 
         $config['base_url'] = $link;
         $config['total_rows'] = $cntResult;
@@ -99,25 +116,23 @@ class Search extends BaseController
 
 		$segment = $this->uri->segment(SEGMENT);
 
-        $result = $this->search->find_ruangan($nmLokasi, $config['per_page'], $segment, $kapAwal, $kapAkhir);
+        $result = $this->search->find_ruangan($nmLokasi, $config['per_page'], $segment, $kapAwal, $kapAkhir, $durasi);
 
         $this->global['result'] = (object) [
             'ruangan' => $result
         ];
 
-        $this->profile();
-
-        $this->metadata->pageView = "booking/pencarian";
-
-        $this->loadViews("includes/booking/main", $this->global);
+        $this->loadViews("booking/list_ruangan", $this->global);
     }
 
-    public function detail($id)
+    public function detail($id, $durasi)
     {
-        $result = $this->search->detail($id);
+        $result = $this->search->detail($id, $durasi);
 
         $this->global['result'] = (object) [
-            'ruangan' => $result
+            'ruangan' => $result,
+            'durasi' => $durasi,
+            'id_ruangan' => $id
         ];
 
         $this->profile();
@@ -125,5 +140,285 @@ class Search extends BaseController
         $this->metadata->pageView = "booking/detail";
 
         $this->loadViews("includes/booking/main", $this->global);
+    }
+
+    public function get_RincianHarga()
+    {
+        $id_ruangan = $this->input->post('id_ruangan');
+        $durasi = $this->input->post('durasi');
+
+        $result = $this->search->harga($id_ruangan, $durasi);
+
+        return $this->response(200, [
+            "message" => "Successfully get witels.",
+            "data" => $result
+        ]);
+    }
+
+    public function pemesanan($id, $durasi)
+    {
+        $this->form_validation->set_rules('tglPenyewaan', 'Tanggal', 'required|trim');
+        $this->form_validation->set_rules('hidejmlDurasi', 'NIK', 'required|trim');
+        $this->form_validation->set_rules('hidejmlHarga', 'Nomor Telepon', 'required|trim');
+
+        $tglPenyewaan   = $this->input->post('tglPenyewaan');
+        $hidejmlDurasi  = $this->input->post('hidejmlDurasi');
+        $hidejmlHarga   = $this->input->post('hidejmlHarga');
+
+        $result = $this->search->detail($id, $durasi);
+
+        if ($this->form_validation->run() == false) {
+            $this->global['result'] = (object) [
+                'ruangan' => $result,
+                'durasi' => $durasi,
+                'id_ruangan' => $id,
+                'tglPenyewaan' => $tglPenyewaan,
+                'jmlDurasi' => $hidejmlDurasi,
+                'hidejmlHarga' => $hidejmlHarga,
+            ];
+
+            $this->profile();
+            $this->metadata->pageView = "booking/detail";
+            $this->loadViews("includes/booking/main", $this->global);
+        } else {
+            $this->global['result'] = (object) [
+                'ruangan' => $result,
+                'durasi' => $durasi,
+                'id_ruangan' => $id,
+                'tglPenyewaan' => $tglPenyewaan,
+                'hidejmlDurasi' => $hidejmlDurasi,
+                'hidejmlHarga' => $hidejmlHarga,
+            ];
+
+            $this->profile();
+
+            $this->metadata->pageView = "booking/pemesanan";
+
+            $this->loadViews("includes/booking/main", $this->global);
+        }
+    }
+
+    public function konfirmasi_pemesanan()
+    {
+        $user = $this->session->userdata('user');
+        $this->form_validation->set_rules('jmlDurasi', 'Jumlah Durasi', 'required|trim');
+        $this->form_validation->set_rules('durasi', 'Durasi', 'required|trim');
+        $this->form_validation->set_rules('id_ruangan', 'ID Ruangan', 'required|trim');
+        $this->form_validation->set_rules('tglSekarang', 'Tanggal Sekarang', 'required|trim');
+        $this->form_validation->set_rules('tglPenyewaan', 'Tanggal Penyewaan', 'required|trim');
+        $this->form_validation->set_rules('tglSelesai', 'Tanggal Selesai', 'required|trim');
+        $this->form_validation->set_rules('harga', 'Harga', 'required|trim');
+        $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
+        $this->form_validation->set_rules('nmrTlp', 'Nomor Telepon', 'required|trim');
+        $this->form_validation->set_rules('email', 'Email', 'required|trim');
+
+        $jmlDurasi          = $this->input->post('jmlDurasi');
+        $durasi             = $this->input->post('durasi');
+        $id_ruangan         = $this->input->post('id_ruangan');
+        $tglPemesanan       = $this->input->post('tglSekarang');
+        $mulaiPenyewaan     = $this->input->post('tglPenyewaan');
+        $selesaiPenyewaan   = $this->input->post('tglSelesai');
+        $harga              = $this->input->post('harga');
+        $nama               = $this->input->post('nama');
+        $nmtTlp             = $this->input->post('nmrTlp');
+        $email              = $this->input->post('email');
+        $id_pemesan         = $user[0]->id_pemesan;
+
+        $result             = $this->search->detail($id_ruangan, $durasi);
+        $id_gedung          = $result[0]->id_gedung;
+        $id_penyedia        = $result[0]->id_penyedia;
+        // var_dump($result);
+        // die;
+
+        if ($this->form_validation->run() == false) {
+            $this->global['result'] = (object) [
+                'ruangan' => $result,
+                'durasi' => $durasi,
+                'id_ruangan' => $id_ruangan,
+                'tglPenyewaan' => $mulaiPenyewaan,
+                'hidejmlDurasi' => $jmlDurasi,
+                'hidejmlHarga' => $harga,
+            ];
+
+            $this->profile();
+            
+            $this->metadata->pageView = "booking/pemesanan";
+
+            $this->loadViews("includes/booking/main", $this->global);
+        } else {
+            $this->global['result'] = (object) [
+                'ruangan' => $result,
+                'durasi' => $durasi,
+                'id_ruangan' => $id_ruangan,
+                'jmlDurasi' => $jmlDurasi,
+                'tglPemesanan' => $tglPemesanan,
+                'mulaiPenyewaan' => $mulaiPenyewaan,
+                'selesaiPenyewaan' => $selesaiPenyewaan,
+                'hidejmlHarga' => $harga,
+            ];
+
+            $this->profile();
+
+            $this->metadata->pageView = "booking/konfirmasi_pemesanan";
+
+            $this->loadViews("includes/booking/main", $this->global);
+        }
+    }
+
+    public function terkonfirmasi()
+    {
+        $user = $this->session->userdata('user');
+        $this->form_validation->set_rules('jmlDurasi', 'Jumlah Durasi', 'required|trim');
+        $this->form_validation->set_rules('durasi', 'Durasi', 'required|trim');
+        $this->form_validation->set_rules('id_ruangan', 'ID Ruangan', 'required|trim');
+        $this->form_validation->set_rules('tglSekarang', 'Tanggal Sekarang', 'required|trim');
+        $this->form_validation->set_rules('tglPenyewaan', 'Tanggal Penyewaan', 'required|trim');
+        $this->form_validation->set_rules('tglSelesai', 'Tanggal Selesai', 'required|trim');
+        $this->form_validation->set_rules('harga', 'Harga', 'required|trim');
+
+        $jmlDurasi          = $this->input->post('jmlDurasi');
+        $durasi             = $this->input->post('durasi');
+        $id_ruangan         = $this->input->post('id_ruangan');
+        $tglPemesanan       = $this->input->post('tglSekarang');
+        $mulaiPenyewaan     = $this->input->post('tglPenyewaan');
+        $selesaiPenyewaan   = $this->input->post('tglSelesai');
+        $harga              = $this->input->post('harga');
+
+        $result             = $this->search->detail($id_ruangan, $durasi);
+
+        if ($this->form_validation->run() == false) {
+            $this->global['result'] = (object) [
+                'ruangan' => $result,
+                'durasi' => $durasi,
+                'id_ruangan' => $id_ruangan,
+                'jmlDurasi' => $jmlDurasi,
+                'tglPemesanan' => $tglPemesanan,
+                'mulaiPenyewaan' => $mulaiPenyewaan,
+                'selesaiPenyewaan' => $selesaiPenyewaan,
+                'hidejmlHarga' => $harga,
+            ];
+
+            $this->profile();
+
+            $this->metadata->pageView = "booking/konfirmasi_pemesanan";
+
+            $this->loadViews("includes/booking/main", $this->global);
+        } else {
+            $this->global['result'] = (object) [
+                'ruangan' => $result,
+                'durasi' => $durasi,
+                'id_ruangan' => $id_ruangan,
+                'jmlDurasi' => $jmlDurasi,
+                'tglPemesanan' => $tglPemesanan,
+                'mulaiPenyewaan' => $mulaiPenyewaan,
+                'selesaiPenyewaan' => $selesaiPenyewaan,
+                'hidejmlHarga' => $harga,
+            ];
+
+            $this->profile();
+
+            $this->metadata->pageView = "booking/metode_pembayaran";
+
+            $this->loadViews("includes/booking/main", $this->global);
+        }
+    }
+
+    public function tagihan()
+    {
+        $user = $this->session->userdata('user');
+
+        $nmrRekening        = $this->input->post('nmrRekening');
+        $nmPemilik          = $this->input->post('nmPemilik');
+        $jmlDurasi          = $this->input->post('jmlDurasi');
+        $durasi             = $this->input->post('durasi');
+        $id_ruangan         = $this->input->post('id_ruangan');
+        $tglPemesanan       = $this->input->post('tglSekarang');
+        $mulaiPenyewaan     = $this->input->post('tglPenyewaan');
+        $selesaiPenyewaan   = $this->input->post('tglSelesai');
+        $harga              = $this->input->post('harga');
+        $metode_transfer    = $this->input->post('metode_transfer');
+		$id_pemesan         = $user[0]->id_pemesan;
+        $kode_pemesanan     = $this->input->post('kode_pemesanan');
+
+        $result             = $this->search->detail($id_ruangan, $durasi);
+        $id_gedung          = $result[0]->id_gedung;
+        $id_penyedia        = $result[0]->id_penyedia;
+
+        // print_r($nmPemilik);
+        // die;
+
+        $this->search->pemesanan($kode_pemesanan, $tglPemesanan, $mulaiPenyewaan, $selesaiPenyewaan, $durasi, $jmlDurasi, $id_ruangan, $id_gedung, $id_penyedia, $id_pemesan);
+
+        $this->search->pembayaran($kode_pemesanan, $metode_transfer, $nmPemilik, $nmrRekening, $harga);
+
+        $pemesanan      = $this->search->selectPemesanan($kode_pemesanan);
+        $id_pemesanan   = $pemesanan[0]->id_pemesanan;
+        $id_pembayaran   = $pemesanan[0]->id_pembayaran;
+
+        $this->search->insert_Transaksi($id_pemesanan, $id_ruangan, $id_gedung, $id_penyedia, $id_pemesan, $id_pembayaran);
+
+        $this->session->set_userdata([
+            'id_pemesanan'  => $id_pemesanan,
+            'durasi'  => $durasi,
+        ]);
+            
+        redirect('index.php/search/detail_tagihan');
+    }
+
+    public function detail_tagihan()
+    {
+        $id_pemesanan   = $this->session->userdata('id_pemesanan');
+        $durasi         = $this->session->userdata('durasi');
+        $user           = $this->session->userdata('user');
+        $id_pemesan     = $user[0]->id_pemesan;
+
+        $detail_tagihan = $this->search->detail_pemesanan($id_pemesan, $id_pemesanan, $durasi);
+        $kode_pemesanan = $detail_tagihan[0]->kode_pemesanan;
+
+        
+            $upload = $_FILES['bukti_pembayaran']['name'];
+            if ($upload[0] != '') {
+                if ($upload) {
+                    $files = $_FILES['bukti_pembayaran'];
+                    $config['allowed_types'] = 'png|jpg|jpeg';
+                    $config['max_size'] = 2048;
+                    $config['upload_path'] = '././assets/upload/';
+                    $this->load->library('upload', $config);
+                    
+                    
+                    $_FILES['bukti_pembayaran']['name'] = $files['name'];
+                    $_FILES['bukti_pembayaran']['type'] = $files['type'];
+                    $_FILES['bukti_pembayaran']['tmp_name'] = $files['tmp_name'];
+                    $_FILES['bukti_pembayaran']['error'] = $files['error'];
+                    $_FILES['bukti_pembayaran']['size'] = $files['size'];
+    
+                    $this->upload->initialize($config);
+                    if ($this->upload->do_upload('bukti_pembayaran')) {
+                        $data = $this->upload->data();
+                        $imagePath['bukti_pembayaran'] = $data['full_path'];
+                        $fullPath = file_get_contents($data['full_path']);
+                        $file_encode = base64_encode($fullPath);
+                        $imageName = $data['file_name'];
+                        $insertImage['bukti_pembayaran'] = $imageName;
+                        $insertFullPath['bukti_pembayaran'] = $file_encode;
+                        $type['bukti_pembayaran'] = $data['file_type'];
+                    }
+                    $this->search->addBuktiPembayaran($insertImage['bukti_pembayaran'], $insertFullPath['bukti_pembayaran'], $kode_pemesanan);
+                    unlink($imagePath['bukti_pembayaran']);
+
+                    $this->session->set_flashdata('success', 'Bukti pembayaran berhasil diupload!');
+                }
+            }
+
+            $this->global['result'] = (object) [
+                'tagihan' => $detail_tagihan,
+            ];
+
+            $this->profile();
+
+            $this->metadata->pageView = "booking/tagihan";
+
+            $this->loadViews("includes/booking/main", $this->global);
+        
     }
 }
