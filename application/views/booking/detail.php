@@ -166,13 +166,15 @@
   let id_ruangan = "<?= $result->ruangan[0]->id_ruangan ?>";
 
   $(document).ready( function() {
+    console.log(durasi)
     if (durasi != 'Jam') {
       var today = new Date();
-      var dd = String(today.getDate() + 1).padStart(2, '0');
+      var dd = String(today.getDate() + 1).padStart(1, '0');
       var mm = String(today.getMonth() + 1).padStart(2, '0');
       var yyyy = today.getFullYear();
 
       today = yyyy + '-' + mm + '-' + dd;
+      console.log(dd)
       $('#tglPenyewaan').attr('min',today);
     }
 

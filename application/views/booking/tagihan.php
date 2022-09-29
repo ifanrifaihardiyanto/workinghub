@@ -124,13 +124,13 @@
                       <div class="card-body">
                         <h5>Upload Bukti Pembayaran</h5>
                         <div class="content-detail">
-                            <form action="<?php echo base_url(); ?>index.php/search/detail_tagihan" method="post" enctype="multipart/form-data">
+                            <form action="<?php echo base_url(); ?>index.php/search/uploadBuktiPembayaran" method="post" enctype="multipart/form-data">
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label>File upload</label>
                                         <input type="file" name="bukti_pembayaran" id="bukti_pembayaran" class="file-upload-default">
                                         <div class="input-group col-xs-12">
-                                            <input type="text" class="form-control file-upload-info" disabled="" placeholder="Upload Image">
+                                            <input type="text" class="form-control file-upload-info" disabled="" placeholder="Upload Image" name="bukti_pembayaran" id="bukti_pembayaran">
                                             <span class="input-group-append">
                                                 <button class="file-upload-browse btn btn-primary" type="button">Browse</button>
                                             </span>

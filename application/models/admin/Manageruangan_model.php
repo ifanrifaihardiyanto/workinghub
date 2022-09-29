@@ -18,7 +18,7 @@ class Manageruangan_model extends CI_Model
         left outer join ruangan b
         on a.id_gedung = b.gedung_id_gedung
         left outer join jenis_gedung jg
-        on a.jenis_id_jenis = jg.id_jenis_gedung 
+        on a.id_jenis = jg.id_jenis_gedung 
         left outer join fasilitas f 
         on b.id_ruangan = f.id_ruangan
         where b.pengaktifan = '0'

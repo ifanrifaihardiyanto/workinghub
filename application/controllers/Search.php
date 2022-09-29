@@ -9,6 +9,9 @@ class Search extends BaseController
     public function __construct()
     {
         parent::__construct();
+        $this->load->helper('url');
+        $this->load->library('form_validation');
+        $this->load->library('upload');
         $this->load->model('Search_model', 'search');
         $this->load->library('pagination');
     }
@@ -373,10 +376,31 @@ class Search extends BaseController
         $id_pemesan     = $user[0]->id_pemesan;
 
         $detail_tagihan = $this->search->detail_pemesanan($id_pemesan, $id_pemesanan, $durasi);
+
+        // var_dump($this->input->method());
+
+        $this->global['result'] = (object) [
+            'tagihan' => $detail_tagihan,
+        ];
+
+        $this->profile();
+
+        $this->metadata->pageView = "booking/tagihan";
+
+        $this->loadViews("includes/booking/main", $this->global);
+    }
+
+    public function uploadBuktiPembayaran()
+    {
+        $id_pemesanan   = $this->session->userdata('id_pemesanan');
+        $durasi         = $this->session->userdata('durasi');
+        $user           = $this->session->userdata('user');
+        $id_pemesan     = $user[0]->id_pemesan;
+
+        $detail_tagihan = $this->search->detail_pemesanan($id_pemesan, $id_pemesanan, $durasi);
         $kode_pemesanan = $detail_tagihan[0]->kode_pemesanan;
 
-        
-            $upload = $_FILES['bukti_pembayaran']['name'];
+        $upload = $_FILES['bukti_pembayaran']['name'];
             if ($upload[0] != '') {
                 if ($upload) {
                     $files = $_FILES['bukti_pembayaran'];
@@ -410,15 +434,6 @@ class Search extends BaseController
                 }
             }
 
-            $this->global['result'] = (object) [
-                'tagihan' => $detail_tagihan,
-            ];
-
-            $this->profile();
-
-            $this->metadata->pageView = "booking/tagihan";
-
-            $this->loadViews("includes/booking/main", $this->global);
-        
+        redirect('index.php/search/detail_tagihan');
     }
 }

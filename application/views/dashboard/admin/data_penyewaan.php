@@ -1,7 +1,7 @@
 <nav class="page-breadcrumb">
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a href="#">Table</a></li>
-						<li class="breadcrumb-item active" aria-current="page">Validasi Pembayaran</li>
+						<li class="breadcrumb-item active" aria-current="page">Data Pemesanan</li>
 					</ol>
 				</nav>
 
@@ -25,7 +25,7 @@
                         <th>Nama Ruangan</th>
                         <th>Total Tagihan</th>
                         <th>Status Pembayaran</th>
-                        <th>Aksi</th>
+                        <th>Status Penyewaan</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -55,10 +55,13 @@
                         <td><?= $p->nama_ruangan ?></td>
                         <td><?= 'Rp '.number_format($p->total_pembayaran,0,',','.') ?></td>
                         <td><span class="badge badge-<?= $st_bukti ?>"><?= $bukti_status ?></span></td>
-                        <td>
-                          <button type="button" class="btn btn-primary btn-icon" data-toggle="modal" data-target="#aktif<?= $p->id_pembayaran ?>"><i data-feather="check"></i></button>
-                          <button type="button" class="btn btn-danger btn-icon" data-toggle="modal" data-target="#nonaktif<?= $p->id_pembayaran ?>"><i data-feather="x-circle"></i></button>
-                        </td>
+                        <td><span class="badge badge-<?= $st_aktivasi ?>"><?= $aktivasi ?></span></td>
+                        <!-- <td>
+                          <button type="button" class="btn btn-warning btn-icon">
+                            <i data-feather="edit"></i>
+                          </button>
+                          <a href="#" type="button" class="btn btn-danger btn-icon trash"></a>
+                        </td> -->
                       </tr>
                       <?php endforeach; ?>
                     </tbody>

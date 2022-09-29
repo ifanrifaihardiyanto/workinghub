@@ -11,7 +11,7 @@ class Manageprofile_model extends CI_Model
 
     public function edit($user_id, $nama, $tmptLahir, $tglLahir, $alamat, $nik, $noTelp, $rekBNI, $rekBRI, $rekMandiri, $rekBCA, $role)
     {
-        if ($role === 'Admin') {
+        if ($role === 'admin') {
             $sql = "update $role set nama='$nama', tempat_lahir='$tmptLahir', tanggal_lahir='$tglLahir', alamat='$alamat', nik_ktp='$nik', no_tlp='$noTelp' 
             where user_id_user = '$user_id'";
         } else {
@@ -19,7 +19,7 @@ class Manageprofile_model extends CI_Model
             nik_ktp='$nik', no_tlp='$noTelp', rek_bni='$rekBNI', rek_bri='$rekBRI', rek_mandiri='$rekMandiri', rek_bca='$rekBCA' 
             where user_id_user = '$user_id'";
         }
-
+        print_r($sql);
         $this->db->query($sql);
     }
 

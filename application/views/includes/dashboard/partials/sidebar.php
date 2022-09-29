@@ -105,7 +105,7 @@
                                 <div class="collapse" id="pembayaran">
                                     <ul class="nav sub-menu">
                                         <li class="nav-item">
-                                            <a href="<?php echo base_url(); ?>index.php/admin/managetransaksi" class="nav-link">Data Pemesanan</a>
+                                            <a href="<?php echo base_url(); ?>index.php/admin/managetransaksi/data_penyewaan" class="nav-link">Data Pemesanan</a>
                                         </li>
                                         <li class="nav-item">
                                             <a href="<?php echo base_url(); ?>index.php/admin/managetransaksi/validasi" class="nav-link">Validasi Pembayaran</a>
