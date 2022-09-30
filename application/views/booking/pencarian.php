@@ -1,10 +1,7 @@
 <?php
-// print_r($result->ruangan);
 $nama_lokasi  = $this->session->userdata('nama_lokasi');
 $durasi       = $this->session->userdata('durasi');
 $kapasitas    = $this->session->userdata('kapasitas');
-
-// $jenis        = "%";
 ?>
 <div class="grid-margin">
         </div>

@@ -21,12 +21,20 @@ class Search extends BaseController
         $lokasi = $this->search->find_lokasi();
         $jenis_gedung = $this->search->find_jenis_gedung();
 
-        // var_dump($jenis_gedung);
-
         $this->global['search'] = [
             'lokasi' => $lokasi,
             'jenis_gedung' => $jenis_gedung
         ];
+
+        $nmLokasi = $this->input->post('lokasi');
+        $kapasitas = $this->input->post('kapasitas');
+        $durasi = $this->input->post('durasi');
+
+        $this->session->set_userdata([
+            'nama_lokasi' => $nmLokasi,
+            'kapasitas' => $kapasitas,
+            'durasi' => $durasi
+        ]);
 
         $this->profile();
 
