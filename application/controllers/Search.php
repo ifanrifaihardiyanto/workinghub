@@ -401,38 +401,37 @@ class Search extends BaseController
         $kode_pemesanan = $detail_tagihan[0]->kode_pemesanan;
 
         $upload = $_FILES['bukti_pembayaran']['name'];
-            if ($upload[0] != '') {
-                if ($upload) {
-                    $files = $_FILES['bukti_pembayaran'];
-                    $config['allowed_types'] = 'png|jpg|jpeg';
-                    $config['max_size'] = 2048;
-                    $config['upload_path'] = '././assets/upload/';
-                    $this->load->library('upload', $config);
-                    
-                    
-                    $_FILES['bukti_pembayaran']['name'] = $files['name'];
-                    $_FILES['bukti_pembayaran']['type'] = $files['type'];
-                    $_FILES['bukti_pembayaran']['tmp_name'] = $files['tmp_name'];
-                    $_FILES['bukti_pembayaran']['error'] = $files['error'];
-                    $_FILES['bukti_pembayaran']['size'] = $files['size'];
+        if ($upload[0] != '') {
+            if ($upload) {
+                $files = $_FILES['bukti_pembayaran'];
+                $config['allowed_types'] = 'png|jpg|jpeg';
+                $config['max_size'] = 2048;
+                $config['upload_path'] = '././assets/upload/';
+                $this->load->library('upload', $config);
+                
+                $_FILES['bukti_pembayaran']['name'] = $files['name'];
+                $_FILES['bukti_pembayaran']['type'] = $files['type'];
+                $_FILES['bukti_pembayaran']['tmp_name'] = $files['tmp_name'];
+                $_FILES['bukti_pembayaran']['error'] = $files['error'];
+                $_FILES['bukti_pembayaran']['size'] = $files['size'];
     
-                    $this->upload->initialize($config);
-                    if ($this->upload->do_upload('bukti_pembayaran')) {
-                        $data = $this->upload->data();
-                        $imagePath['bukti_pembayaran'] = $data['full_path'];
-                        $fullPath = file_get_contents($data['full_path']);
-                        $file_encode = base64_encode($fullPath);
-                        $imageName = $data['file_name'];
-                        $insertImage['bukti_pembayaran'] = $imageName;
-                        $insertFullPath['bukti_pembayaran'] = $file_encode;
-                        $type['bukti_pembayaran'] = $data['file_type'];
-                    }
-                    $this->search->addBuktiPembayaran($insertImage['bukti_pembayaran'], $insertFullPath['bukti_pembayaran'], $kode_pemesanan);
-                    unlink($imagePath['bukti_pembayaran']);
-
-                    $this->session->set_flashdata('success', 'Bukti pembayaran berhasil diupload!');
+                $this->upload->initialize($config);
+                if ($this->upload->do_upload('bukti_pembayaran')) {
+                    $data = $this->upload->data();
+                    $imagePath['bukti_pembayaran'] = $data['full_path'];
+                    $fullPath = file_get_contents($data['full_path']);
+                    $file_encode = base64_encode($fullPath);
+                    $imageName = $data['file_name'];
+                    $insertImage['bukti_pembayaran'] = $imageName;
+                    $insertFullPath['bukti_pembayaran'] = $file_encode;
+                    $type['bukti_pembayaran'] = $data['file_type'];
                 }
+                $this->search->addBuktiPembayaran($insertImage['bukti_pembayaran'], $insertFullPath['bukti_pembayaran'], $kode_pemesanan);
+                unlink($imagePath['bukti_pembayaran']);
+
+                $this->session->set_flashdata('success', 'Bukti pembayaran berhasil diupload!');
             }
+        }
 
         redirect('index.php/search/detail_tagihan');
     }

@@ -14,7 +14,7 @@ class Managetransaksi_model extends CI_Model
         $sql = "select ps.nama, ps.email, g.nama_gedung, r.nama_ruangan, 
         py.total_pembayaran, py.status_bukti, py.aktivasi,
         p.kode_pemesanan, p.tgl_pemesanan, p.mulai_penyewaan, 
-        p.selesai_penyewaan, p.tipe_durasi, p.jml_durasi, py.id_pembayaran
+        p.selesai_penyewaan, p.tipe_durasi, p.jml_durasi, p.id_pemesanan, py.id_pembayaran
         from transaksi t 
         join partner pt
         on t.id_penyedia = pt.id_penyedia 
@@ -31,5 +31,27 @@ class Managetransaksi_model extends CI_Model
         order by py.status_bukti desc";
 
         return $this->db->query($sql)->result();
+    }
+
+    public function valid($perihal, $alasan, $nama_img, $image, $id_pemesanan, $kode_pemesanan)
+    {
+        $aktivasi = "update pembayaran set aktivasi='1' where kode_pemesanan='$kode_pemesanan'";
+        $this->db->query($aktivasi);
+
+        $sql = "insert into validasi (perihal, alasan, nama_img, image, id_pemesanan) values 
+        ('$perihal', '$alasan', '$nama_img', '$image', '$id_pemesanan')";
+
+        $this->db->query($sql);
+    }
+
+    public function invalid($perihal, $alasan, $nama_img, $image, $id_pemesanan, $kode_pemesanan)
+    {
+        $aktivasi = "update pembayaran set aktivasi='2' where kode_pemesanan='$kode_pemesanan'";
+        $this->db->query($aktivasi);
+
+        $sql = "insert into validasi (perihal, alasan, nama_img, image, id_pemesanan) values 
+        ('$perihal', '$alasan', '$nama_img', '$image', '$id_pemesanan')";
+
+        $this->db->query($sql);
     }
 }
