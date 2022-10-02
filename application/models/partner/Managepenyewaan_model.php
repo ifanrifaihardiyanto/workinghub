@@ -11,10 +11,10 @@ class Managepenyewaan_model extends CI_Model
 
     public function data_penyewaan_on_dashboard($id_user)
     {
-        $sql = "select ps.nama, ps.email, g.nama_gedung, r.nama_ruangan, 
+        $sql = "select t.id_pemesanan, ps.nama, ps.email, g.nama_gedung, r.nama_ruangan, 
         py.total_pembayaran, py.status_bukti, py.aktivasi,
         p.kode_pemesanan, p.tgl_pemesanan, p.mulai_penyewaan, 
-        p.selesai_penyewaan, p.tipe_durasi, p.jml_durasi 
+        p.selesai_penyewaan, p.tipe_durasi, p.jml_durasi, v.image as bukti_penerusan
         from transaksi t 
         join partner pt
         on t.id_penyedia = pt.id_penyedia 
@@ -28,7 +28,10 @@ class Managepenyewaan_model extends CI_Model
         on t.id_gedung = g.id_gedung 
         join ruangan r 
         on t.id_ruangan = r.id_ruangan 
-        where pt.id_penyedia='$id_user'";
+        left outer join validasi v 
+        on t.id_pemesanan = v.id_pemesanan
+        where pt.id_penyedia='$id_user'
+        order by py.status_bukti desc, py.aktivasi desc";
 
         return $this->db->query($sql)->result();
     }

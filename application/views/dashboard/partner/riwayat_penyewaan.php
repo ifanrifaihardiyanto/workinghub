@@ -26,6 +26,7 @@
                         <th>Total Tagihan</th>
                         <th>Status Pembayaran</th>
                         <th>Status Penyewaan</th>
+                        <th>Aksi</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -56,7 +57,60 @@
                         <td><?= 'Rp '.number_format($p->total_pembayaran,0,',','.') ?></td>
                         <td><span class="badge badge-<?= $st_bukti ?>"><?= $bukti_status ?></span></td>
                         <td><span class="badge badge-<?= $st_aktivasi ?>"><?= $aktivasi ?></span></td>
+                        <td>
+                          <button type="button" class="btn btn-warning btn-icon" data-toggle="modal" data-target="#lihat<?= $p->id_pemesanan ?>"><i data-feather="eye"></i></button>
+                        </td>
                       </tr>
+                      <!-- Start Modal Edit -->
+                      <div class="modal fade bd-example-modal-xl" id="lihat<?= $p->id_pemesanan ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Detail Penyewaan</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <div class="row">
+                                <div class="col-md-8">
+                                  <div class="detail-penyewaan">
+                                    <span>Nama Pemesan : <?= $p->nama ?></span>
+                                    <br>
+                                    <span>Email : <?= $p->email ?></span>
+                                    <br>
+                                    <span>Nama Gedung : <?= $p->nama_gedung ?></span>
+                                    <br>
+                                    <span>Nama Ruangan : <?= $p->nama_ruangan ?></span>
+                                    <br>
+                                    <span>Durasi : <?= $p->jml_durasi.' '.$p->tipe_durasi ?></span>
+                                    <br>
+                                    <span>Tanggal Pemesanan : <?= $p->tgl_pemesanan ?></span>
+                                    <br>
+                                    <span>Mulai Penyewaan : <?= $p->mulai_penyewaan ?></span>
+                                    <br>
+                                    <span>Selesai Penyewaan : <?= $p->selesai_penyewaan ?></span>
+                                    <br>
+                                    <span>Total Pembayaran : <?= 'Rp '.number_format($p->total_pembayaran,0,',','.') ?></span>
+                                  </div>
+                                </div>
+                                <div class="col-md-4">
+                                  <div class="photo">
+                                    <?php
+                                      if (empty($p->bukti_penerusan)) {
+                                        echo 'Data tidak ditemukan';
+                                      } else {
+                                    ?>
+                                      <img src="data:image;base64,<?= $p->bukti_penerusan ?>" width="100%" height="100%">
+                                    <?php } ?>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- End Modal Edit -->
                       <?php endforeach; ?>
                     </tbody>
                   </table>
