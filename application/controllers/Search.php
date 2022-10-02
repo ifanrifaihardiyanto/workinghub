@@ -168,44 +168,49 @@ class Search extends BaseController
 
     public function pemesanan($id, $durasi)
     {
-        $this->form_validation->set_rules('tglPenyewaan', 'Tanggal', 'required|trim');
-        $this->form_validation->set_rules('hidejmlDurasi', 'NIK', 'required|trim');
-        $this->form_validation->set_rules('hidejmlHarga', 'Nomor Telepon', 'required|trim');
-
-        $tglPenyewaan   = $this->input->post('tglPenyewaan');
-        $hidejmlDurasi  = $this->input->post('hidejmlDurasi');
-        $hidejmlHarga   = $this->input->post('hidejmlHarga');
-
-        $result = $this->search->detail($id, $durasi);
-
-        if ($this->form_validation->run() == false) {
-            $this->global['result'] = (object) [
-                'ruangan' => $result,
-                'durasi' => $durasi,
-                'id_ruangan' => $id,
-                'tglPenyewaan' => $tglPenyewaan,
-                'jmlDurasi' => $hidejmlDurasi,
-                'hidejmlHarga' => $hidejmlHarga,
-            ];
-
-            $this->profile();
-            $this->metadata->pageView = "booking/detail";
-            $this->loadViews("includes/booking/main", $this->global);
+        $isLoggedIn = $this->session->userdata('isLoggedIn');
+        if (!isset($isLoggedIn) || $isLoggedIn != true) {
+            $this->load->view('auth/booking/login');
         } else {
-            $this->global['result'] = (object) [
-                'ruangan' => $result,
-                'durasi' => $durasi,
-                'id_ruangan' => $id,
-                'tglPenyewaan' => $tglPenyewaan,
-                'hidejmlDurasi' => $hidejmlDurasi,
-                'hidejmlHarga' => $hidejmlHarga,
-            ];
+            $this->form_validation->set_rules('tglPenyewaan', 'Tanggal', 'required|trim');
+            $this->form_validation->set_rules('hidejmlDurasi', 'NIK', 'required|trim');
+            $this->form_validation->set_rules('hidejmlHarga', 'Nomor Telepon', 'required|trim');
 
-            $this->profile();
+            $tglPenyewaan   = $this->input->post('tglPenyewaan');
+            $hidejmlDurasi  = $this->input->post('hidejmlDurasi');
+            $hidejmlHarga   = $this->input->post('hidejmlHarga');
 
-            $this->metadata->pageView = "booking/pemesanan";
+            $result = $this->search->detail($id, $durasi);
 
-            $this->loadViews("includes/booking/main", $this->global);
+            if ($this->form_validation->run() == false) {
+                $this->global['result'] = (object) [
+                    'ruangan' => $result,
+                    'durasi' => $durasi,
+                    'id_ruangan' => $id,
+                    'tglPenyewaan' => $tglPenyewaan,
+                    'jmlDurasi' => $hidejmlDurasi,
+                    'hidejmlHarga' => $hidejmlHarga,
+                ];
+
+                $this->profile();
+                $this->metadata->pageView = "booking/detail";
+                $this->loadViews("includes/booking/main", $this->global);
+            } else {
+                $this->global['result'] = (object) [
+                    'ruangan' => $result,
+                    'durasi' => $durasi,
+                    'id_ruangan' => $id,
+                    'tglPenyewaan' => $tglPenyewaan,
+                    'hidejmlDurasi' => $hidejmlDurasi,
+                    'hidejmlHarga' => $hidejmlHarga,
+                ];
+
+                $this->profile();
+
+                $this->metadata->pageView = "booking/pemesanan";
+
+                $this->loadViews("includes/booking/main", $this->global);
+            }
         }
     }
 

@@ -11,7 +11,7 @@ class Manageruangan_model extends CI_Model
 
     public function getDataGedung_by_partner_id($id)
     {
-        $sql = "select b.id_gedung, b.nama_gedung from partner a left outer join gedung b on a.id_penyedia = b.penyedia_id_penyedia where a.id_penyedia='$id'";
+        $sql = "select b.id_gedung, b.nama_gedung from partner a left outer join gedung b on a.id_penyedia = b.id_penyedia where a.id_penyedia='$id'";
 
         $count = $this->db->query($sql);
         $count = $count->num_rows();
@@ -117,7 +117,7 @@ class Manageruangan_model extends CI_Model
         left outer join ruangan b 
         on a.id_gedung = b.gedung_id_gedung 
         left outer join jenis_gedung jg 
-        on a.jenis_id_jenis = jg.id_jenis_gedung 
+        on a.id_jenis = jg.id_jenis_gedung 
         left outer join view_fasilitas f 
         on b.id_ruangan = f.id_ruangan 
         left outer join view_durasi d  

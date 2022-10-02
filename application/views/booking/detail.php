@@ -40,7 +40,7 @@
                   </div>
                   <div class="col-md-4">
                     <div class="d-flex justify-content-end">
-                      <a href="#" class="btn btn-info">Cek Ketersediaan</a>
+                      <!-- <a href="#" class="btn btn-info">Cek Ketersediaan</a> -->
                     </div>
                   </div>
                 </div>
