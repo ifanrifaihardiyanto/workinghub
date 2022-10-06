@@ -52,14 +52,14 @@ $success = $this->session->flashdata('success');
 								<small class="text-danger"><?= form_error('noTelp'); ?></small>
 							</div>
 						</div><!-- Col -->
-						<?php if (in_array($user[0]->role, ['Partner','Pemesan'])) : ?>
-						<div class="col-sm-6">
-							<div class="form-group">
-								<label class="control-label">Nomor Rekening Bank BNI</label>
-								<input type="number" class="form-control" placeholder="Nomor Rekening Bank BNI" name="rekBNI" id="rekBNI" value="<?= $data->profile[0]->rek_bni; ?>">
-								<small class="text-danger"><?= form_error('rekBNI'); ?></small>
-							</div>
-						</div><!-- Col -->
+						<?php if (in_array($user[0]->role, ['Partner', 'Pemesan'])) : ?>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="control-label">Nomor Rekening Bank BNI</label>
+									<input type="number" class="form-control" placeholder="Nomor Rekening Bank BNI" name="rekBNI" id="rekBNI" value="<?= $data->profile[0]->rek_bni; ?>">
+									<small class="text-danger"><?= form_error('rekBNI'); ?></small>
+								</div>
+							</div><!-- Col -->
 						<?php endif; ?>
 					</div><!-- Row -->
 					<div class="row">
@@ -70,14 +70,14 @@ $success = $this->session->flashdata('success');
 								<small class="text-danger"><?= form_error('tmptLahir'); ?></small>
 							</div>
 						</div><!-- Col -->
-						<?php if (in_array($user[0]->role, ['Partner','Pemesan'])) : ?>
-						<div class="col-sm-6">
-							<div class="form-group">
-								<label class="control-label">Nomor Rekening Bank BRI</label>
-								<input type="text" class="form-control" placeholder="Nomor Rekening Bank BRI" name="rekBRI" id="rekBRI" value="<?= $data->profile[0]->rek_bri; ?>">
-								<small class="text-danger"><?= form_error('rekBRI'); ?></small>
-							</div>
-						</div><!-- Col -->
+						<?php if (in_array($user[0]->role, ['Partner', 'Pemesan'])) : ?>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="control-label">Nomor Rekening Bank BRI</label>
+									<input type="text" class="form-control" placeholder="Nomor Rekening Bank BRI" name="rekBRI" id="rekBRI" value="<?= $data->profile[0]->rek_bri; ?>">
+									<small class="text-danger"><?= form_error('rekBRI'); ?></small>
+								</div>
+							</div><!-- Col -->
 						<?php endif; ?>
 					</div><!-- Row -->
 					<div class="row">
@@ -88,14 +88,14 @@ $success = $this->session->flashdata('success');
 								<small class="text-danger"><?= form_error('tglLahir'); ?></small>
 							</div>
 						</div><!-- Col -->
-						<?php if (in_array($user[0]->role, ['Partner','Pemesan'])) : ?>
-						<div class="col-sm-6">
-							<div class="form-group">
-								<label class="control-label">Nomor Rekening Bank Mandiri</label>
-								<input type="number" class="form-control" placeholder="Nomor Rekening Bank Mandiri" name="rekMandiri" id="rekMandiri" value="<?= $data->profile[0]->rek_mandiri; ?>">
-								<small class="text-danger"><?= form_error('rekMandiri'); ?></small>
-							</div>
-						</div><!-- Col -->
+						<?php if (in_array($user[0]->role, ['Partner', 'Pemesan'])) : ?>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="control-label">Nomor Rekening Bank Mandiri</label>
+									<input type="number" class="form-control" placeholder="Nomor Rekening Bank Mandiri" name="rekMandiri" id="rekMandiri" value="<?= $data->profile[0]->rek_mandiri; ?>">
+									<small class="text-danger"><?= form_error('rekMandiri'); ?></small>
+								</div>
+							</div><!-- Col -->
 						<?php endif; ?>
 					</div><!-- Row -->
 					<div class="row">
@@ -106,14 +106,14 @@ $success = $this->session->flashdata('success');
 								<small class="text-danger"><?= form_error('alamat'); ?></small>
 							</div>
 						</div><!-- Col -->
-						<?php if (in_array($user[0]->role, ['Partner','Pemesan'])) : ?>
-						<div class="col-sm-6">
-							<div class="form-group">
-								<label class="control-label">Nomor Rekening Bank BCA</label>
-								<input type="number" class="form-control" placeholder="Nomor Rekening Bank BCA" name="rekBCA" id="rekBCA" value="<?= $data->profile[0]->rek_bca; ?>">
-								<small class="text-danger"><?= form_error('rekBCA'); ?></small>
-							</div>
-						</div><!-- Col -->
+						<?php if (in_array($user[0]->role, ['Partner', 'Pemesan'])) : ?>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="control-label">Nomor Rekening Bank BCA</label>
+									<input type="number" class="form-control" placeholder="Nomor Rekening Bank BCA" name="rekBCA" id="rekBCA" value="<?= $data->profile[0]->rek_bca; ?>">
+									<small class="text-danger"><?= form_error('rekBCA'); ?></small>
+								</div>
+							</div><!-- Col -->
 						<?php endif; ?>
 					</div><!-- Row -->
 					<div class="d-flex justify-content-center">
