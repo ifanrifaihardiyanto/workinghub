@@ -80,11 +80,6 @@ class Search extends BaseController
             $kapAkhir   = $kapasitasExp[1];
         }
 
-        $test = $this->session->userdata('kapasitas');
-        // print_r($test);
-        // die;
-        // print_r($nmLokasi);
-
         $cntResult = $this->search->count_ruangan($nmLokasi, $kapAwal, $kapAkhir, $durasi);
 
         $link = 'http://localhost/workinghub/index.php/search/get_Ruangan';

@@ -13,6 +13,10 @@
             </div>
             <?php
             // print_r($result);
+            if (!empty($result->ruangan[0]->gambar)) {
+              $data_gambar = explode(', ', $result->ruangan[0]->gambar);
+            }
+            $gambar = $data_gambar[0];
 
             if ($result->tagihan[0]->metode_pembayaran == 'Transfer Bank BNI') {
                 $img = "logo_bank_bni.png";
@@ -30,7 +34,7 @@
                   <div class="detail-pemesan">
                     <div class="card">
                       <div class="d-flex justify-content-between">
-                        <img src="../../images/bg_1.jpg" alt="" style="width: 40%;">
+                        <img src="data:image;base64,<?= $gambar ?>" alt="" style="width: 40%;">
                         <div class="card-body">
                           <div class="detail-ruangan">
                             <div class="d-flex justify-content-between">

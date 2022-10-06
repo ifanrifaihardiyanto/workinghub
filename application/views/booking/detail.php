@@ -1,5 +1,8 @@
 <?php
   $this->load->helper('form');
+  $date = date('d-m-Y');
+  $day  = date('d', strtotime('+1 day', strtotime($date)));
+  $month = date('m', strtotime($date));
 ?>
         <div class="grid-margin">
         </div>
@@ -21,6 +24,7 @@
                   </div>
                 <?php } ?>
                 </div>
+                <?php if ($cntDataGambar == 1) { } else { ?>
                 <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                   <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                   <span class="sr-only">Previous</span>
@@ -29,6 +33,7 @@
                   <span class="carousel-control-next-icon" aria-hidden="true"></span>
                   <span class="sr-only">Next</span>
                 </a>
+                <?php } ?>
               </div>
               <div class="card-body">
                 <h5 class="card-title"><?= $result->ruangan[0]->nama_gedung.' - '.$result->ruangan[0]->nama_ruangan ?></h5>
@@ -62,7 +67,8 @@
                         <small class="text-danger"><?= form_error('tglPenyewaan'); ?></small>
                       </div>
                     </div>
-                    <?php if ($result->durasi !== 'Jam') { ?>
+                    <?php
+                    if ($result->durasi !== 'Jam') { ?>
                     <div class="col-md-4">
                       <div class="form-group">
                         <label for="Tanggal Penyewaan">Jumlah <?= $result->durasi ?></label>
@@ -164,13 +170,15 @@
 <script>
   let durasi = "<?= $result->durasi ?>";
   let id_ruangan = "<?= $result->ruangan[0]->id_ruangan ?>";
+  let dd = "<?= $day ?>";
+  let mm = "<?= $month ?>";
 
   $(document).ready( function() {
     console.log(durasi)
     if (durasi != 'Jam') {
       var today = new Date();
-      var dd = String(today.getDate() + 1).padStart(1, '0');
-      var mm = String(today.getMonth() + 1).padStart(2, '0');
+      // var dd = String(today.getDate() + 1).padStart(1, '0');
+      // var mm = String(today.getMonth() + 1).padStart(2, '0');
       var yyyy = today.getFullYear();
 
       today = yyyy + '-' + mm + '-' + dd;

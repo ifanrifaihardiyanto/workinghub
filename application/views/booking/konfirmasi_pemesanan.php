@@ -7,6 +7,11 @@
             <div class="headline-page">
             <?php
                 // print_r($result);
+                if (!empty($result->ruangan[0]->gambar)) {
+                  $data_gambar = explode(', ', $result->ruangan[0]->gambar);
+                }
+                $gambar = $data_gambar[0];
+
                 $tgl_now            = date('Y-m-d');
                 $tgl_pemesanan      = date('d M Y', strtotime($result->tglPemesanan));
                 $mulai_penyewaan    = date('d M Y', strtotime($result->mulaiPenyewaan));
@@ -23,8 +28,8 @@
                     <div class="detail-pemesan">
                     <form action="<?php echo base_url(); ?>index.php/search/terkonfirmasi" method="post">
                         <div class="card">
-                        <div class="d-flex justify-content-between">
-                            <img src="../../images/bg_1.jpg" alt="" style="width: 40%;">
+                          <div class="d-flex justify-content-between">
+                            <img src="data:image;base64,<?= $gambar ?>" alt="" style="width: 40%;">
                             <div class="card-body">
                             <div class="detail-ruangan">
                                 <div><strong><?= $result->ruangan[0]->nama_gedung.' - '.$result->ruangan[0]->nama_ruangan ?></strong></div>

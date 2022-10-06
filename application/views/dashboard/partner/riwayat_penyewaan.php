@@ -58,7 +58,7 @@
                         <td><span class="badge badge-<?= $st_bukti ?>"><?= $bukti_status ?></span></td>
                         <td><span class="badge badge-<?= $st_aktivasi ?>"><?= $aktivasi ?></span></td>
                         <td>
-                          <button type="button" class="btn btn-warning btn-icon" data-toggle="modal" data-target="#lihat<?= $p->id_pemesanan ?>"><i data-feather="eye"></i></button>
+                          <button type="button" class="btn btn-primary btn-icon" data-toggle="modal" data-target="#lihat<?= $p->id_pemesanan ?>"><i data-feather="eye"></i></button>
                         </td>
                       </tr>
                       <!-- Start Modal Edit -->

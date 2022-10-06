@@ -51,7 +51,7 @@ class Search_model extends CI_Model
         left outer join view_fasilitas f 
         on b.id_ruangan = f.id_ruangan  
         left outer join view_gambar g 
-        on f.id_ruangan = g.ruangan_id_ruangan
+        on f.id_ruangan = g.id_ruangan
         left outer join durasi d 
         on b.id_ruangan = d.id_ruangan
         where $kapasitas a.lokasi like '$lokasi' and b.pengaktifan = 1 and b.pemberhentian = 1 and d.durasi like '$durasi'";
@@ -95,7 +95,7 @@ class Search_model extends CI_Model
         left outer join view_fasilitas f 
         on b.id_ruangan = f.id_ruangan  
         left outer join view_gambar g 
-        on f.id_ruangan = g.ruangan_id_ruangan
+        on f.id_ruangan = g.id_ruangan
         left outer join durasi d 
         on b.id_ruangan = d.id_ruangan
         where $kapasitas a.lokasi like '$lokasi' and b.pengaktifan = 1 and b.pemberhentian = 1 and d.durasi like '$durasi'
@@ -118,7 +118,7 @@ class Search_model extends CI_Model
         left outer join view_fasilitas f 
         on b.id_ruangan = f.id_ruangan  
         left outer join view_gambar g 
-        on f.id_ruangan = g.ruangan_id_ruangan
+        on f.id_ruangan = g.id_ruangan
         left outer join durasi d 
         on b.id_ruangan = d.id_ruangan
         where b.id_ruangan='$id' and d.durasi='$durasi'";
@@ -149,7 +149,7 @@ class Search_model extends CI_Model
         left outer join view_fasilitas f 
         on b.id_ruangan = f.id_ruangan  
         left outer join view_gambar g 
-        on f.id_ruangan = g.ruangan_id_ruangan
+        on f.id_ruangan = g.id_ruangan
         left outer join durasi d 
         on b.id_ruangan = d.id_ruangan
         where b.id_ruangan='$id' and d.durasi='$durasi'";
@@ -207,7 +207,7 @@ class Search_model extends CI_Model
         left outer join view_fasilitas f 
         on b.id_ruangan = f.id_ruangan  
         left outer join view_gambar g 
-        on f.id_ruangan = g.ruangan_id_ruangan
+        on f.id_ruangan = g.id_ruangan
         left outer join durasi d 
         on b.id_ruangan = d.id_ruangan
         left outer join transaksi t 
