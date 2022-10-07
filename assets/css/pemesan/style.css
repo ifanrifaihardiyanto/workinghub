@@ -39667,6 +39667,14 @@ iconify-icon:hover {
   padding-top: 10px;
 }
 
+.mg-btm-10 {
+  margin-bottom: 10px;
+}
+
 .width-30 {
   width: 30%;
+}
+
+.pd-list-order {
+  padding: 5px 0px 0px 0px;
 }

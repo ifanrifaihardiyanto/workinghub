@@ -102,7 +102,7 @@ class Manageruangan_model extends CI_Model
 
     public function insertImage($name, $image, $type, $id_gedung, $id_ruangan, $id_user)
     {
-        $sql = "insert into gambar (nama, gambar, type, ruangan_id_ruangan, ruangan_gedung_id_gedung, ruangan_gedung_penyedia_id_penyedia) 
+        $sql = "insert into gambar (nama, gambar, type, id_ruangan, ruangan_gedung_id_gedung, ruangan_gedung_penyedia_id_penyedia) 
         values ('$name','$image','$type','$id_ruangan','$id_gedung','$id_user')";
 
         $this->db->query($sql);
@@ -123,7 +123,7 @@ class Manageruangan_model extends CI_Model
         left outer join view_durasi d  
         on b.id_ruangan = d.id_ruangan 
         left outer join view_gambar g
-        on f.id_ruangan = g.ruangan_id_ruangan
+        on f.id_ruangan = g.id_ruangan
         order by a.nama_gedung asc, b.nama_ruangan asc, b.pemberhentian asc, b.pemberhentian asc";
 
         // print_r($sql);
@@ -162,7 +162,7 @@ class Manageruangan_model extends CI_Model
         $this->db->query($delete_durasi);
 
         if ($cntUpload >= 1 && $nmUpload != '') {
-            $delete_img = "delete from gambar where ruangan_id_ruangan='$id'";
+            $delete_img = "delete from gambar where id_ruangan='$id'";
             $this->db->query($delete_img);
         }
     }

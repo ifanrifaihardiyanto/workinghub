@@ -33,6 +33,8 @@ class Managepenyewaan_model extends CI_Model
         where pt.id_penyedia='$id_user'
         order by py.status_bukti desc, py.aktivasi desc";
 
+        // print_r($sql);
+
         return $this->db->query($sql)->result();
     }
 }

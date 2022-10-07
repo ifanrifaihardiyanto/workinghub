@@ -238,8 +238,6 @@ class Search extends BaseController
         $result             = $this->search->detail($id_ruangan, $durasi);
         $id_gedung          = $result[0]->id_gedung;
         $id_penyedia        = $result[0]->id_penyedia;
-        // var_dump($result);
-        // die;
 
         if ($this->form_validation->run() == false) {
             $this->global['result'] = (object) [
@@ -355,9 +353,6 @@ class Search extends BaseController
         $id_gedung          = $result[0]->id_gedung;
         $id_penyedia        = $result[0]->id_penyedia;
 
-        // print_r($nmPemilik);
-        // die;
-
         $this->search->pemesanan($kode_pemesanan, $tglPemesanan, $mulaiPenyewaan, $selesaiPenyewaan, $durasi, $jmlDurasi, $id_ruangan, $id_gedung, $id_penyedia, $id_pemesan);
 
         $this->search->pembayaran($kode_pemesanan, $metode_transfer, $nmPemilik, $nmrRekening, $harga);
@@ -384,8 +379,6 @@ class Search extends BaseController
         $id_pemesan     = $user[0]->id_pemesan;
 
         $detail_tagihan = $this->search->detail_pemesanan($id_pemesan, $id_pemesanan, $durasi);
-
-        // var_dump($this->input->method());
 
         $this->global['result'] = (object) [
             'tagihan' => $detail_tagihan,
