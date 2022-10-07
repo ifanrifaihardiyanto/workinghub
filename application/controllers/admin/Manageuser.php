@@ -14,7 +14,6 @@ class Manageuser extends BaseController {
         $this->load->model('Auth_model', 'auth');
         $this->load->model('admin/manageuser_model', 'manage_user');
         $this->load->model('user_model', 'user');
-        $this->load->model('Manageprofile_model', 'manage_profile');
 	}
 
     public function index()
@@ -46,6 +45,13 @@ class Manageuser extends BaseController {
         $this->form_validation->set_rules('email','Email','required|trim|valid_email|is_unique[user.username]',['is_unique' => 'Email sudah pernah digunakan!']);
         $this->form_validation->set_rules('role','Role','required|trim');
         $this->form_validation->set_rules('password','Password','required|trim|min_length[8]');
+        $this->form_validation->set_rules('nama','Nama','required|trim');
+        $this->form_validation->set_rules('nik','NIK','required|trim');
+        $this->form_validation->set_rules('noTelp','Nomor Telepon','required|trim');
+        $this->form_validation->set_rules('nama','Nama','required|trim');
+        $this->form_validation->set_rules('tmptLahir','Tempat Lahir','required|trim');
+        $this->form_validation->set_rules('tglLahir','Tanggal Lahir','required');
+        $this->form_validation->set_rules('alamat','Alamat','required|trim');
 
         $email  = $this->input->post('email');
 
@@ -67,9 +73,24 @@ class Manageuser extends BaseController {
             $email      = $this->input->post('email');
             $role       = $this->input->post('role');
             $password   = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
+            $nama       = $this->input->post('nama');
+            $nik        = $this->input->post('nik');
+            $noTelp     = $this->input->post('noTelp');
+            $tmptLahir  = $this->input->post('tmptLahir');
+            $tglLahir   = $this->input->post('tglLahir');
+            $alamat     = $this->input->post('alamat');
             $activation = 1;
+            $rekBNI     = 0;
+            $rekBRI     = 0;
+            $rekMandiri = 0;
+            $rekBCA     = 0;
 
             $this->auth->insertUser($email, $password, $role, $activation);
+
+            $user = $this->manage_user->get_id_user($email, $role);
+            $user_id  = $user[0]->id_user;
+
+            $this->auth->completedData($user_id, $nama, $tmptLahir, $tglLahir, $alamat, $nik, $email, $noTelp, $rekBNI, $rekBRI, $rekMandiri, $rekBCA, $role);
 
             $this->profile();
 
