@@ -14,7 +14,7 @@ class Managetransaksi_model extends CI_Model
         $sql = "select ps.nama, ps.email, g.nama_gedung, r.nama_ruangan, 
         py.total_pembayaran, py.status_bukti, py.aktivasi,
         p.kode_pemesanan, p.tgl_pemesanan, p.mulai_penyewaan, 
-        p.selesai_penyewaan, p.tipe_durasi, p.jml_durasi, p.id_pemesanan, py.id_pembayaran
+        p.selesai_penyewaan, p.tipe_durasi, p.jml_durasi, p.id_pemesanan, py.id_pembayaran, py.bukti_pembayaran
         from transaksi t 
         join partner pt
         on t.id_penyedia = pt.id_penyedia 
