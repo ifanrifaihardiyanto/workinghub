@@ -62,7 +62,7 @@ class Manageuser extends BaseController {
                 $this->session->set_flashdata('error', 'Akun gagal ditambahkan, email sudah pernah dipakai!');
             }
             
-            redirect('index.php/admin/manageuser');
+            redirect('admin/manageuser');
         } else {
             $isLoggedIn = $this->session->userdata('isLoggedIn');
 
@@ -96,7 +96,7 @@ class Manageuser extends BaseController {
 
             $this->session->set_flashdata('success', 'Akun berhasil dibuat. Silahkan login!');
 
-            redirect('/index.php/admin/manageuser');
+            redirect('/admin/manageuser');
         }
     }
 
@@ -106,7 +106,7 @@ class Manageuser extends BaseController {
 
         $this->session->set_flashdata('success', 'Data berhasil dinonaktifkan!');
 
-        redirect('index.php/admin/manageuser');
+        redirect('admin/manageuser');
     }
 
     public function edit($id)
@@ -144,6 +144,6 @@ class Manageuser extends BaseController {
 
             $this->session->set_flashdata('success', 'Berhasil mengubah data!');
 
-            redirect('index.php/admin/manageuser');
+            redirect('admin/manageuser');
     }
 }

@@ -80,7 +80,7 @@ class Manageprofile extends BaseController
 
             $this->session->set_flashdata('success', 'Berhasil mengubah data!');
 
-            redirect('/index.php/manageprofile');
+            redirect('/manageprofile');
         }
     }
 }

@@ -142,8 +142,8 @@
                             <div class="card-body">
                                 <h5>Upload Bukti Pembayaran</h5>
                                 <div class="content-detail">
-                                    <form action="<?php echo base_url(); ?>index.php/search/uploadBuktiPembayaran"
-                                        method="post" enctype="multipart/form-data">
+                                    <form action="<?php echo base_url(); ?>search/uploadBuktiPembayaran" method="post"
+                                        enctype="multipart/form-data">
                                         <div class="col-sm-12">
                                             <div class="form-group">
                                                 <label>File upload</label>

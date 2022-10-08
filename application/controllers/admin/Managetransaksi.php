@@ -83,7 +83,7 @@ class Managetransaksi extends BaseController {
             }
         }
 
-        redirect('index.php/admin/managetransaksi/validasi');
+        redirect('admin/managetransaksi/validasi');
     }
     
     public function invalid($id_pemesanan, $kode_pemesanan)
@@ -124,6 +124,6 @@ class Managetransaksi extends BaseController {
             }
         }
 
-        redirect('index.php/admin/managetransaksi/validasi');
+        redirect('admin/managetransaksi/validasi');
     }
 }

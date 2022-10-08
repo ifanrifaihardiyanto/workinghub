@@ -102,7 +102,7 @@ $success = $this->session->flashdata('success');
                                         </div>
                                         <div class="modal-body">
                                             <form
-                                                action="<?php echo base_url(); ?>index.php/partner/manageruangan/edit/<?= $r->id_ruangan ?>/<?= $r->id_gedung ?>"
+                                                action="<?php echo base_url(); ?>partner/manageruangan/edit/<?= $r->id_ruangan ?>/<?= $r->id_gedung ?>"
                                                 method="post" enctype="multipart/form-data">
                                                 <!-- Row -->
                                                 <div class="row">
@@ -312,7 +312,7 @@ $success = $this->session->flashdata('success');
                                         </div>
                                         <div class="modal-body">
                                             <form
-                                                action="<?php echo base_url(); ?>index.php/partner/manageruangan/nonaktif/<?= $r->id_ruangan ?>"
+                                                action="<?php echo base_url(); ?>partner/manageruangan/nonaktif/<?= $r->id_ruangan ?>"
                                                 method="post">
                                                 <div class="row">
                                                     <div class="col-sm-12">

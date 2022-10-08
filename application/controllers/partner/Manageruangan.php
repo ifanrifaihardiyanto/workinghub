@@ -70,7 +70,7 @@ class Manageruangan extends BaseController {
 
             $this->session->set_flashdata('success', 'Data gedung berhasil ditambahkan!');
 
-            redirect('index.php/partner/manageruangan/addRuangan');
+            redirect('partner/manageruangan/addRuangan');
         }
     }
 
@@ -81,7 +81,7 @@ class Manageruangan extends BaseController {
         
         $checkGedung = $this->manage_ruangan->getDataGedung_by_partner_id($user_id);
         if (empty($checkGedung[0]->nama_gedung) || $checkGedung[0]->nama_gedung == "No Data") {
-            redirect('index.php/partner/manageruangan/addGedung');
+            redirect('partner/manageruangan/addGedung');
         }
 
         $this->global['gedung'] = [
@@ -175,7 +175,7 @@ class Manageruangan extends BaseController {
 
             $this->session->set_flashdata('success', 'Data ruangan berhasil ditambahkan!');
 
-            redirect('index.php/partner/manageruangan/manage_data_ruangan');
+            redirect('partner/manageruangan/manage_data_ruangan');
         }
     }
 
@@ -214,7 +214,7 @@ class Manageruangan extends BaseController {
 
         $this->session->set_flashdata('success', 'Data ruangan berhasil dinonaktifkan dari penyewaan!');
 
-        redirect('index.php/partner/manageruangan/manage_data_ruangan');
+        redirect('partner/manageruangan/manage_data_ruangan');
     }
 
     public function edit($id, $idGedung)
@@ -234,7 +234,7 @@ class Manageruangan extends BaseController {
         $this->form_validation->set_rules('deskripsi', 'Deskripsi', 'required|trim');
 
         if ($this->form_validation->run() == false) {
-            redirect('index.php/partner/manageruangan/manage_data_ruangan');
+            redirect('partner/manageruangan/manage_data_ruangan');
         } else {
             $upload = $_FILES['image']['name'];
             $nmUpload = $upload[0];
@@ -300,7 +300,7 @@ class Manageruangan extends BaseController {
 
             $this->session->set_flashdata('success', 'Data berhasil diubah!');
 
-            redirect('index.php/partner/manageruangan/manage_data_ruangan');
+            redirect('partner/manageruangan/manage_data_ruangan');
         }
     }
 }

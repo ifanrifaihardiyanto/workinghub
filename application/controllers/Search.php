@@ -82,7 +82,7 @@ class Search extends BaseController
 
         $cntResult = $this->search->count_ruangan($nmLokasi, $kapAwal, $kapAkhir, $durasi);
 
-        $link = 'http://localhost/workinghub/index.php/search/get_Ruangan';
+        $link = 'http://localhost/workinghub/search/get_Ruangan';
 
         $config['base_url'] = $link;
         $config['total_rows'] = $cntResult;
@@ -370,7 +370,7 @@ class Search extends BaseController
             'durasi'  => $durasi,
         ]);
             
-        redirect('index.php/search/detail_tagihan');
+        redirect('search/detail_tagihan');
     }
 
     public function detail_tagihan()
@@ -436,6 +436,6 @@ class Search extends BaseController
             }
         }
 
-        redirect('index.php/search/detail_tagihan');
+        redirect('search/detail_tagihan');
     }
 }

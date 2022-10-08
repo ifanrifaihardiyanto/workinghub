@@ -90,7 +90,7 @@ $success = $this->session->flashdata('success');
                                         </div>
                                         <div class="modal-body">
                                             <form
-                                                action="<?php echo base_url(); ?>index.php/admin/manageuser/edit/<?= $q->id_user ?>"
+                                                action="<?php echo base_url(); ?>admin/manageuser/edit/<?= $q->id_user ?>"
                                                 method="post">
                                                 <div class="row">
                                                     <div class="col-sm-6">
@@ -235,7 +235,7 @@ $success = $this->session->flashdata('success');
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
                                                 data-dismiss="modal">Close</button>
-                                            <a href="<?php echo base_url() ?>index.php/admin/manageuser/nonaktif/<?= $q->id_user ?>"
+                                            <a href="<?php echo base_url() ?>admin/manageuser/nonaktif/<?= $q->id_user ?>"
                                                 type="button" class="btn btn-primary">Non Aktifkan</a>
                                         </div>
                                     </div>
@@ -263,7 +263,7 @@ $success = $this->session->flashdata('success');
                 </button>
             </div>
             <div class="modal-body">
-                <form action="<?php echo base_url(); ?>index.php/admin/manageuser/tambah" method="post">
+                <form action="<?php echo base_url(); ?>admin/manageuser/tambah" method="post">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="row">

@@ -11,7 +11,7 @@ $kapasitas    = $this->session->userdata('kapasitas');
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <!-- <form action="<?php echo base_url(); ?>index.php/search/find" method="post"> -->
+                    <!-- <form action="<?php echo base_url(); ?>search/find" method="post"> -->
                     <?php
                     // var_dump($search['lokasi']);
                     ?>
@@ -171,7 +171,7 @@ function getDataRuangan(page_url) {
 
     console.log(lokasi);
 
-    var base_url = '<?php echo base_url() . "index.php/search/get_Ruangan" ?>';
+    var base_url = '<?php echo base_url() . "search/get_Ruangan" ?>';
 
     if (page_url) {
         base_url = page_url;

@@ -23,7 +23,7 @@ class Authenticate extends CI_Controller {
     if (!isset($isLoggedIn) || $isLoggedIn != true) {
       $this->load->view('auth/booking/login');
     } else {
-      redirect('/index.php/home');
+      redirect('/home');
     }
   }
 
@@ -53,7 +53,7 @@ class Authenticate extends CI_Controller {
             'isLoggedIn'  => true,
           ]);
   
-          redirect('/index.php/home');
+          redirect('/home');
         } else {
           $this->session->set_flashdata('error', 'Password yang anda masukkan salah!');
 
@@ -102,7 +102,7 @@ class Authenticate extends CI_Controller {
 
       $this->session->set_flashdata('success', 'Akun berhasil dibuat. Silahkan login!');
 
-      redirect('/index.php/authenticate/completed_data');
+      redirect('/authenticate/completed_data');
     }
   }
 
@@ -128,7 +128,7 @@ class Authenticate extends CI_Controller {
 
       $this->session->set_flashdata('success', 'Akun berhasil dibuat. Silahkan login!');
 
-      redirect('/index.php/authenticate/completed_data');
+      redirect('/authenticate/completed_data');
     }
   }
 
@@ -175,7 +175,7 @@ class Authenticate extends CI_Controller {
 
       $this->session->set_flashdata('success', 'Akun berhasil dibuat. Silahkan login!');
 
-      redirect('/index.php/authenticate/logging_in');
+      redirect('/authenticate/logging_in');
     }
   }
 }

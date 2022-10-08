@@ -58,7 +58,7 @@
                                     <div><span class="badge badge-<?= $st_bukti ?>"><?= $bukti_status ?></span></div>
                                     <?php if ($bukti_status == 'Penyewaan Selesai') {} else { ?>
                                     <div><a
-                                            href="<?php echo base_url(); ?>index.php/order/detail_tagihan/<?= $list->kode_pemesanan ?>">Lihat
+                                            href="<?php echo base_url(); ?>order/detail_tagihan/<?= $list->kode_pemesanan ?>">Lihat
                                             detail</a></div>
                                     <?php } ?>
                                 </div>

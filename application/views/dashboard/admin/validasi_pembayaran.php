@@ -102,7 +102,7 @@
                                         </div>
                                         <div class="modal-body">
                                             <form
-                                                action="<?php echo base_url(); ?>index.php/admin/managetransaksi/valid/<?= $p->id_pemesanan . '/' . $p->kode_pemesanan ?>"
+                                                action="<?php echo base_url(); ?>admin/managetransaksi/valid/<?= $p->id_pemesanan . '/' . $p->kode_pemesanan ?>"
                                                 method="post" enctype="multipart/form-data">
                                                 <div class="row">
                                                     <input id="perihal" class="form-control" name="perihal" type="text"
@@ -159,7 +159,7 @@
                                         </div>
                                         <div class="modal-body">
                                             <form
-                                                action="<?php echo base_url(); ?>index.php/admin/managetransaksi/invalid/<?= $p->id_pemesanan . '/' . $p->kode_pemesanan ?>"
+                                                action="<?php echo base_url(); ?>admin/managetransaksi/invalid/<?= $p->id_pemesanan . '/' . $p->kode_pemesanan ?>"
                                                 method="post" enctype="multipart/form-data">
                                                 <div class="row">
                                                     <input id="perihal" class="form-control" name="perihal" type="text"

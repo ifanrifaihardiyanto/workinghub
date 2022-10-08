@@ -35,7 +35,7 @@
             <div class="bd-example">
                 <div class="d-flex justify-content-between">
                     <div class="detail-pemesan">
-                        <form action="<?php echo base_url(); ?>index.php/search/konfirmasi_pemesanan" method="post">
+                        <form action="<?php echo base_url(); ?>search/konfirmasi_pemesanan" method="post">
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="pd-btm-10">Data Pemesan</h5>
