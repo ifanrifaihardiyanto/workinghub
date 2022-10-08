@@ -106,6 +106,22 @@ class Search_model extends CI_Model
         return $this->db->query($sql)->result();
     }
 
+    public function tersewa()
+    {
+        $tgl = date('Y-m-d', strtotime('+1 day'));
+        $sql = "select t.id_ruangan, p.mulai_penyewaan, p.selesai_penyewaan, p.tipe_durasi
+        from transaksi t 
+        join pemesanan p
+        on t.id_pemesanan = p.id_pemesanan 
+        join pembayaran py
+        on t.id_pembayaran = py.id_pembayaran
+        where p.mulai_penyewaan >= '$tgl' and py.aktivasi='1'";
+
+        // print_r($sql);
+
+        return $this->db->query($sql)->result();
+    }
+
     public function detail($id, $durasi)
     {
         $sql = "select a.id_gedung, a.id_penyedia, b.id_ruangan, a.nama_gedung, a.lokasi, b.nama_ruangan, jg.jenis_gedung, b.ukuran, b.kapasitas, b.harga_jam, b.harga_harian, 

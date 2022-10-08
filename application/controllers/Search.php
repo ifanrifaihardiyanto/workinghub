@@ -124,6 +124,8 @@ class Search extends BaseController
 
         $result = $this->search->find_ruangan($nmLokasi, $config['per_page'], $segment, $kapAwal, $kapAkhir, $durasi);
 
+        $tersewa = $this->search->tersewa();
+
         $this->global['result'] = (object) [
             'ruangan' => $result
         ];
