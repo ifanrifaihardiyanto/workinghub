@@ -10,7 +10,7 @@
 <body>
 
 
-    <form id="payment-form" method="post" action="<?php echo base_url(); ?>/snap/finish">
+    <form id="payment-form" method="post" action="<?=site_url()?>/snap/finish">
         <input type="hidden" name="result_type" id="result-type" value=""></div>
         <input type="hidden" name="result_data" id="result-data" value=""></div>
     </form>
@@ -22,7 +22,7 @@
         $(this).attr("disabled", "disabled");
 
         $.ajax({
-            url: '<?php echo base_url(); ?>/snap/token',
+            url: '<?=site_url()?>/snap/token',
             cache: false,
 
             success: function(data) {

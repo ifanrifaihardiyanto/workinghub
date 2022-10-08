@@ -59,8 +59,10 @@ class Snap extends CI_Controller {
 		);
 
 		// Optional
-		$item_details = array ($item1_details, $item2_details);
+		$item_details = array ($item1_details);
 
+		// , $item2_details
+		
 		// Optional
 		$billing_address = array(
 		  'first_name'    => "Andri",
@@ -101,7 +103,7 @@ class Snap extends CI_Controller {
         $time = time();
         $custom_expiry = array(
             'start_time' => date("Y-m-d H:i:s O",$time),
-            'unit' => 'hour', 
+            'unit' => 'minute', 
             'duration'  => 2
         );
         
@@ -112,6 +114,9 @@ class Snap extends CI_Controller {
             'credit_card'        => $credit_card,
             'expiry'             => $custom_expiry
         );
+
+		// var_dump($transaction_data);
+		// die;
 
 		error_log(json_encode($transaction_data));
 		$snapToken = $this->midtrans->getSnapToken($transaction_data);

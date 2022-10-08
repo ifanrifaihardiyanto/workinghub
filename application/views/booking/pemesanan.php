@@ -11,7 +11,7 @@
                 $tgl_selesai    = date('d M Y', strtotime("+$jmlDurasi day"));
                 $tgl_end        = date('Y-m-d', strtotime("+$jmlDurasi day"));
             } elseif ($result->durasi == 'Minggu') {
-                $akumulasi = $result->hidejmlDurasi * 7;
+                $akumulasi = $result->hidejmlDurasi;
                 $jmlDurasi = $akumulasi;
                 $tgl_selesai    = date('d M Y', strtotime("$jmlDurasi week"));
                 $tgl_end        = date('Y-m-d', strtotime("$jmlDurasi week"));

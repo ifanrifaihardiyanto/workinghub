@@ -28,7 +28,7 @@
             <div class="bd-example">
                 <div class="d-flex justify-content-between">
                     <div class="detail-pemesan">
-                        <form action="<?php echo base_url(); ?>search/terkonfirmasi" method="post">
+                        <form action="<?php echo base_url(); ?>index.php/search/terkonfirmasi" method="post">
                             <div class="card">
                                 <div class="d-flex justify-content-between">
                                     <img src="data:image;base64,<?= $gambar ?>" alt="" style="width: 40%;">
