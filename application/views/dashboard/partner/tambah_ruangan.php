@@ -37,9 +37,9 @@ $success = $this->session->flashdata('success');
                                 <select class="form-control" name="nmGedung" id="nmGedung">
                                     <!-- <option selected disabled>Pilih gedung</option> -->
                                     <?php foreach ($gedung['nm_gedung'] as $nmGedung) : ?>
-                                    <option value="<?= $nmGedung->id_gedung ?>"
-                                        <?= $nmGedung->nama_gedung == $nmGedung->nama_gedung ? 'selected' : '' ?>>
-                                        <?= $nmGedung->nama_gedung ?></option>
+                                    <option value="<?= $nmGedung->id ?>"
+                                        <?= $nmGedung->name == $nmGedung->name ? 'selected' : '' ?>>
+                                        <?= $nmGedung->name ?></option>
                                     <?php endforeach; ?>
                                 </select>
                                 <small class="text-danger"><?= form_error('nmGedung'); ?></small>

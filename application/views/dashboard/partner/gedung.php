@@ -23,9 +23,9 @@ $this->load->helper('form');
                                 <label>Jenis Gedung</label>
                                 <select class="js-example-basic-single w-100" name="jnsGedung" id="jnsGedung">
                                     <?php foreach ($gedung['jenis_gedung'] as $nmGedung) : ?>
-                                    <option value="<?= $nmGedung->jenis_gedung ?>"
-                                        <?= $nmGedung->jenis_gedung == $nmGedung->jenis_gedung ? 'selected' : '' ?>>
-                                        <?= $nmGedung->jenis_gedung ?></option>
+                                    <option value="<?= $nmGedung->type ?>"
+                                        <?= $nmGedung->type == $nmGedung->type ? 'selected' : '' ?>>
+                                        <?= $nmGedung->type ?></option>
                                     <?php endforeach; ?>
                                 </select>
 

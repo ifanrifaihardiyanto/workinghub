@@ -29,6 +29,9 @@ $success = $this->session->flashdata('success');
                 </div>
                 <?php endif; ?>
                 <h6 class="card-title">Data Ruangan</h6>
+                <?php
+                // print_r($gedung['ruangan']);
+                ?>
                 <div class="table-responsive">
                     <table id="dataTableExample" class="table">
                         <thead>
@@ -47,14 +50,15 @@ $success = $this->session->flashdata('success');
                         <tbody>
                             <?php foreach ($gedung['ruangan'] as $index => $r) :
                               $disable = "";
-                              if ($r->pengaktifan == '1') {
+                            //   print_r($r);
+                              if ($r->activation == '1') {
                                 $aktif = "Aktif";
                                 $status = "success";
-                              } elseif ($r->pengaktifan == '2') {
+                              } elseif ($r->activation == '2') {
                                 $aktif = "Ditolak";
                                 $status = "danger";
                                 $disable = "disabled";
-                              } elseif ($r->pengaktifan == '3') {
+                              } elseif ($r->activation == '3') {
                                 $aktif = "Tidak aktif";
                                 $status = "danger";
                                 $disable = "disabled";
@@ -63,7 +67,7 @@ $success = $this->session->flashdata('success');
                                 $status = "warning";
                               }
 
-                              if ($r->pemberhentian == '1') {
+                              if ($r->discontinue == '1') {
                                 $henti = "Disewakan";
                                 $statusa = "success";
                               } else {
@@ -74,10 +78,10 @@ $success = $this->session->flashdata('success');
                             <tr>
                                 <td><?= ++$index ?></td>
                                 <td><?= $r->nama_gedung ?></td>
-                                <td><?= $r->jenis_gedung ?></td>
+                                <td><?= $r->type ?></td>
                                 <td><?= $r->nama_ruangan ?></td>
-                                <td><?= $r->ukuran ?>m</td>
-                                <td><?= $r->kapasitas ?> Orang</td>
+                                <td><?= $r->size ?>m</td>
+                                <td><?= $r->capacity ?> Orang</td>
                                 <td><span class="badge badge-<?= $status ?>"><?= $aktif ?></span></td>
                                 <td><span class="badge badge-<?= $statusa ?>"><?= $henti ?></span></td>
                                 <td>
@@ -120,7 +124,7 @@ $success = $this->session->flashdata('success');
                                                         <div class="form-group">
                                                             <label class="control-label">Ukuran</label>
                                                             <input type="text" class="form-control" placeholder="Ukuran"
-                                                                name="ukuran" id="ukuran" value="<?= $r->ukuran; ?>">
+                                                                name="ukuran" id="ukuran" value="<?= $r->size; ?>">
                                                             <small
                                                                 class="text-danger"><?= form_error('ukuran'); ?></small>
                                                         </div>
@@ -132,7 +136,7 @@ $success = $this->session->flashdata('success');
                                                             <label class="control-label">Kapasitas</label>
                                                             <input type="text" class="form-control"
                                                                 placeholder="Kapasitas" name="kapasitas" id="kapasitas"
-                                                                value="<?= $r->kapasitas; ?>">
+                                                                value="<?= $r->capacity; ?>">
                                                             <small
                                                                 class="text-danger"><?= form_error('kapasitas'); ?></small>
                                                         </div>
@@ -164,7 +168,7 @@ $success = $this->session->flashdata('success');
                                                             <label class="control-label">Harga Per Jam</label>
                                                             <input type="text" class="form-control"
                                                                 placeholder="Harga per jam" name="hargaJam"
-                                                                id="hargaJam" value="<?= $r->harga_jam; ?>">
+                                                                id="hargaJam" value="<?= $r->hourly_price; ?>">
                                                             <small
                                                                 class="text-danger"><?= form_error('hargaJam'); ?></small>
                                                         </div>
@@ -174,7 +178,7 @@ $success = $this->session->flashdata('success');
                                                             <label class="control-label">Harga Per Hari</label>
                                                             <input type="text" class="form-control"
                                                                 placeholder="Harga per hari" name="hargaHarian"
-                                                                id="hargaHarian" value="<?= $r->harga_harian; ?>">
+                                                                id="hargaHarian" value="<?= $r->daily_price; ?>">
                                                             <small
                                                                 class="text-danger"><?= form_error('hargaHarian'); ?></small>
                                                         </div>
@@ -184,7 +188,7 @@ $success = $this->session->flashdata('success');
                                                             <label class="control-label">Harga Per Minggu</label>
                                                             <input type="text" class="form-control"
                                                                 placeholder="Harga per minggu" name="hargaMingguan"
-                                                                id="hargaMingguan" value="<?= $r->harga_mingguan; ?>">
+                                                                id="hargaMingguan" value="<?= $r->weekly_price; ?>">
                                                             <small
                                                                 class="text-danger"><?= form_error('hargaMingguan'); ?></small>
                                                         </div>
@@ -194,7 +198,7 @@ $success = $this->session->flashdata('success');
                                                             <label class="control-label">Harga Per Bulan</label>
                                                             <input type="text" class="form-control"
                                                                 placeholder="Harga per bulan" name="hargaBulanan"
-                                                                id="hargaBulanan" value="<?= $r->harga_bulanan; ?>">
+                                                                id="hargaBulanan" value="<?= $r->monthly_price; ?>">
                                                             <small
                                                                 class="text-danger"><?= form_error('hargaBulanan'); ?></small>
                                                         </div>
@@ -205,9 +209,9 @@ $success = $this->session->flashdata('success');
                                                         <div class="form-group">
                                                             <label for="customRange1">Tipe Durasi</label>
                                                             <?php
-                                                            $data_durasi = $r->durasi;
-                                                            if (!empty($r->durasi)) {
-                                                              $data_durasi = explode(', ', $r->durasi);
+                                                            $data_durasi = $r->duration;
+                                                            if (!empty($r->duration)) {
+                                                              $data_durasi = explode(', ', $r->duration);
                                                             }
                                                             $durasiJ = '';
                                                             $durasiH = '';
@@ -269,7 +273,7 @@ $success = $this->session->flashdata('success');
                                                             <textarea id="deskripsi" name="deskripsi"
                                                                 class="form-control" maxlength="1000" rows="8"
                                                                 placeholder="This textarea has a limit of 1000 chars."
-                                                                value="<?= $r->deskripsi; ?>"><?= $r->deskripsi; ?></textarea>
+                                                                value="<?= $r->description; ?>"><?= $r->description; ?></textarea>
                                                             <small
                                                                 class="text-danger"><?= form_error('deskripsi'); ?></small>
                                                         </div>

@@ -10,14 +10,14 @@ class Auth_model extends CI_Model {
 
     public function getData($email)
     {
-		$sql = "select * from user left outer join pemesan on user.id_user = pemesan.user_id_user where user.username='$email'";
+		$sql = "select * from user where username='$email'";
 
-        return $this->db->query($sql)->result();
+        return $this->db->query($sql)->row();
     }
 
     public function getDataAll($user_id, $role)
     {
-		$sql = "select * from user left outer join $role on user.id_user = $role.user_id_user where user.id_user='$user_id'";
+		$sql = "select * from user left outer join $role on user.id = $role.id_user where user.id='$user_id'";
 
         return $this->db->query($sql)->result();
     }

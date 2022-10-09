@@ -43,9 +43,9 @@
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <input id="nama" class="form-control" name="nama" type="text"
-                                                    placeholder="Nama" value="<?= $data->profile[0]->nama ?>" disabled>
+                                                    placeholder="Nama" value="<?= $data->profile[0]->name ?>" disabled>
                                                 <input id="nama" class="form-control" name="nama" type="text"
-                                                    placeholder="Nama" value="<?= $data->profile[0]->nama ?>" hidden>
+                                                    placeholder="Nama" value="<?= $data->profile[0]->name ?>" hidden>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -78,7 +78,7 @@
                                         <input id="jmlDurasi" class="form-control" name="jmlDurasi" type="text"
                                             value="<?= $result->hidejmlDurasi ?>" hidden>
                                         <input id="id_ruangan" class="form-control" name="id_ruangan" type="text"
-                                            value="<?= $result->ruangan[0]->id_ruangan ?>" hidden>
+                                            value="<?= $result->ruangan[0]->id ?>" hidden>
                                         <input id="durasi" class="form-control" name="durasi" type="text"
                                             value="<?= $result->durasi ?>" hidden>
                                         <input id="harga" class="form-control" name="harga" type="text"

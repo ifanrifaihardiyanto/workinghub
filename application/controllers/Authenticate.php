@@ -34,6 +34,8 @@ class Authenticate extends CI_Controller {
 
     if ($this->form_validation->run() == false) {
       $this->index();
+      print_r('gagal');
+      die;
     } else {
       $email      = $this->input->post('email');
       $password   = $this->input->post('password');
@@ -41,9 +43,9 @@ class Authenticate extends CI_Controller {
       $result     = $this->auth->getData($email);
 
       if (!empty($result)) {
-        $lowerRole  = strtolower($result[0]->role);
-        $pass       = $result[0]->password;
-        $user_id    = $result[0]->id_user;
+        $lowerRole  = strtolower($result->role);
+        $pass       = $result->password;
+        $user_id    = $result->id;
 
         $getData    = $this->auth->getDataAll($user_id, $lowerRole);
         

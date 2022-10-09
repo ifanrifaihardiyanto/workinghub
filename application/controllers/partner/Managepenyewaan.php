@@ -21,7 +21,7 @@ class Managepenyewaan extends BaseController {
     public function data_penyewaan()
     {
         $user           = $this->session->userdata('user');
-        $id_penyedia    = $user[0]->id_penyedia;
+        $id_penyedia    = $user[0]->id;
 
         $data_penyewaan = $this->manage_penyewaan->data_penyewaan_on_dashboard($id_penyedia);
 

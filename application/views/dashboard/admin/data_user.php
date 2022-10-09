@@ -51,22 +51,22 @@ $success = $this->session->flashdata('success');
                             <?php foreach ($hasil['data_user'] as $index => $q) : ?>
                             <tr>
                                 <td><?= ++$index; ?></td>
-                                <td><?= $q->nik_ktp ?></td>
-                                <td><?= $q->nama ?></td>
-                                <td><?= $q->tempat_lahir ?></td>
-                                <td><?= $q->tanggal_lahir ?></td>
+                                <td><?= $q->nik ?></td>
+                                <td><?= $q->name ?></td>
+                                <td><?= $q->place_birth ?></td>
+                                <td><?= $q->date_birth ?></td>
                                 <td><?= $q->no_tlp ?></td>
                                 <td><?= $q->role ?></td>
                                 <td>
                                     <?php
-                    if ($q->aktivasi == '1') {
-                      $aktif = "Aktif";
-                      $status = "success";
-                    } else {
-                      $aktif = "Tidak aktif";
-                      $status = "warning";
-                    }
-                    ?>
+                                    if ($q->aktivasi == '1') {
+                                    $aktif = "Aktif";
+                                    $status = "success";
+                                    } else {
+                                    $aktif = "Tidak aktif";
+                                    $status = "warning";
+                                    }
+                                    ?>
                                     <span class="badge badge-<?= $status ?>"><?= $aktif ?></span>
                                 </td>
                                 <td>
@@ -97,7 +97,7 @@ $success = $this->session->flashdata('success');
                                                         <div class="form-group">
                                                             <label class="control-label">Nama</label>
                                                             <input type="text" class="form-control" placeholder="Nama"
-                                                                name="nama" id="nama" value="<?= $q->nama; ?>">
+                                                                name="nama" id="nama" value="<?= $q->name; ?>">
                                                             <small
                                                                 class="text-danger"><?= form_error('nama'); ?></small>
                                                         </div>
@@ -106,7 +106,7 @@ $success = $this->session->flashdata('success');
                                                         <div class="form-group">
                                                             <label class="control-label">NIK</label>
                                                             <input type="text" class="form-control" placeholder="NIK"
-                                                                name="nik" id="nik" value="<?= $q->nik_ktp; ?>">
+                                                                name="nik" id="nik" value="<?= $q->nik; ?>">
                                                             <small class="text-danger"><?= form_error('nik'); ?></small>
                                                         </div>
                                                     </div><!-- Col -->
@@ -141,7 +141,7 @@ $success = $this->session->flashdata('success');
                                                             <label class="control-label">Tempat Lahir</label>
                                                             <input type="text" class="form-control"
                                                                 placeholder="Tempat Lahir" name="tmptLahir"
-                                                                id="tmptLahir" value="<?= $q->tempat_lahir; ?>">
+                                                                id="tmptLahir" value="<?= $q->place_birth; ?>">
                                                             <small
                                                                 class="text-danger"><?= form_error('tmptLahir'); ?></small>
                                                         </div>
@@ -165,7 +165,7 @@ $success = $this->session->flashdata('success');
                                                             <label class="control-label">Tanggal Lahir</label>
                                                             <input type="date" class="form-control"
                                                                 placeholder="Tanggal Lahir" name="tglLahir"
-                                                                id="tglLahir" value="<?= $q->tanggal_lahir; ?>">
+                                                                id="tglLahir" value="<?= $q->date_birth; ?>">
                                                             <small
                                                                 class="text-danger"><?= form_error('tglLahir'); ?></small>
                                                         </div>
@@ -190,7 +190,7 @@ $success = $this->session->flashdata('success');
                                                         <div class="form-group">
                                                             <label class="control-label">Alamat</label>
                                                             <input type="text" class="form-control" placeholder="Alamat"
-                                                                name="alamat" id="alamat" value="<?= $q->alamat; ?>">
+                                                                name="alamat" id="alamat" value="<?= $q->address; ?>">
                                                             <small
                                                                 class="text-danger"><?= form_error('alamat'); ?></small>
                                                         </div>

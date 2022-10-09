@@ -12,8 +12,8 @@ $month = date('m', strtotime($date));
             <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <?php
-                    if (!empty($result->ruangan[0]->gambar)) {
-                      $data_gambar = explode(', ', $result->ruangan[0]->gambar);
+                    if (!empty($result->ruangan[0]->image)) {
+                      $data_gambar = explode(', ', $result->ruangan[0]->image);
                     }
 
                     $cntDataGambar = count($data_gambar);
@@ -38,11 +38,11 @@ $month = date('m', strtotime($date));
             </div>
             <div class="card-body">
                 <h5 class="card-title">
-                    <?= $result->ruangan[0]->nama_gedung . ' - ' . $result->ruangan[0]->nama_ruangan ?></h5>
+                    <?= $result->ruangan[0]->name . ' - ' . $result->ruangan[0]->name ?></h5>
                 <div class="row">
                     <div class="col-md-8">
                         <div class="d-flex justify-content-start">
-                            <p class="p-1 card-tipe-ruangan"><?= $result->ruangan[0]->jenis_gedung ?></p>
+                            <p class="p-1 card-tipe-ruangan"><?= $result->ruangan[0]->type ?></p>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -61,7 +61,7 @@ $month = date('m', strtotime($date));
         <div class="row">
             <div class="col-12">
                 <form
-                    action="<?php echo base_url(); ?>index.php/search/pemesanan/<?= $result->ruangan[0]->id_ruangan . "/" . $result->durasi ?>"
+                    action="<?php echo base_url(); ?>index.php/search/pemesanan/<?= $result->ruangan[0]->id . "/" . $result->durasi ?>"
                     method="post">
                     <div class="form-pemesanan-wrap d-flex justify-content-between align-items-center">
                         <div class="col-md-4">
@@ -117,13 +117,13 @@ $month = date('m', strtotime($date));
                 <div class="detail-ruangan-wrap">
                     <div class="title-detail"><strong>Ukuran dan Kapasitas</strong></div>
                     <div class="content-detail">
-                        <p>Ukuran Ruangan : <?= $result->ruangan[0]->ukuran ?> m<sup>2</sup></p>
-                        <p>kapasitas Ruangan : <?= $result->ruangan[0]->kapasitas ?> orang</p>
+                        <p>Ukuran Ruangan : <?= $result->ruangan[0]->size ?> m<sup>2</sup></p>
+                        <p>kapasitas Ruangan : <?= $result->ruangan[0]->capacity ?> orang</p>
                     </div>
                     <hr>
                     <div class="title-detail"><strong>Deskripsi</strong></div>
                     <div class="content-detail">
-                        <p><?= $result->ruangan[0]->deskripsi ?></p>
+                        <p><?= $result->ruangan[0]->description ?></p>
                     </div>
                     <hr>
                     <div class="title-detail"><strong>Fasilitas</strong></div>
@@ -186,7 +186,7 @@ $month = date('m', strtotime($date));
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js" type="text/javascript"></script>
 <script>
 let durasi = "<?= $result->durasi ?>";
-let id_ruangan = "<?= $result->ruangan[0]->id_ruangan ?>";
+let id_ruangan = "<?= $result->ruangan[0]->id ?>";
 let dd = "<?= $day ?>";
 let mm = "<?= $month ?>";
 

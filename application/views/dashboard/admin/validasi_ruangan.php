@@ -44,41 +44,40 @@ $success = $this->session->flashdata('success');
                         </thead>
                         <tbody>
                             <?php foreach ($gedung['ruangan'] as $index => $r) :
-                if ($r->pengaktifan == '1') {
-                  $aktif = "Aktif";
-                  $status = "success";
-                } else {
-                  $aktif = "Belum aktif";
-                  $status = "warning";
-                }
+                                if ($r->activation == '1') {
+                                $aktif = "Aktif";
+                                $status = "success";
+                                } else {
+                                $aktif = "Belum aktif";
+                                $status = "warning";
+                                }
 
-                if ($r->pemberhentian == '1') {
-                  $henti = "Disewakan";
-                } else {
-                  $henti = "Dihentikan";
-                }
-              ?>
+                                if ($r->discontinue == '1') {
+                                $henti = "Disewakan";
+                                } else {
+                                $henti = "Dihentikan";
+                                }
+                            ?>
                             <tr>
                                 <!-- <?php if (count($gedung['ruangan']) > 0) { ?> -->
                                 <td><?= ++$index ?></td>
-                                <td><?= $r->nama_gedung ?></td>
-                                <td><?= $r->jenis_gedung ?></td>
-                                <td><?= $r->nama_ruangan ?></td>
+                                <td><?= $r->name ?></td>
+                                <td><?= $r->type ?></td>
+                                <td><?= $r->name ?></td>
                                 <td><span class="badge badge-<?= $status ?>"><?= $aktif ?></span></td>
                                 <td><span class="badge badge-success"><?= $henti ?></span></td>
                                 <td>
                                     <button type="button" class="btn btn-primary btn-icon" data-toggle="modal"
-                                        data-target="#delete<?= $r->id_ruangan ?>"><i data-feather="check"></i></button>
+                                        data-target="#delete<?= $r->id ?>"><i data-feather="check"></i></button>
                                     <button type="button" class="btn btn-danger btn-icon" data-toggle="modal"
-                                        data-target="#nonaktif<?= $r->id_ruangan ?>"><i
-                                            data-feather="x-circle"></i></button>
+                                        data-target="#nonaktif<?= $r->id ?>"><i data-feather="x-circle"></i></button>
                                 </td>
                                 <!-- <?php } else { ?>
                           <td colspan="100%">Data tidak ditemukan</td>
                         <?php } ?> -->
                             </tr>
                             <!-- Start Modal Aktivasi -->
-                            <div class="modal fade" id="delete<?= $r->id_ruangan ?>" tabindex="-1" role="dialog"
+                            <div class="modal fade" id="delete<?= $r->id ?>" tabindex="-1" role="dialog"
                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -93,7 +92,7 @@ $success = $this->session->flashdata('success');
                                             <div>Apakah anda yakin ingin mengaktifkan penyewaan pada ruangan ini?</div>
                                         </div>
                                         <div class="modal-footer">
-                                            <a href="<?php echo base_url() ?>admin/manageruangan/activation/<?= $r->id_ruangan ?>"
+                                            <a href="<?php echo base_url() ?>admin/manageruangan/activation/<?= $r->id ?>"
                                                 type="button" class="btn btn-primary">Aktifkan</a>
                                         </div>
                                     </div>
@@ -101,7 +100,7 @@ $success = $this->session->flashdata('success');
                             </div>
                             <!-- End Modal Aktivasi -->
                             <!-- Start Modal Non Aktivasi -->
-                            <div class="modal fade" id="nonaktif<?= $r->id_ruangan ?>" tabindex="-1" role="dialog"
+                            <div class="modal fade" id="nonaktif<?= $r->id ?>" tabindex="-1" role="dialog"
                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
@@ -114,7 +113,7 @@ $success = $this->session->flashdata('success');
                                         </div>
                                         <div class="modal-body">
                                             <form
-                                                action="<?php echo base_url(); ?>admin/manageruangan/nonActivation/<?= $r->id_ruangan ?>"
+                                                action="<?php echo base_url(); ?>admin/manageruangan/nonActivation/<?= $r->id ?>"
                                                 method="post">
                                                 <div class="row">
                                                     <div class="col-sm-12">

@@ -50,10 +50,10 @@
                             ?>
                             <tr>
                                 <td><?= ++$index ?></td>
-                                <td><?= $p->nama ?></td>
+                                <td><?= $p->name ?></td>
                                 <td><?= $p->email ?></td>
-                                <td><?= $p->nama_gedung ?></td>
-                                <td><?= $p->nama_ruangan ?></td>
+                                <td><?= $p->name ?></td>
+                                <td><?= $p->name ?></td>
                                 <td><?= 'Rp ' . number_format($p->total_pembayaran, 0, ',', '.') ?></td>
                                 <td><button type="button" class="btn btn-info btn-icon" data-toggle="modal"
                                         data-target="#buktiPembayaran<?= $p->kode_pemesanan ?>"><i

@@ -6,8 +6,8 @@
         <div class="headline-page">
             <?php
       // print_r($result);
-      if (!empty($result->ruangan[0]->gambar)) {
-        $data_gambar = explode(', ', $result->ruangan[0]->gambar);
+      if (!empty($result->ruangan[0]->image)) {
+        $data_gambar = explode(', ', $result->ruangan[0]->image);
       }
       $gambar = $data_gambar[0];
 
@@ -35,12 +35,12 @@
                                     <div class="card-body">
                                         <div class="detail-ruangan">
                                             <div>
-                                                <strong><?= $result->ruangan[0]->nama_gedung . ' - ' . $result->ruangan[0]->nama_ruangan ?></strong>
+                                                <strong><?= $result->ruangan[0]->name . ' - ' . $result->ruangan[0]->name ?></strong>
                                             </div>
                                             <hr>
                                             <div class="d-flex justify-content-between">
                                                 <p>Alamat</p>
-                                                <p><?= $result->ruangan[0]->lokasi ?></p>
+                                                <p><?= $result->ruangan[0]->location ?></p>
                                             </div>
                                             <div class="d-flex justify-content-between">
                                                 <p>Tanggal Pemesanan</p>
@@ -60,7 +60,7 @@
                                             </div>
                                             <div class="d-flex justify-content-between">
                                                 <p>Kapasitas</p>
-                                                <p><?= $result->ruangan[0]->kapasitas ?> Orang</p>
+                                                <p><?= $result->ruangan[0]->capacity ?> Orang</p>
                                             </div>
                                             <div class="d-flex justify-content-between">
                                                 <p>Jumlah Penyewa</p>
@@ -95,7 +95,7 @@
                                 <input id="jmlDurasi" class="form-control" name="jmlDurasi" type="text"
                                     value="<?= $result->jmlDurasi ?>" hidden>
                                 <input id="id_ruangan" class="form-control" name="id_ruangan" type="text"
-                                    value="<?= $result->ruangan[0]->id_ruangan ?>" hidden>
+                                    value="<?= $result->ruangan[0]->id ?>" hidden>
                                 <input id="durasi" class="form-control" name="durasi" type="text"
                                     value="<?= $result->durasi ?>" hidden>
                                 <input id="harga" class="form-control" name="harga" type="text"
@@ -111,7 +111,7 @@
                             <div class="card-body">
                                 <h5>Data Pemesan</h5>
                                 <div class="content-detail">
-                                    <p><?= $data->profile[0]->nama ?></p>
+                                    <p><?= $data->profile[0]->name ?></p>
                                     <p><?= $data->profile[0]->no_tlp ?></p>
                                     <p><?= $data->profile[0]->email ?></p>
                                 </div>

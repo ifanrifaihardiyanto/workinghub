@@ -11,7 +11,9 @@ class Manageruangan_model extends CI_Model
 
     public function getDataGedung_by_partner_id($id)
     {
-        $sql = "select b.id_gedung, b.nama_gedung from partner a left outer join gedung b on a.id_penyedia = b.id_penyedia where a.id_penyedia='$id'";
+        $sql = "select b.id, b.name from partner a left outer join gedung b on a.id = b.id_penyedia where a.id='$id'";
+
+        // print_r($sql);
 
         $count = $this->db->query($sql);
         $count = $count->num_rows();
@@ -28,7 +30,7 @@ class Manageruangan_model extends CI_Model
 
     public function getJenisGedung()
     {
-        $sql = "select jenis_gedung from jenis_gedung";
+        $sql = "select type from jenis_gedung";
 
         $count = $this->db->query($sql);
         $count = $count->num_rows();
@@ -36,13 +38,13 @@ class Manageruangan_model extends CI_Model
         if($count > 0){
 			return $this->db->query($sql)->result();
 		} else {
-			return [(object) ['jenis_gedung' => "Data tidak ditemukan, silahkan input jenis gedung!"]];
+			return [(object) ['type' => "Data tidak ditemukan, silahkan input jenis gedung!"]];
 		}
     }
 
     public function insertJenisGedung($jnsGedung)
     {
-        $sql = "insert into jenis_gedung (jenis_gedung) values ('$jnsGedung')";
+        $sql = "insert into jenis_gedung (type) values ('$jnsGedung')";
 
         $this->db->query($sql);
     }
@@ -56,7 +58,7 @@ class Manageruangan_model extends CI_Model
 
     public function insertGedung($idJnsGedung, $nmGedung, $lokasi, $kota, $email, $noTelp, $user_id)
     {
-        $sql = "insert into gedung (nama_gedung, lokasi, kota, email, no_tlp, penyedia_id_penyedia, jenis_id_jenis) 
+        $sql = "insert into gedung (name, location, city, email, no_tlp, id_penyedia, id_jenis) 
         values 
         ('$nmGedung','$lokasi','$kota','$email','$noTelp','$user_id','$idJnsGedung')";
 
@@ -70,39 +72,39 @@ class Manageruangan_model extends CI_Model
         return $this->db->query($sql)->result();
     }
 
-    public function insertRuangan($id_gedung, $nmRuangan, $ukuran, $kapasitas, $hargaJam, $hargaHarian, $hargaMingguan, $hargaBulanan, $deskripsi, $pengaktifan, $pemberhentian, $user_id)
+    public function insertRuangan($id_gedung, $nmRuangan, $ukuran, $kapasitas, $hargaJam, $hargaHarian, $hargaMingguan, $hargaBulanan, $deskripsi, $activation, $pemberhentian, $user_id)
     {
-        $sql = "insert into ruangan (nama_ruangan, ukuran, kapasitas, harga_jam, harga_harian, harga_mingguan, harga_bulanan, deskripsi, pengaktifan, pemberhentian, gedung_id_gedung, gedung_penyedia_id_penyedia) 
+        $sql = "insert into ruangan (name, size, capacity, hourly_price, daily_price, weekly_price, monthly_price, description, activation, discontinue, id_gedung, id_penyedia) 
         values 
-        ('$nmRuangan','$ukuran','$kapasitas','$hargaJam','$hargaHarian','$hargaMingguan','$hargaBulanan','$deskripsi','$pengaktifan','$pemberhentian','$id_gedung','$user_id')";
+        ('$nmRuangan','$ukuran','$kapasitas','$hargaJam','$hargaHarian','$hargaMingguan','$hargaBulanan','$deskripsi','$activation','$pemberhentian','$id_gedung','$user_id')";
 
         $this->db->query($sql);
     }
 
     public function find_idruangan_by_id($nmRuangan, $idGedung)
     {
-        $sql = "select * from ruangan where nama_ruangan='$nmRuangan' and gedung_id_gedung='$idGedung'";
+        $sql = "select * from ruangan where name='$nmRuangan' and id_gedung='$idGedung'";
 
         return $this->db->query($sql)->result();
     }
 
     public function insertFasilitas($fasilitas, $id_ruangan)
     {
-        $sql = "insert into fasilitas (fasilitas, id_ruangan) values ('$fasilitas','$id_ruangan')";
+        $sql = "insert into fasilitas (facility, id_ruangan) values ('$fasilitas','$id_ruangan')";
 
         $this->db->query($sql);
     }
 
     public function insertDurasi($durasi, $id_ruangan)
     {
-        $sql = "insert into durasi (durasi, id_ruangan) values ('$durasi','$id_ruangan')";
+        $sql = "insert into durasi (duration, id_ruangan) values ('$durasi','$id_ruangan')";
 
         $this->db->query($sql);
     }
 
     public function insertImage($name, $image, $type, $id_gedung, $id_ruangan, $id_user)
     {
-        $sql = "insert into gambar (nama, gambar, type, id_ruangan, ruangan_gedung_id_gedung, ruangan_gedung_penyedia_id_penyedia) 
+        $sql = "insert into gambar (name, image, type, id_ruangan, id_gedung, id_penyedia) 
         values ('$name','$image','$type','$id_ruangan','$id_gedung','$id_user')";
 
         $this->db->query($sql);
@@ -110,21 +112,21 @@ class Manageruangan_model extends CI_Model
 
     public function find_data_ruangan()
     {
-        $sql = "select a.id_gedung, b.id_ruangan, a.nama_gedung, b.nama_ruangan, jg.jenis_gedung, b.ukuran, b.kapasitas, 
-        b.harga_jam, b.harga_harian, b.harga_mingguan, b.harga_bulanan, b.deskripsi, b.pengaktifan, b.pemberhentian, 
-        f.fasilitas, d.durasi, g.gambar
+        $sql = "select a.id as id_gedung, b.id as id_ruangan, a.name as nama_gedung, b.name as nama_ruangan, jg.type, b.size, b.capacity, 
+        b.hourly_price, b.daily_price, b.weekly_price, b.monthly_price, b.description, b.activation, b.discontinue, 
+        f.facility, d.duration, g.image
         from gedung a 
         left outer join ruangan b 
-        on a.id_gedung = b.gedung_id_gedung 
+        on a.id = b.id_gedung 
         left outer join jenis_gedung jg 
-        on a.id_jenis = jg.id_jenis_gedung 
+        on a.id_jenis = jg.id
         left outer join view_fasilitas f 
-        on b.id_ruangan = f.id_ruangan 
+        on b.id = f.id_ruangan 
         left outer join view_durasi d  
-        on b.id_ruangan = d.id_ruangan 
+        on b.id = d.id_ruangan 
         left outer join view_gambar g
         on f.id_ruangan = g.id_ruangan
-        order by a.nama_gedung asc, b.nama_ruangan asc, b.pemberhentian asc, b.pemberhentian asc";
+        order by a.name asc, b.name asc, b.activation asc, b.discontinue asc";
 
         // print_r($sql);
 
@@ -140,7 +142,7 @@ class Manageruangan_model extends CI_Model
 
     public function nonaktif($pemberhentian, $id, $user_id)
     {
-        $sql = "update ruangan set pengaktifan='3', pemberhentian='0' where id_ruangan='$id'";
+        $sql = "update ruangan set activation='3', discontinue='0' where id='$id'";
 
         $this->db->query($sql);
 

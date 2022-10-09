@@ -11,33 +11,33 @@ class Manageruangan_model extends CI_Model
 
     public function find_data_ruangan()
     {
-        $sql = "select a.id_gedung, b.id_ruangan, a.nama_gedung, b.nama_ruangan, jg.jenis_gedung, b.ukuran, b.kapasitas, 
-        b.harga_jam, b.harga_harian, b.harga_mingguan, b.harga_bulanan, b.deskripsi, b.pengaktifan, b.pemberhentian, 
-        group_concat(f.fasilitas separator ', ') as fasilitas
+        $sql = "select a.id, b.id, a.name, b.name, jg.type, b.size, b.capacity, 
+        b.hourly_price, b.daily_price, b.weekly_price, b.monthly_price, b.description, b.activation, b.discontinue, 
+        group_concat(f.facility separator ', ') as fasilitas
         from gedung a
         left outer join ruangan b
-        on a.id_gedung = b.gedung_id_gedung
+        on a.id = b.id_gedung
         left outer join jenis_gedung jg
-        on a.id_jenis = jg.id_jenis_gedung 
+        on a.id_jenis = jg.id
         left outer join fasilitas f 
-        on b.id_ruangan = f.id_ruangan
-        where b.pengaktifan = '0'
-        group by a.id_gedung, b.id_ruangan, a.nama_gedung, b.nama_ruangan, jg.jenis_gedung, b.ukuran, b.kapasitas, 
-        b.harga_jam, b.harga_harian, b.harga_mingguan, b.harga_bulanan, b.deskripsi, b.pengaktifan, b.pemberhentian";
+        on b.id = f.id_ruangan
+        where b.activation = '0'
+        group by a.id, b.id, a.name, b.name, jg.type, b.size, b.capacity, 
+        b.hourly_price, b.daily_price, b.weekly_price, b.monthly_price, b.description, b.activation, b.discontinue";
 
         return $this->db->query($sql)->result();
     }
 
     public function activation_ruangan($id)
     {
-        $sql = "update ruangan set pengaktifan='1' where id_ruangan='$id'";
+        $sql = "update ruangan set activation='1' where id='$id'";
 
         $this->db->query($sql);
     }
 
     public function non_activation_ruangan($penolakan, $id, $user_id)
     {
-        $sql = "update ruangan set pengaktifan='2' where id_ruangan='$id'";
+        $sql = "update ruangan set activation='2' where id='$id'";
 
         $this->db->query($sql);
 

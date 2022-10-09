@@ -21,8 +21,9 @@ $kapasitas    = $this->session->userdata('kapasitas');
                                 <label>Kota / Lokasi</label>
                                 <select class="js-example-basic-single w-100" name="lokasi" id="lokasi">
                                     <?php foreach ($search['lokasi'] as $lokasi) : ?>
-                                    <option value="<?= $lokasi->lokasi ?>"
-                                        <?= $nama_lokasi == $lokasi->lokasi ? 'selected' : '' ?>><?= $lokasi->lokasi ?>
+                                    <option value="<?= $lokasi->location ?>"
+                                        <?= $nama_lokasi == $lokasi->location ? 'selected' : '' ?>>
+                                        <?= $lokasi->location ?>
                                     </option>
                                     <?php endforeach; ?>
                                 </select>

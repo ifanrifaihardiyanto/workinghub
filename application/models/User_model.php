@@ -11,7 +11,7 @@ class User_model extends CI_Model
 
     public function getUser($id)
     {
-        $sql = "select * from user where id_user='$id'";
+        $sql = "select * from user where id='$id'";
 
         return $this->db->query($sql)->result();
     }

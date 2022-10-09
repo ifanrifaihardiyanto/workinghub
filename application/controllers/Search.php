@@ -235,10 +235,10 @@ class Search extends BaseController
         $nama               = $this->input->post('nama');
         $nmtTlp             = $this->input->post('nmrTlp');
         $email              = $this->input->post('email');
-        $id_pemesan         = $user[0]->id_pemesan;
+        $id_pemesan         = $user[0]->id;
 
         $result             = $this->search->detail($id_ruangan, $durasi);
-        $id_gedung          = $result[0]->id_gedung;
+        $id_gedung          = $result[0]->id;
         $id_penyedia        = $result[0]->id_penyedia;
 
         if ($this->form_validation->run() == false) {

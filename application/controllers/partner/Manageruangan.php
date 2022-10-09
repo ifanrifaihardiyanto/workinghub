@@ -27,7 +27,7 @@ class Manageruangan extends BaseController {
     public function addGedung()
     {
         $user = $this->session->userdata('user');
-        $user_id  = $user[0]->id_penyedia;
+        $user_id  = $user[0]->id;
         
         $checkGedung = $this->manage_ruangan->getJenisGedung();
         $this->global['gedung'] = [
@@ -77,10 +77,10 @@ class Manageruangan extends BaseController {
     public function addRuangan()
     {
         $user = $this->session->userdata('user');
-        $user_id  = $user[0]->id_penyedia;
+        $user_id  = $user[0]->id;
         
         $checkGedung = $this->manage_ruangan->getDataGedung_by_partner_id($user_id);
-        if (empty($checkGedung[0]->nama_gedung) || $checkGedung[0]->nama_gedung == "No Data") {
+        if (empty($checkGedung[0]->name) || $checkGedung[0]->name == "No Data") {
             redirect('partner/manageruangan/addGedung');
         }
 
@@ -220,7 +220,7 @@ class Manageruangan extends BaseController {
     public function edit($id, $idGedung)
     {
         $user = $this->session->userdata('user');
-        $user_id  = $user[0]->id_penyedia;
+        $user_id  = $user[0]->id;
 
         $this->form_validation->set_rules('nmRuangan', 'Nama Ruangan', 'required|trim');
         $this->form_validation->set_rules('ukuran', 'Ukuran', 'required|trim');
