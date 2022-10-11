@@ -11,7 +11,7 @@ class Manageruangan_model extends CI_Model
 
     public function getDataGedung_by_partner_id($id)
     {
-        $sql = "select b.id, b.name from partner a left outer join gedung b on a.id = b.id_penyedia where a.id='$id'";
+        $sql = "select b.id, b.name from partner a left outer join building b on a.id = b.id_penyedia where a.id='$id'";
 
         // print_r($sql);
 
@@ -30,7 +30,7 @@ class Manageruangan_model extends CI_Model
 
     public function getJenisGedung()
     {
-        $sql = "select type from jenis_gedung";
+        $sql = "select type from building_type";
 
         $count = $this->db->query($sql);
         $count = $count->num_rows();
@@ -44,14 +44,14 @@ class Manageruangan_model extends CI_Model
 
     public function insertJenisGedung($jnsGedung)
     {
-        $sql = "insert into jenis_gedung (type) values ('$jnsGedung')";
+        $sql = "insert into building_type (type) values ('$jnsGedung')";
 
         $this->db->query($sql);
     }
 
     public function getinsertJenisGedung($jnsGedung)
     {
-        $sql = "select * from jenis_gedung where jenis_gedung='$jnsGedung'";
+        $sql = "select * from building_type where type='$jnsGedung'";
 
         return $this->db->query($sql)->result();
     }
@@ -74,9 +74,9 @@ class Manageruangan_model extends CI_Model
 
     public function insertRuangan($id_gedung, $nmRuangan, $ukuran, $kapasitas, $hargaJam, $hargaHarian, $hargaMingguan, $hargaBulanan, $deskripsi, $activation, $pemberhentian, $user_id)
     {
-        $sql = "insert into ruangan (name, size, capacity, hourly_price, daily_price, weekly_price, monthly_price, description, activation, discontinue, id_gedung, id_penyedia) 
+        $sql = "insert into ruangan (name, size, capacity, hourly_price, daily_price, weekly_price, monthly_price, description, activation, discontinue, id_gedung, id_penyedia, created_at, updated_at) 
         values 
-        ('$nmRuangan','$ukuran','$kapasitas','$hargaJam','$hargaHarian','$hargaMingguan','$hargaBulanan','$deskripsi','$activation','$pemberhentian','$id_gedung','$user_id')";
+        ('$nmRuangan','$ukuran','$kapasitas','$hargaJam','$hargaHarian','$hargaMingguan','$hargaBulanan','$deskripsi','$activation','$pemberhentian','$id_gedung','$user_id',now(), now())";
 
         $this->db->query($sql);
     }
@@ -85,7 +85,7 @@ class Manageruangan_model extends CI_Model
     {
         $sql = "select * from ruangan where name='$nmRuangan' and id_gedung='$idGedung'";
 
-        return $this->db->query($sql)->result();
+        return $this->db->query($sql)->row();
     }
 
     public function insertFasilitas($fasilitas, $id_ruangan)
@@ -102,23 +102,37 @@ class Manageruangan_model extends CI_Model
         $this->db->query($sql);
     }
 
-    public function insertImage($name, $image, $type, $id_gedung, $id_ruangan, $id_user)
+    public function countImage($id_ruangan)
     {
-        $sql = "insert into gambar (name, image, type, id_ruangan, id_gedung, id_penyedia) 
-        values ('$name','$image','$type','$id_ruangan','$id_gedung','$id_user')";
+        $sql = "select * from room_image where id_ruangan = '$id_ruangan'";
+
+        return $this->db->query($sql)->result();
+    }
+
+    public function insertImage($name, $image, $id_gedung, $id_ruangan, $id_user)
+    {
+        $sql = "insert into gambar (name, image, id_ruangan, id_gedung, id_penyedia) 
+        values ('$name','$image','$id_ruangan','$id_gedung','$id_user')";
 
         $this->db->query($sql);
     }
 
+    public function list_images($id_ruangan)
+    {
+        $sql = "select * from room_image where id_ruangan = '$id_ruangan'";
+
+        return $this->db->query($sql)->result();
+    }
+
     public function find_data_ruangan()
     {
-        $sql = "select a.id as id_gedung, b.id as id_ruangan, a.name as nama_gedung, b.name as nama_ruangan, jg.type, b.size, b.capacity, 
-        b.hourly_price, b.daily_price, b.weekly_price, b.monthly_price, b.description, b.activation, b.discontinue, 
-        f.facility, d.duration, g.image
-        from gedung a 
-        left outer join ruangan b 
+        $sql = "select a.id as id_gedung, b.id as id_ruangan, a.name as nama_gedung, b.name as nama_ruangan, 
+        jg.type, b.size, b.capacity, b.hourly_price, b.daily_price, b.weekly_price, b.monthly_price, b.description, 
+        b.activation, b.discontinue, f.facility, d.duration, g.image
+        from building a 
+        left outer join room b 
         on a.id = b.id_gedung 
-        left outer join jenis_gedung jg 
+        left outer join building_type jg 
         on a.id_jenis = jg.id
         left outer join view_fasilitas f 
         on b.id = f.id_ruangan 
@@ -127,8 +141,6 @@ class Manageruangan_model extends CI_Model
         left outer join view_gambar g
         on f.id_ruangan = g.id_ruangan
         order by a.name asc, b.name asc, b.activation asc, b.discontinue asc";
-
-        // print_r($sql);
 
         return $this->db->query($sql)->result();
     }
@@ -142,7 +154,7 @@ class Manageruangan_model extends CI_Model
 
     public function nonaktif($pemberhentian, $id, $user_id)
     {
-        $sql = "update ruangan set activation='3', discontinue='0' where id='$id'";
+        $sql = "update room set activation='3', discontinue='0' where id='$id'";
 
         $this->db->query($sql);
 
@@ -150,7 +162,7 @@ class Manageruangan_model extends CI_Model
         $this->db->query($insert_alasan);
     }
 
-    public function edit($id, $nmRuangan, $ukuran, $kapasitas, $hargaJam, $hargaHarian, $hargaMingguan, $hargaBulanan, $deskripsi, $nmUpload, $cntUpload)
+    public function edit($id, $nmRuangan, $ukuran, $kapasitas, $hargaJam, $hargaHarian, $hargaMingguan, $hargaBulanan, $deskripsi)
     {
         $sql = "update ruangan set nama_ruangan='$nmRuangan', deskripsi='$deskripsi', ukuran='$ukuran', kapasitas='$kapasitas',
         harga_jam='$hargaJam', harga_harian='$hargaHarian', harga_mingguan='$hargaMingguan', harga_bulanan='$hargaBulanan'
@@ -162,10 +174,5 @@ class Manageruangan_model extends CI_Model
 
         $delete_durasi = "delete from durasi where id_ruangan='$id'";
         $this->db->query($delete_durasi);
-
-        if ($cntUpload >= 1 && $nmUpload != '') {
-            $delete_img = "delete from gambar where id_ruangan='$id'";
-            $this->db->query($delete_img);
-        }
     }
 }

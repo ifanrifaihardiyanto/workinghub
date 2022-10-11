@@ -35,27 +35,36 @@ class Snap extends CI_Controller {
 
     public function token()
     {
-		
+		$harga = $this->input->post('harga');
+		$tglPenyewaan = $this->input->post('tglPenyewaan');
+		$tglSelesai = $this->input->post('tglSelesai');
+		$tipeDurasi = $this->input->post('tipeDurasi');
+		$jmlDurasi = $this->input->post('jmlDurasi');
+		$id_ruangan = $this->input->post('id_ruangan');
+		$name_ruangan = $this->input->post('name_ruangan');
+		$name_gedung = $this->input->post('name_gedung');
+		$name = $this->input->post('name');
+		$no_tlp = $this->input->post('no_tlp');
+		$email = $this->input->post('email');
+
 		// Required
 		$transaction_details = array(
 		  'order_id' => rand(),
-		  'gross_amount' => 94000, // no decimal allowed for creditcard
+		  'gross_amount' => $harga, // no decimal allowed for creditcard
 		);
 
 		// Optional
 		$item1_details = array(
-		  'id' => 'a1',
-		  'price' => 18000,
-		  'quantity' => 3,
-		  'name' => "Apple"
-		);
-
-		// Optional
-		$item2_details = array(
-		  'id' => 'a2',
-		  'price' => 20000,
-		  'quantity' => 2,
-		  'name' => "Orange"
+		  'id' => $id_ruangan,
+		  'price' => $harga,
+		  'quantity' => 1,
+		  'name' => $name_gedung.' - '.$name_ruangan,
+		  'start_date' => $tglPenyewaan,
+		  'end_date' => $tglSelesai,
+		  'duration_type' => $tipeDurasi,
+		  'amount_duration' => $jmlDurasi,
+		  'name_ruangan' => $name_ruangan,
+		  'name_gedung' => $name_gedung,
 		);
 
 		// Optional
@@ -65,32 +74,32 @@ class Snap extends CI_Controller {
 		
 		// Optional
 		$billing_address = array(
-		  'first_name'    => "Andri",
-		  'last_name'     => "Litani",
-		  'address'       => "Mangga 20",
-		  'city'          => "Jakarta",
-		  'postal_code'   => "16602",
-		  'phone'         => "081122334455",
-		  'country_code'  => 'IDN'
+		//   'first_name'    => "Andri",
+		//   'last_name'     => "Litani",
+		//   'address'       => "Mangga 20",
+		//   'city'          => "Jakarta",
+		//   'postal_code'   => "16602",
+		//   'phone'         => "081122334455",
+		//   'country_code'  => 'IDN'
 		);
 
 		// Optional
 		$shipping_address = array(
-		  'first_name'    => "Obet",
-		  'last_name'     => "Supriadi",
-		  'address'       => "Manggis 90",
-		  'city'          => "Jakarta",
-		  'postal_code'   => "16601",
-		  'phone'         => "08113366345",
-		  'country_code'  => 'IDN'
+		//   'first_name'    => "Obet",
+		//   'last_name'     => "Supriadi",
+		//   'address'       => "Manggis 90",
+		//   'city'          => "Jakarta",
+		//   'postal_code'   => "16601",
+		//   'phone'         => "08113366345",
+		//   'country_code'  => 'IDN'
 		);
 
 		// Optional
 		$customer_details = array(
-		  'first_name'    => "Andri",
-		  'last_name'     => "Litani",
-		  'email'         => "andri@litani.com",
-		  'phone'         => "081122334455",
+		  'first_name'    => $name,
+		  'last_name'     => "",
+		  'email'         => $email,
+		  'phone'         => $no_tlp,
 		  'billing_address'  => $billing_address,
 		  'shipping_address' => $shipping_address
 		);
@@ -103,7 +112,7 @@ class Snap extends CI_Controller {
         $time = time();
         $custom_expiry = array(
             'start_time' => date("Y-m-d H:i:s O",$time),
-            'unit' => 'minute', 
+            'unit' => 'hour', 
             'duration'  => 2
         );
         
@@ -114,9 +123,6 @@ class Snap extends CI_Controller {
             'credit_card'        => $credit_card,
             'expiry'             => $custom_expiry
         );
-
-		// var_dump($transaction_data);
-		// die;
 
 		error_log(json_encode($transaction_data));
 		$snapToken = $this->midtrans->getSnapToken($transaction_data);

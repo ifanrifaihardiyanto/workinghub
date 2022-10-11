@@ -21,7 +21,7 @@ class Order extends BaseController
     public function list()
     {
         $user           = $this->session->userdata('user');
-        $id_pemesan     = $user[0]->id_pemesan;
+        $id_pemesan     = $user[0]->id;
 
         $list_tagihan = $this->order->data_tagihan($id_pemesan);
 

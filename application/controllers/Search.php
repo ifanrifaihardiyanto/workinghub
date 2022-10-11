@@ -124,6 +124,8 @@ class Search extends BaseController
 
         $result = $this->search->find_ruangan($nmLokasi, $config['per_page'], $segment, $kapAwal, $kapAkhir, $durasi);
 
+        // print_r($result);
+
         $tersewa = $this->search->tersewa();
 
         $this->global['result'] = (object) [
@@ -238,7 +240,7 @@ class Search extends BaseController
         $id_pemesan         = $user[0]->id;
 
         $result             = $this->search->detail($id_ruangan, $durasi);
-        $id_gedung          = $result[0]->id;
+        $id_gedung          = $result[0]->id_gedung;
         $id_penyedia        = $result[0]->id_penyedia;
 
         if ($this->form_validation->run() == false) {

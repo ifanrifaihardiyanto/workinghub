@@ -24,20 +24,20 @@
                                 <th>Nama Gedung</th>
                                 <th>Nama Ruangan</th>
                                 <th>Total Tagihan</th>
-                                <th>Status Pembayaran</th>
+                                <!-- <th>Status Pembayaran</th> -->
                                 <th>Status Penyewaan</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
                               foreach ($penyewaan['data_penyewaan'] as $index => $p) :
-                                if ($p->status_bukti == '1') {
-                                  $bukti_status = "Sudah Membayar";
-                                  $st_bukti = "success";
-                                } else {
-                                  $bukti_status = "Menunggu Pembayaran";
-                                  $st_bukti = "warning";
-                                }
+                                // if ($p->status_bukti == '1') {
+                                //   $bukti_status = "Sudah Membayar";
+                                //   $st_bukti = "success";
+                                // } else {
+                                //   $bukti_status = "Menunggu Pembayaran";
+                                //   $st_bukti = "warning";
+                                // }
 
                                 if ($p->aktivasi == '1') {
                                   $aktivasi = "Aktif";
@@ -54,7 +54,7 @@
                                 <td><?= $p->name ?></td>
                                 <td><?= $p->name ?></td>
                                 <td><?= 'Rp ' . number_format($p->total_pembayaran, 0, ',', '.') ?></td>
-                                <td><span class="badge badge-<?= $st_bukti ?>"><?= $bukti_status ?></span></td>
+                                <!-- <td><span class="badge badge-<?= $st_bukti ?>"><?= $bukti_status ?></span></td> -->
                                 <td><span class="badge badge-<?= $st_aktivasi ?>"><?= $aktivasi ?></span></td>
                                 <!-- <td>
                           <button type="button" class="btn btn-warning btn-icon">

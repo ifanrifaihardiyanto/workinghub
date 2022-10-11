@@ -33,7 +33,7 @@ class Home extends BaseController
             $user_id  = $user[0]->id_user;
             $role     = strtolower($user[0]->role);
 
-            if ($user[0]->role !== 'Pemesan') {
+            if ($user[0]->role !== 'Customer') {
                 $load = "dashboard";
                 $this->metadata->pageView = "errors/maintenance";
             }

@@ -24,21 +24,21 @@
                                 <th>Nama Gedung</th>
                                 <th>Nama Ruangan</th>
                                 <th>Total Tagihan</th>
-                                <th>Bukti Pembayaran</th>
-                                <th>Status Pembayaran</th>
+                                <!-- <th>Bukti Pembayaran</th> -->
+                                <!-- <th>Status Pembayaran</th> -->
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
                             foreach ($penyewaan['data_penyewaan'] as $index => $p) :
-                              if ($p->status_bukti == '1') {
-                                $bukti_status = "Sudah Membayar";
-                                $st_bukti = "success";
-                              } else {
-                                $bukti_status = "Menunggu Pembayaran";
-                                $st_bukti = "warning";
-                              }
+                            //   if ($p->status_bukti == '1') {
+                            //     $bukti_status = "Sudah Membayar";
+                            //     $st_bukti = "success";
+                            //   } else {
+                            //     $bukti_status = "Menunggu Pembayaran";
+                            //     $st_bukti = "warning";
+                            //   }
 
                               if ($p->aktivasi == '1') {
                                 $aktivasi = "Aktif";
@@ -55,10 +55,10 @@
                                 <td><?= $p->name ?></td>
                                 <td><?= $p->name ?></td>
                                 <td><?= 'Rp ' . number_format($p->total_pembayaran, 0, ',', '.') ?></td>
-                                <td><button type="button" class="btn btn-info btn-icon" data-toggle="modal"
+                                <!-- <td><button type="button" class="btn btn-info btn-icon" data-toggle="modal"
                                         data-target="#buktiPembayaran<?= $p->kode_pemesanan ?>"><i
-                                            data-feather="eye"></i></button></td>
-                                <td><span class="badge badge-<?= $st_bukti ?>"><?= $bukti_status ?></span></td>
+                                            data-feather="eye"></i></button></td> -->
+                                <!-- <td><span class="badge badge-<?= $st_bukti ?>"><?= $bukti_status ?></span></td> -->
                                 <td>
                                     <button type="button" class="btn btn-primary btn-icon" data-toggle="modal"
                                         data-target="#aktif<?= $p->kode_pemesanan ?>"><i

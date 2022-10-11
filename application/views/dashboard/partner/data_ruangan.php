@@ -91,6 +91,12 @@ $success = $this->session->flashdata('success');
                                     <button type="button" class="btn btn-danger btn-icon" data-toggle="modal"
                                         data-target="#nonaktif<?= $r->id_ruangan ?>" <?= $disable ?>><i
                                             data-feather="x-circle"></i></button>
+                                    <form
+                                        action="<?php echo base_url(); ?>partner/manageruangan/list_image/<?= $r->id_ruangan ?>"
+                                        method="post">
+                                        <button type="submit" class="btn btn-info btn-icon" <?= $disable ?>>
+                                            <i data-feather="image"></i></button>
+                                    </form>
                                 </td>
                             </tr>
                             <!-- Start Modal Edit -->
@@ -276,21 +282,6 @@ $success = $this->session->flashdata('success');
                                                                 value="<?= $r->description; ?>"><?= $r->description; ?></textarea>
                                                             <small
                                                                 class="text-danger"><?= form_error('deskripsi'); ?></small>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-12">
-                                                        <div class="form-group">
-                                                            <label>File upload</label>
-                                                            <input type="file" name="image[]" id="image"
-                                                                class="file-upload-default" multiple>
-                                                            <div class="input-group col-xs-12">
-                                                                <input type="text" class="form-control file-upload-info"
-                                                                    disabled="" placeholder="Upload Image">
-                                                                <span class="input-group-append">
-                                                                    <button class="file-upload-browse btn btn-primary"
-                                                                        type="button">Browse</button>
-                                                                </span>
-                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>

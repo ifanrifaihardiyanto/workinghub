@@ -78,7 +78,7 @@
                                         <input id="jmlDurasi" class="form-control" name="jmlDurasi" type="text"
                                             value="<?= $result->hidejmlDurasi ?>" hidden>
                                         <input id="id_ruangan" class="form-control" name="id_ruangan" type="text"
-                                            value="<?= $result->ruangan[0]->id ?>" hidden>
+                                            value="<?= $result->ruangan[0]->id_ruangan ?>" hidden>
                                         <input id="durasi" class="form-control" name="durasi" type="text"
                                             value="<?= $result->durasi ?>" hidden>
                                         <input id="harga" class="form-control" name="harga" type="text"

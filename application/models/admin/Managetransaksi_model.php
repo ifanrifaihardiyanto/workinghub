@@ -12,23 +12,21 @@ class Managetransaksi_model extends CI_Model
     public function data_penyewaan_on_admin()
     {
         $sql = "select ps.name, ps.email, g.name, r.name, 
-        py.total_pembayaran, py.status_bukti, py.aktivasi,
-        p.kode_pemesanan, p.tgl_pemesanan, p.mulai_penyewaan, 
-        p.selesai_penyewaan, p.tipe_durasi, p.jml_durasi, p.id_pemesanan, py.id_pembayaran, py.bukti_pembayaran
-        from transaksi t 
+        py.total as total_pembayaran, py.activation as aktivasi,
+        o.order_code as kode_pemesanan, o.order_date as tgl_pemesanan, o.start_date as mulai_penyewaan, 
+        o.end_date as selesai_penyewaan, o.duration_type as tipe_durasi, o.amount_duration as jml_durasi, 
+        o.id as id_pemesanan, py.id as id_pembayaran
+        from `order` o
         join partner pt
-        on t.id_penyedia = pt.id 
-        join pemesan ps
-        on t.id_pemesan = ps.id
-        join pemesanan p 
-        on t.id_pemesanan = p.id_pemesanan 
-        join pembayaran py
-        on t.id_pembayaran = py.id_pembayaran
-        join gedung g 
-        on t.id_gedung = g.id 
-        join ruangan r 
-        on t.id_ruangan = r.id
-        order by py.status_bukti desc";
+        on o.partner_id = pt.id 
+        join customer ps
+        on o.customer_id = ps.id 
+        join payment py
+        on py.order_id = o.id
+        join building g 
+        on o.building_id = g.id 
+        join room r
+        on o.room_id = r.id";
 
         return $this->db->query($sql)->result();
     }
@@ -38,11 +36,8 @@ class Managetransaksi_model extends CI_Model
         $aktivasi = "update pembayaran set aktivasi='1' where kode_pemesanan='$kode_pemesanan'";
         $this->db->query($aktivasi);
 
-        $sql = "insert into validasi (perihal, alasan, nama_img, image, id_pemesanan) values 
+        $sql = "insert into room_validation (perihal, alasan, nama_img, image, id_pemesanan) values 
         ('$perihal', '$alasan', '$nama_img', '$image', '$id_pemesanan')";
-        // print_r($aktivasi);
-        // print_r($sql);
-        // die;
 
         $this->db->query($sql);
     }
@@ -52,7 +47,7 @@ class Managetransaksi_model extends CI_Model
         $aktivasi = "update pembayaran set aktivasi='2' where kode_pemesanan='$kode_pemesanan'";
         $this->db->query($aktivasi);
 
-        $sql = "insert into validasi (perihal, alasan, nama_img, image, id_pemesanan) values 
+        $sql = "insert into room_validation (perihal, alasan, nama_img, image, id_pemesanan) values 
         ('$perihal', '$alasan', '$nama_img', '$image', '$id_pemesanan')";
 
         $this->db->query($sql);

@@ -18,19 +18,20 @@ foreach ($result->ruangan as $index => $r) :
                 <div class="row">
                     <div class="col-md-4">
                         <?php
-              if (!empty($r->image)) {
-                $data_gambar = explode(', ', $r->image);
-              }
+                        if (!empty($r->image)) {
+                          $data_gambar = explode(', ', $r->image);
+                        }
 
-              $cntDataGambar = count($data_gambar);
-              for ($i = 0; $i < $cntDataGambar; $i++) {
-                if ($i == 0) {
-              ?>
-                        <img src="data:image;base64,<?= $data_gambar[$i] ?>" width="100%" height="250">
+                        $cntDataGambar = count($data_gambar);
+                        for ($i = 0; $i < $cntDataGambar; $i++) {
+                          if ($i == 0) {
+                            $data_gambar = explode('workinghub', $data_gambar[$i]);
+                        ?>
+                        <img src="<?php echo base_url(); ?><?= $data_gambar[1] ?>" width="100%" height="250">
                         <?php
-                }
-              }
-              ?>
+                          }
+                        }
+                        ?>
                     </div>
                     <div class="col-md-5">
                         <div class="card-body">
