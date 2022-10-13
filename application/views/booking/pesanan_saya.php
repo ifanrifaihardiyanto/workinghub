@@ -17,7 +17,7 @@
                         $tgl_penyewaan  = date('d M Y', strtotime($list->mulai_penyewaan));
                         $tgl_selesai    = date('d M Y', strtotime($list->selesai_penyewaan));
 
-                        print($list->status_bukti);
+                        // print($list->status_bukti);
                         
                         if ($list->status_bukti == '1' && $list->aktivasi == '1') {
                           if ($tgl_selesai < date('d M Y')) {

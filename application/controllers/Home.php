@@ -35,7 +35,7 @@ class Home extends BaseController
 
             if ($user[0]->role !== 'Customer') {
                 $load = "dashboard";
-                $this->metadata->pageView = "errors/maintenance";
+                $this->metadata->pageView = "test";
             }
 
             $profil = $this->auth->getDataAll($user_id, $role);

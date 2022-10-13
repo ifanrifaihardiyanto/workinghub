@@ -14,7 +14,7 @@ class Order_model extends CI_Model
         jg.`type` as jenis_gedung, b.`size` as ukuran, b.capacity as kapasitas, b.hourly_price as harga_jam, b.daily_price as harga_harian, 
         b.weekly_price as harga_mingguan, b.monthly_price as harga_bulanan, b.description as deskripsi, f.facility as fasilitas, g.image as gambar,
         o.order_code as kode_pemesanan, o.order_date as tgl_pemesanan, o.start_date as mulai_penyewaan, o.end_date as selesai_penyewaan, 
-        o.duration_type as tipe_durasi, p.transaction_status as status_bukti, p.total as total_pembayaran, o.amount_duration as jml_durasi
+        o.duration_type as tipe_durasi, p.transaction_status as status_bukti, p.total as total_pembayaran, o.duration_amount as jml_durasi
         from building a 
         left outer join room b 
         on a.id = b.id_gedung  
@@ -61,5 +61,12 @@ class Order_model extends CI_Model
         // print_r($sql);
 
         return $this->db->query($sql)->result();
+    }
+
+    public function getUpdateStatus($order_id, $transaction_status, $status_code, $paid_at, $amount)
+    {
+        $sql = "update payment py join `order` o on o.id = py.order_id 
+        set py.transaction_status = '$transaction_status', py.status_code = '$status_code', py.paid_at = '$paid_at', py.amount = '$amount' 
+        where o.order_code='$order_id'";
     }
 }

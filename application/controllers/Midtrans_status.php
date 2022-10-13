@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Notification extends CI_Controller {
+class Midtrans_status extends CI_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -22,11 +22,11 @@ class Notification extends CI_Controller {
 	public function __construct()
     {
         parent::__construct();
-        $params = array('server_key' => 'your_server_key', 'production' => false);
+        $params = array('server_key' => 'SB-Mid-server-uTWYi5R1GwV2G5wP-UfOUjfv', 'production' => false);
 		$this->load->library('veritrans');
 		$this->veritrans->config($params);
 		$this->load->helper('url');
-		
+		$this->load->model('Payment_model', 'payment');
     }
 
 	public function index()
@@ -35,11 +35,17 @@ class Notification extends CI_Controller {
 		$json_result = file_get_contents('php://input');
 		$result = json_decode($json_result);
 
-		if($result){
-		$notif = $this->veritrans->status($result->order_id);
+		if ($result->status_code == 200) {
+			$order_id = $result->order_id;
+			$transaction_status = $result->transaction_status;
+			$status_code = $result->status_code;
+			$paid_at = $result->payment_amounts[0]->paid_at;
+			$amount = $result->payment_amounts[0]->amount;
+		} elseif ($result->status_code == 202) {
+			$order_id = $result->order_id;
+			$transaction_status = $result->transaction_status;
+			$status_code = $result->status_code;
 		}
-
-		error_log(print_r($result,TRUE));
 
 		//notification handler sample
 

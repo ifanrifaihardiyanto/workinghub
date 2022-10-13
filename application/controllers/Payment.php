@@ -23,13 +23,7 @@ class Payment extends CI_Controller
     {
         $order_id = strtoupper("WH-" . random_string('alnum', 8));
 		$harga = $this->input->post('harga');
-		$tglPenyewaan = $this->input->post('tglPenyewaan');
-		$tglSelesai = $this->input->post('tglSelesai');
-		$tipeDurasi = $this->input->post('tipeDurasi');
-		$jmlDurasi = $this->input->post('jmlDurasi');
-		$id_gedung = $this->input->post('id_gedung');
         $id_ruangan = $this->input->post('id_ruangan');
-        $id_durasi = $this->input->post('id_durasi');
 		$name_ruangan = $this->input->post('name_ruangan');
 		$name_gedung = $this->input->post('name_gedung');
 		$name = $this->input->post('name');
@@ -116,7 +110,7 @@ class Payment extends CI_Controller
 		$start_date = $this->input->post('tglPenyewaan');
 		$end_date = $this->input->post('tglSelesai');
 		$duration_type = $this->input->post('tipeDurasi');
-		$jmlDurasi = $this->input->post('jmlDurasi');
+		$duration_amount = $this->input->post('jmlDurasi');
 		$building_id = $this->input->post('id_gedung');
         $room_id = $this->input->post('id_ruangan');
         $duration_id = $this->input->post('id_durasi');
@@ -141,7 +135,7 @@ class Payment extends CI_Controller
         $bank = $result->va_numbers[0]->bank;
         $va_number = $result->va_numbers[0]->va_number;
 
-        $this->payment->insertOrder($name, $no_tlp, $email, $name_gedung, $name_ruangan, $order_code, $order_date, $start_date, $end_date, $duration_type, $building_id, $duration_id, $room_id, $partner_id, $customer_id);
+        $this->payment->insertOrder($name, $no_tlp, $email, $name_gedung, $name_ruangan, $order_code, $order_date, $start_date, $end_date, $duration_type, $duration_amount, $building_id, $duration_id, $room_id, $partner_id, $customer_id);
 
         $getIdOrder = $this->payment->getOrder($order_code);
         $activation = 0;

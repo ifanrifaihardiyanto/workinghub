@@ -6,7 +6,7 @@
         <div class="headline-page">
             <?php
             // print_r($result->ruangan[0]);
-            print_r($data->profile[0]);
+            // print_r($data->profile[0]);
             if (!empty($result->ruangan[0]->image)) {
                 $data_gambar = explode(', ', $result->ruangan[0]->image);
             }
