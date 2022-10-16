@@ -13,9 +13,9 @@ $month = date('m', strtotime($date));
                 <div class="carousel-inner">
                     <?php
                     if (!empty($result->ruangan[0]->image)) {
-                      $data_gambar = explode(', ', $result->ruangan[0]->image);
+                        $data_gambar = explode(', ', $result->ruangan[0]->image);
                     }
-                    
+
                     $cntDataGambar = count($data_gambar);
                     for ($i = 0; $i < $cntDataGambar; $i++) {
                         $data_img = explode('workinghub', $data_gambar[$i]);
@@ -26,7 +26,8 @@ $month = date('m', strtotime($date));
                     </div>
                     <?php } ?>
                 </div>
-                <?php if ($cntDataGambar == 1) {} else { ?>
+                <?php if ($cntDataGambar == 1) {
+                } else { ?>
                 <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
@@ -67,20 +68,19 @@ $month = date('m', strtotime($date));
                     <div class="form-pemesanan-wrap d-flex justify-content-between align-items-center">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="Tanggal Penyewaan">Mulai Penyewaan</label>
-                                <input id="tglPenyewaan" class="form-control" name="tglPenyewaan" type="date">
-                                <small class="text-danger"><?= form_error('tglPenyewaan'); ?></small>
+                                <label>Tanggal</label>
+                                <input type="text" class="form-control" name="tglSewa" id="tglSewa" />
                             </div>
                         </div>
                         <?php
-            if ($result->durasi !== 'Jam') { ?>
-                        <div class="col-md-4">
+                        if ($result->durasi !== 'Jam') { ?>
+                        <!-- <div class="col-md-4">
                             <div class="form-group">
                                 <label for="Tanggal Penyewaan">Jumlah <?= $result->durasi ?></label>
                                 <input id="jmlDurasi" class="form-control" name="jmlDurasi" type="number">
                                 <small class="text-danger"><?= form_error('jmlDurasi'); ?></small>
                             </div>
-                        </div>
+                        </div> -->
                         <?php } else { ?>
 
                         <?php } ?>
@@ -97,7 +97,7 @@ $month = date('m', strtotime($date));
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-9"></div>
+                        <!-- <div class="col-md-9"></div> -->
                         <div class="col-md-3">
                             <div class="form-group">
                                 <input type="submit" value="Pesan Sekarang" id="pesan"
@@ -184,7 +184,6 @@ $month = date('m', strtotime($date));
         </div>
     </div>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js" type="text/javascript"></script>
 <script>
 let durasi = "<?= $result->durasi ?>";
 let id_ruangan = "<?= $result->ruangan[0]->id_ruangan ?>";
@@ -193,36 +192,46 @@ let mm = "<?= $month ?>";
 
 $(document).ready(function() {
     console.log(durasi)
-    if (durasi != 'Jam') {
-        var today = new Date();
-        var yyyy = today.getFullYear();
 
-        today = yyyy + '-' + mm + '-' + dd;
-        console.log(dd)
-        $('#tglPenyewaan').attr('min', today);
-    }
+    var today = new Date();
+    var yyyy = today.getFullYear();
 
-    let jmlDurasi = 0;
-    getHarga(durasi, jmlDurasi, id_ruangan);
+    today = mm + '/' + dd + '/' + yyyy;
+
+    let diffDays = 0;
+    getHarga(durasi, diffDays, id_ruangan);
     $("#pesan").prop("disabled", true);
 
-    document.getElementById('jmlDurasi').addEventListener('focus', function() {
-        $("#jmlDurasi").on("input", null, null, function(e) {
-            if ($("#jmlDurasi").val().length >= 1) {
-                let jmlDurasi = $("#jmlDurasi").val();
-
-                getHarga(durasi, jmlDurasi, id_ruangan);
-                $("#pesan").prop("disabled", false);
-            } else {
-                let jmlDurasi = 0;
-                getHarga(durasi, jmlDurasi, id_ruangan);
-                $("#pesan").prop("disabled", true);
-            }
-        });
+    $('#tglSewa').daterangepicker({
+        opens: 'right',
+        minDate: today,
+    }, function(start, end, label) {
+        var started = new Date(start.format('MM/DD/YYYY'));
+        var ended = new Date(end.format('MM/DD/YYYY'));
+        const diffTime = Math.abs(ended - started);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+        getHarga(durasi, diffDays, id_ruangan);
+        $("#pesan").prop("disabled", false);
     });
+
+    // document.getElementById('jmlDurasi').addEventListener('focus', function() {
+    //     $("#jmlDurasi").on("input", null, null, function(e) {
+    //         if ($("#jmlDurasi").val().length >= 1) {
+    //             let jmlDurasi = $("#jmlDurasi").val();
+
+    //             getHarga(durasi, jmlDurasi, id_ruangan);
+    //             $("#pesan").prop("disabled", false);
+    //         } else {
+    //             let jmlDurasi = 0;
+    //             getHarga(durasi, jmlDurasi, id_ruangan);
+    //             $("#pesan").prop("disabled", true);
+    //         }
+    //     });
+    // });
 });
 
 function getHarga(durasi, jmlDurasi, id_ruangan) {
+    console.log(id_ruangan);
     $(document).ready(() => {
         $.ajax({
             type: "POST",

@@ -5,26 +5,14 @@
     <div class="container">
         <div class="headline-page">
             <?php
-            if ($result->durasi == 'Hari') {
-                $akumulasi = $result->hidejmlDurasi;
-                $jmlDurasi = ++$akumulasi;
-                $tgl_selesai    = date('d M Y', strtotime("+$jmlDurasi day"));
-                $tgl_end        = date('Y-m-d', strtotime("+$jmlDurasi day"));
-            } elseif ($result->durasi == 'Minggu') {
-                $akumulasi = $result->hidejmlDurasi;
-                $jmlDurasi = $akumulasi;
-                $tgl_selesai    = date('d M Y', strtotime("$jmlDurasi week"));
-                $tgl_end        = date('Y-m-d', strtotime("$jmlDurasi week"));
-            } else {
-                $akumulasi = $result->hidejmlDurasi;
-                $jmlDurasi = $akumulasi;
-                $tgl_selesai    = date('d M Y', strtotime("$jmlDurasi month"));
-                $tgl_end        = date('Y-m-d', strtotime("$jmlDurasi month"));
-            }
+            // print_r($result);
             $tgl_sekarang   = date('d M Y');
             $tgl_now        = date('Y-m-d');
             $tgl_penyewaan  = date('d M Y', strtotime($result->tglPenyewaan));
             $tgl_sewa       = date('Y-m-d', strtotime($result->tglPenyewaan));
+            $tgl_selesai    = date('d M Y', strtotime($result->tglEndPenyewaan));
+            $tgl_end        = date('Y-m-d', strtotime($result->tglEndPenyewaan));
+            $jmlDurasi      = $result->hidejmlDurasi;
             ?>
             <div class="title-page">
                 <h4>Pemesanan Ruangan</h4>
@@ -143,10 +131,6 @@
                                     <div class="d-flex justify-content-between">
                                         <p>Durasi Penyewaan</p>
                                         <p><?= $result->hidejmlDurasi . ' ' . $result->durasi ?></p>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <p>Jumlah Pemesanan</p>
-                                        <p>2 Orang</p>
                                     </div>
                                 </div>
                             </div>

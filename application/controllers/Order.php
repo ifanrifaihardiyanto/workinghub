@@ -9,7 +9,6 @@ class Order extends BaseController
     public function __construct()
     {
         parent::__construct();
-        // $this->load->model('Search_model', 'search');
         $this->load->model('Order_model', 'order');
     }
 
@@ -21,7 +20,10 @@ class Order extends BaseController
     public function list()
     {
         $user           = $this->session->userdata('user');
-        $id_pemesan     = $user[0]->id;
+        $id_pemesan     = 0;
+        if (!empty($user)) {
+            $id_pemesan     = $user[0]->id;
+        }
 
         $list_tagihan = $this->order->data_tagihan($id_pemesan);
 

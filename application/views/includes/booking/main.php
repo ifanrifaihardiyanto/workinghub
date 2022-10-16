@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendors/core/core.css">
     <!-- endinject -->
     <!-- plugin css for this page -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendors/select2/select2.min.css">
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendors/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet"
@@ -24,6 +25,7 @@
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/pemesan/style.css">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="<?php echo base_url(); ?>assets/images/logo.png" />
+    <script src="<?php echo base_url(); ?>assets/vendors/core/core.js"></script>
 </head>
 
 <body>
@@ -83,7 +85,11 @@
     </div>
 
     <!-- core:js -->
-    <script src="<?php echo base_url(); ?>assets/vendors/core/core.js"></script>
+
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js" type="text/javascript"></script> -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <!-- endinject -->
     <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.0-beta.3/dist/iconify-icon.min.js"></script>
     <!-- plugin js for this page -->
@@ -110,6 +116,7 @@
     <script src="<?php echo base_url(); ?>assets/js/data-table.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/file-upload.js"></script>
     <!-- end custom js for this page -->
+
 </body>
 
 </html>

@@ -32,11 +32,19 @@ class Payment_model extends CI_Model
         $this->db->query($sql);
     }
 
-    public function insertPayment($status_code, $status_message, $transaction_id, $total, $payment_type, $bank,	$va_number,	$transaction_status, $pdf_instruction, $activation, $order_id)
+    public function insertPayment($status_code, $status_message, $transaction_id, $total, $payment_type, $bank,    $va_number,    $transaction_status, $pdf_instruction, $activation, $order_id)
     {
         $sql = "insert into payment (status_code, status_message, transaction_id, total, payment_type, bank, va_number,	transaction_status, pdf_instruction, activation, order_id, created_at, updated_at)
         values ('$status_code', '$status_message', '$transaction_id', '$total', '$payment_type', '$bank', '$va_number',	'$transaction_status', '$pdf_instruction', '$activation', '$order_id', now(), now())";
-        
+
         $this->db->query($sql);
+    }
+
+    public function updateStatus($order_code, $status_code, $status_message, $transaction_status, $paid_at, $total)
+    {
+        $sql = "update payment py join `order` o on o.id = py.order_id 
+        set py.transaction_status = '$transaction_status', py.status_code = '$status_code', 
+        py.status_message ='$status_message', py.paid_at = '$paid_at', py.amount = '$total' 
+        where o.order_code='$order_code'";
     }
 }

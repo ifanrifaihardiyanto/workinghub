@@ -37,7 +37,7 @@ class Managepenyewaan_model extends CI_Model
         select o.id as id_pemesanan, c.name, c.email, b.name, r.name, 
         p.total as total_pembayaran, p.transaction_status as status_bukti, p.activation as aktivasi,
         o.order_code as kode_pemesanan, o.order_date as tgl_pemesanan, o.start_date as mulai_penyewaan, 
-        o.end_date as selesai_penyewaan, o.duration_type as tipe_durasi, o.amount_duration as jml_durasi
+        o.end_date as selesai_penyewaan, o.duration_type as tipe_durasi, o.duration_amount as jml_durasi
         from `order` o
         join partner pt
         on o.partner_id = pt.id

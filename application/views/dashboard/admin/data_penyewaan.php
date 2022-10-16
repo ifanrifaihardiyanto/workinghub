@@ -13,7 +13,7 @@
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title">Data Pembayaran</h6>
+                <h6 class="card-title">Data Pemesanan</h6>
                 <div class="table-responsive">
                     <table id="dataTableExample" class="table">
                         <thead>
@@ -30,7 +30,7 @@
                         </thead>
                         <tbody>
                             <?php
-                              foreach ($penyewaan['data_penyewaan'] as $index => $p) :
+                            foreach ($penyewaan['data_penyewaan'] as $index => $p) :
                                 // if ($p->status_bukti == '1') {
                                 //   $bukti_status = "Sudah Membayar";
                                 //   $st_bukti = "success";
@@ -40,11 +40,11 @@
                                 // }
 
                                 if ($p->aktivasi == '1') {
-                                  $aktivasi = "Aktif";
-                                  $st_aktivasi = "success";
+                                    $aktivasi = "Aktif";
+                                    $st_aktivasi = "success";
                                 } else {
-                                  $aktivasi = "Menunggu Validasi";
-                                  $st_aktivasi = "warning";
+                                    $aktivasi = "Menunggu Validasi";
+                                    $st_aktivasi = "warning";
                                 }
                             ?>
                             <tr>

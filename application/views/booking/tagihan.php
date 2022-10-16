@@ -14,20 +14,20 @@
             </div>
         </div>
         <?php
-        // print_r($result);
+        // print_r($result->tagihan[0]);
         if (!empty($result->tagihan[0]->gambar)) {
             $data_gambar = explode(', ', $result->tagihan[0]->gambar);
         }
         $gambar = $data_gambar[0];
 
         if ($result->tagihan[0]->metode_pembayaran == 'Transfer Bank BNI') {
-        $img = "logo_bank_bni.png";
+            $img = "logo_bank_bni.png";
         } elseif ($result->tagihan[0]->metode_pembayaran == 'Transfer Bank BRI') {
-        $img = "logo_bank_bri.png";
+            $img = "logo_bank_bri.png";
         } elseif ($result->tagihan[0]->metode_pembayaran == 'Transfer Bank Mandiri') {
-        $img = "logo_bank_mandiri.png";
+            $img = "logo_bank_mandiri.png";
         } else {
-        $img = "logo_bank_bca.png";
+            $img = "logo_bank_bca.png";
         }
 
         $tgl_pemesanan  = date('d M Y', strtotime($result->tagihan[0]->tgl_pemesanan));
@@ -131,7 +131,7 @@
                             <div class="card-body">
                                 <h5>Data Pemesan</h5>
                                 <div class="content-detail">
-                                    <p><?= $data->profile[0]->nama ?></p>
+                                    <p><?= $data->profile[0]->name ?></p>
                                     <p><?= $data->profile[0]->no_tlp ?></p>
                                     <p><?= $data->profile[0]->email ?></p>
                                 </div>

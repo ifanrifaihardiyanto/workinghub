@@ -15,7 +15,7 @@ class Search extends BaseController
         $this->load->model('Search_model', 'search');
         $this->load->library('pagination');
     }
-    
+
     public function find()
     {
         $lokasi = $this->search->find_lokasi();
@@ -120,7 +120,7 @@ class Search extends BaseController
 
         $this->pagination->initialize($config);
 
-		$segment = $this->uri->segment(SEGMENT);
+        $segment = $this->uri->segment(SEGMENT);
 
         $result = $this->search->find_ruangan($nmLokasi, $config['per_page'], $segment, $kapAwal, $kapAkhir, $durasi);
 
@@ -171,11 +171,16 @@ class Search extends BaseController
         if (!isset($isLoggedIn) || $isLoggedIn != true) {
             $this->load->view('auth/booking/login');
         } else {
-            $this->form_validation->set_rules('tglPenyewaan', 'Tanggal', 'required|trim');
+            // $this->form_validation->set_rules('tglPenyewaan', 'Tanggal', 'required|trim');
+            $this->form_validation->set_rules('tglSewa', 'Tanggal', 'required|trim');
             $this->form_validation->set_rules('hidejmlDurasi', 'NIK', 'required|trim');
             $this->form_validation->set_rules('hidejmlHarga', 'Nomor Telepon', 'required|trim');
 
-            $tglPenyewaan   = $this->input->post('tglPenyewaan');
+            // $tglPenyewaan   = $this->input->post('tglPenyewaan');
+            $tglSewa   = $this->input->post('tglSewa');
+            $exploadTgl = explode(" - ", $tglSewa);
+            $tglPenyewaan = $exploadTgl[0];
+            $tglEndPenyewaan = $exploadTgl[1];
             $hidejmlDurasi  = $this->input->post('hidejmlDurasi');
             $hidejmlHarga   = $this->input->post('hidejmlHarga');
 
@@ -187,6 +192,7 @@ class Search extends BaseController
                     'durasi' => $durasi,
                     'id_ruangan' => $id,
                     'tglPenyewaan' => $tglPenyewaan,
+                    'tglEndPenyewaan' => $tglEndPenyewaan,
                     'jmlDurasi' => $hidejmlDurasi,
                     'hidejmlHarga' => $hidejmlHarga,
                 ];
@@ -200,6 +206,7 @@ class Search extends BaseController
                     'durasi' => $durasi,
                     'id_ruangan' => $id,
                     'tglPenyewaan' => $tglPenyewaan,
+                    'tglEndPenyewaan' => $tglEndPenyewaan,
                     'hidejmlDurasi' => $hidejmlDurasi,
                     'hidejmlHarga' => $hidejmlHarga,
                 ];
@@ -254,7 +261,7 @@ class Search extends BaseController
             ];
 
             $this->profile();
-            
+
             $this->metadata->pageView = "booking/pemesanan";
 
             $this->loadViews("includes/booking/main", $this->global);
@@ -350,7 +357,7 @@ class Search extends BaseController
         $selesaiPenyewaan   = $this->input->post('tglSelesai');
         $harga              = $this->input->post('harga');
         $metode_transfer    = $this->input->post('metode_transfer');
-		$id_pemesan         = $user[0]->id_pemesan;
+        $id_pemesan         = $user[0]->id_pemesan;
         $kode_pemesanan     = $this->input->post('kode_pemesanan');
 
         $result             = $this->search->detail($id_ruangan, $durasi);
@@ -371,7 +378,7 @@ class Search extends BaseController
             'id_pemesanan'  => $id_pemesanan,
             'durasi'  => $durasi,
         ]);
-            
+
         redirect('search/detail_tagihan');
     }
 
@@ -413,13 +420,13 @@ class Search extends BaseController
                 $config['max_size'] = 2048;
                 $config['upload_path'] = '././assets/upload/';
                 $this->load->library('upload', $config);
-                
+
                 $_FILES['bukti_pembayaran']['name'] = $files['name'];
                 $_FILES['bukti_pembayaran']['type'] = $files['type'];
                 $_FILES['bukti_pembayaran']['tmp_name'] = $files['tmp_name'];
                 $_FILES['bukti_pembayaran']['error'] = $files['error'];
                 $_FILES['bukti_pembayaran']['size'] = $files['size'];
-    
+
                 $this->upload->initialize($config);
                 if ($this->upload->do_upload('bukti_pembayaran')) {
                     $data = $this->upload->data();
