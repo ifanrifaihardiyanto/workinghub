@@ -59,14 +59,14 @@ $success = $this->session->flashdata('success');
                                 <td><?= $q->role ?></td>
                                 <td>
                                     <?php
-                                    if ($q->aktivasi == '1') {
-                                    $aktif = "Aktif";
-                                    $status = "success";
-                                    } else {
-                                    $aktif = "Tidak aktif";
-                                    $status = "warning";
-                                    }
-                                    ?>
+                                        if ($q->aktivasi == '1') {
+                                            $aktif = "Aktif";
+                                            $status = "success";
+                                        } else {
+                                            $aktif = "Tidak aktif";
+                                            $status = "warning";
+                                        }
+                                        ?>
                                     <span class="badge badge-<?= $status ?>"><?= $aktif ?></span>
                                 </td>
                                 <td>
@@ -122,7 +122,7 @@ $success = $this->session->flashdata('success');
                                                                 class="text-danger"><?= form_error('noTelp'); ?></small>
                                                         </div>
                                                     </div><!-- Col -->
-                                                    <?php if (in_array($q->role, ['Partner', 'Pemesan'])) : ?>
+                                                    <?php if (in_array($q->role, ['Partner', 'Customer'])) : ?>
                                                     <div class="col-sm-6">
                                                         <div class="form-group">
                                                             <label class="control-label">Nomor Rekening Bank BNI</label>
@@ -146,7 +146,7 @@ $success = $this->session->flashdata('success');
                                                                 class="text-danger"><?= form_error('tmptLahir'); ?></small>
                                                         </div>
                                                     </div><!-- Col -->
-                                                    <?php if (in_array($q->role, ['Partner', 'Pemesan'])) : ?>
+                                                    <?php if (in_array($q->role, ['Partner', 'Customer'])) : ?>
                                                     <div class="col-sm-6">
                                                         <div class="form-group">
                                                             <label class="control-label">Nomor Rekening Bank BRI</label>
@@ -170,7 +170,7 @@ $success = $this->session->flashdata('success');
                                                                 class="text-danger"><?= form_error('tglLahir'); ?></small>
                                                         </div>
                                                     </div><!-- Col -->
-                                                    <?php if (in_array($q->role, ['Partner', 'Pemesan'])) : ?>
+                                                    <?php if (in_array($q->role, ['Partner', 'Customer'])) : ?>
                                                     <div class="col-sm-6">
                                                         <div class="form-group">
                                                             <label class="control-label">Nomor Rekening Bank
@@ -195,7 +195,7 @@ $success = $this->session->flashdata('success');
                                                                 class="text-danger"><?= form_error('alamat'); ?></small>
                                                         </div>
                                                     </div><!-- Col -->
-                                                    <?php if (in_array($q->role, ['Partner', 'Pemesan'])) : ?>
+                                                    <?php if (in_array($q->role, ['Partner', 'Customer'])) : ?>
                                                     <div class="col-sm-6">
                                                         <div class="form-group">
                                                             <label class="control-label">Nomor Rekening Bank BCA</label>
@@ -336,8 +336,8 @@ $success = $this->session->flashdata('success');
                                             name="role">
                                             <option selected disabled>Pilih role</option>
                                             <option value="Admin">Admin</option>
-                                            <option value="Penyedia">Penyedia</option>
-                                            <option value="Pemesan">Pemesan</option>
+                                            <option value="Partner">Penyedia</option>
+                                            <option value="Customer">Pemesan</option>
                                         </select>
                                         <small class="text-danger"><?= form_error('role'); ?></small>
                                     </div>

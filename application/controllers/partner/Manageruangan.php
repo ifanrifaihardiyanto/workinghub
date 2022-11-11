@@ -64,8 +64,7 @@ class Manageruangan extends BaseController
             }
 
             $getJenisGedung = $this->manage_ruangan->getinsertJenisGedung($jnsGedung);
-            $idJnsGedung    = $getJenisGedung[0]->id_jenis_gedung;
-
+            $idJnsGedung    = $getJenisGedung[0]->id;
 
             $this->manage_ruangan->insertGedung($idJnsGedung, $nmGedung, $lokasi, $kota, $email, $noTelp, $jamBuka, $jamTutup, $user_id);
 
@@ -156,21 +155,21 @@ class Manageruangan extends BaseController
             $upload = $_FILES['image']['name'];
             if ($upload) {
                 $numberOfFile = sizeof($upload);
-
                 $checkcntImage = $this->manage_ruangan->countImage($idRuangan);
-
-                $files = $idRuangan . '-' . $_FILES['image'];
-                $config['allowed_types'] = 'png|jpg|jpeg';
-                $config['max_size'] = 2048;
-                $config['upload_path'] = '././assets/upload/';
-                $this->load->library('upload', $config);
-
+                $files = $_FILES['image'];
                 for ($i = 0; $i < $numberOfFile; $i++) {
                     $_FILES['image']['name'] = $files['name'][$i];
                     $_FILES['image']['type'] = $files['type'][$i];
                     $_FILES['image']['tmp_name'] = $files['tmp_name'][$i];
                     $_FILES['image']['error'] = $files['error'][$i];
                     $_FILES['image']['size'] = $files['size'][$i];
+
+                    $newName = $idRuangan . '-' . $upload[$i];
+                    $config['file_name'] = $newName;
+                    $config['allowed_types'] = 'png|jpg|jpeg';
+                    $config['max_size'] = 2048;
+                    $config['upload_path'] = '././assets/upload/';
+                    $this->load->library('upload', $config);
 
                     $this->upload->initialize($config);
                     if ($this->upload->do_upload('image')) {

@@ -14,11 +14,12 @@
                     <?php
           // print_r($result->tagihan);
           foreach ($result->tagihan as $item => $list) :
+            // print_r($list->aktivasi);
 
             $tgl_penyewaan  = date('d M Y', strtotime($list->mulai_penyewaan));
             $tgl_selesai    = date('d M Y', strtotime($list->selesai_penyewaan));
 
-            if ($list->kode_status == '200' && $list->aktivasi == '1') {
+            if ($list->kode_status == '200') {
               if ($tgl_selesai < date('d M Y')) {
                 $bukti_status = "Penyewaan Selesai";
                 $st_bukti = "secondary";
@@ -26,15 +27,7 @@
                 $bukti_status = "Penyewaan Aktif";
                 $st_bukti = "success";
               }
-            } elseif ($list->kode_status == '200' && $list->aktivasi == '0') {
-              if ($tgl_selesai < date('d M Y')) {
-                $bukti_status = "Penyewaan Selesai";
-                $st_bukti = "secondary";
-              } else {
-                $bukti_status = "Menunggu validasi dari admin";
-                $st_bukti = "warning";
-              }
-            } elseif ($list->kode_status == '202' && $list->aktivasi == '0') {
+            } elseif ($list->kode_status == '202') {
               $bukti_status = "Pembayaran Kadaluarsa";
               $st_bukti = "secondary";
             } else {

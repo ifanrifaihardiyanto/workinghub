@@ -35,8 +35,6 @@ class Authenticate extends CI_Controller
 
     if ($this->form_validation->run() == false) {
       $this->index();
-      print_r('gagal');
-      die;
     } else {
       $email      = $this->input->post('email');
       $password   = $this->input->post('password');
@@ -109,7 +107,7 @@ class Authenticate extends CI_Controller
     }
   }
 
-  public function registration()
+  public function partner_registration()
   {
     $this->form_validation->set_rules(
       'email',
@@ -161,9 +159,9 @@ class Authenticate extends CI_Controller
     $this->form_validation->set_rules('rekBCA', 'Rekening BCA', 'required|trim');
 
     $user = $this->session->userdata('user');
-    $user_id  = $user[0]->id_user;
-    $email  = $user[0]->username;
-    $role     = strtolower($user[0]->role);
+    $user_id  = $user->id;
+    $email  = $user->username;
+    $role     = strtolower($user->role);
 
     if ($this->form_validation->run() == false) {
       $this->load->view('auth/booking/completed_data');

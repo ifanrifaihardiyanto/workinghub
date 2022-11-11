@@ -171,12 +171,10 @@ class Search extends BaseController
         if (!isset($isLoggedIn) || $isLoggedIn != true) {
             $this->load->view('auth/booking/login');
         } else {
-            // $this->form_validation->set_rules('tglPenyewaan', 'Tanggal', 'required|trim');
             $this->form_validation->set_rules('tglSewa', 'Tanggal', 'required|trim');
             $this->form_validation->set_rules('hidejmlDurasi', 'NIK', 'required|trim');
             $this->form_validation->set_rules('hidejmlHarga', 'Nomor Telepon', 'required|trim');
 
-            // $tglPenyewaan   = $this->input->post('tglPenyewaan');
             $tglSewa   = $this->input->post('tglSewa');
             $exploadTgl = explode(" - ", $tglSewa);
             $tglPenyewaan = $exploadTgl[0];
@@ -241,14 +239,7 @@ class Search extends BaseController
         $mulaiPenyewaan     = $this->input->post('tglPenyewaan');
         $selesaiPenyewaan   = $this->input->post('tglSelesai');
         $harga              = $this->input->post('harga');
-        $nama               = $this->input->post('nama');
-        $nmtTlp             = $this->input->post('nmrTlp');
-        $email              = $this->input->post('email');
-        $id_pemesan         = $user[0]->id;
-
         $result             = $this->search->detail($id_ruangan, $durasi);
-        $id_gedung          = $result[0]->id_gedung;
-        $id_penyedia        = $result[0]->id_penyedia;
 
         if ($this->form_validation->run() == false) {
             $this->global['result'] = (object) [

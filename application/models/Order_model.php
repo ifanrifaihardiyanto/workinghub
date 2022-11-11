@@ -15,7 +15,7 @@ class Order_model extends CI_Model
         b.weekly_price as harga_mingguan, b.monthly_price as harga_bulanan, b.description as deskripsi, f.facility as fasilitas, g.image as gambar,
         o.order_code as kode_pemesanan, o.order_date as tgl_pemesanan, o.start_date as mulai_penyewaan, o.end_date as selesai_penyewaan, 
         o.duration_type as tipe_durasi, p.transaction_status as status_bukti, p.total as total_pembayaran, o.duration_amount as jml_durasi,
-        p.status_code as kode_status
+        p.status_code as kode_status, p.activation as aktivasi
         from building a 
         left outer join room b 
         on a.id = b.id_gedung  
@@ -43,7 +43,7 @@ class Order_model extends CI_Model
         b.weekly_price as harga_mingguan, b.monthly_price as harga_bulanan, b.description as deskripsi, f.facility as fasilitas, g.image as gambar,
         o.order_code as kode_pemesanan, o.order_date as tgl_pemesanan, o.start_date as mulai_penyewaan, o.end_date as selesai_penyewaan, 
         o.duration_type as tipe_durasi, p.transaction_status as status_bukti, p.total as total_pembayaran, o.duration_amount as jml_durasi,
-        p.status_code as kode_status, o.customer as nama, o.no_tlp, o.email, p.payment_type as metode_pembayaran
+        p.status_code as kode_status, o.customer as nama, o.no_tlp, o.email, p.payment_type as metode_pembayaran, p.activation as aktivasi
         from building a 
         left outer join room b 
         on a.id = b.id_gedung  

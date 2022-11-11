@@ -106,20 +106,6 @@ class Search_model extends CI_Model
         return $this->db->query($sql)->result();
     }
 
-    public function tersewa()
-    {
-        $tgl = date('Y-m-d', strtotime('+1 day'));
-        $sql = "select o.room_id, o.start_date, o.end_date, o.duration_type 
-        from `order` o  
-        join payment py 
-        on o.id = py.order_id 
-        where o.start_date >= '$tgl' and py.activation='1'";
-
-        // print_r($sql);
-
-        return $this->db->query($sql)->result();
-    }
-
     public function detail($id, $durasi)
     {
         $sql = "select a.id as id_gedung, a.id_penyedia, b.id as id_ruangan, d.id as id_durasi, a.name as name_gedung, a.location, 
@@ -233,6 +219,8 @@ class Search_model extends CI_Model
         on t.id_pembayaran = py.id_pembayaran
         where p.id_pemesan='$id_pemesan' and p.id_pemesanan='$id_pemesanan' and d.duration='$durasi'";
 
+        print_r($sql);
+
         return $this->db->query($sql)->result();
     }
 
@@ -241,5 +229,19 @@ class Search_model extends CI_Model
         $sql = "update pembayaran set nama_bukti='$nama', bukti_pembayaran='$img', status_bukti='1' where kode_pemesanan='$kode_pemesanan'";
 
         $this->db->query($sql);
+    }
+
+    public function tersewa()
+    {
+        $tgl = date('Y-m-d', strtotime('+1 day'));
+        $sql = "select o.room_id, o.start_date, o.end_date, o.duration_type 
+        from `order` o  
+        join payment py 
+        on o.id = py.order_id 
+        where py.activation='1'";
+
+        print_r($sql);
+
+        return $this->db->query($sql)->result();
     }
 }

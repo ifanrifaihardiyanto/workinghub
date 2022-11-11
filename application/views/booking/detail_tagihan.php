@@ -21,7 +21,7 @@
                 $tgl_penyewaan  = date('d M Y', strtotime($result->tagihan[0]->mulai_penyewaan));
                 $tgl_selesai    = date('d M Y', strtotime($result->tagihan[0]->selesai_penyewaan));
 
-                if ($result->tagihan[0]->kode_status == '200' && $result->tagihan[0]->aktivasi == '1') {
+                if ($result->tagihan[0]->kode_status == '200') {
                     if ($tgl_selesai < date('d M Y')) {
                         $bukti_status = "Penyewaan Selesai";
                         $st_bukti = "secondary";
@@ -29,15 +29,7 @@
                         $bukti_status = "Penyewaan Aktif";
                         $st_bukti = "success";
                     }
-                } elseif ($result->tagihan[0]->kode_status == '200' && $result->tagihan[0]->aktivasi == '0') {
-                    if ($tgl_selesai < date('d M Y')) {
-                        $bukti_status = "Penyewaan Selesai";
-                        $st_bukti = "secondary";
-                    } else {
-                        $bukti_status = "Menunggu validasi dari admin";
-                        $st_bukti = "warning";
-                    }
-                } elseif ($result->tagihan[0]->kode_status == '202' && $result->tagihan[0]->aktivasi == '0') {
+                } elseif ($result->tagihan[0]->kode_status == '202') {
                     $bukti_status = "Pembayaran Kadaluarsa";
                     $st_bukti = "secondary";
                 } else {

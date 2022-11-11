@@ -19,7 +19,7 @@ class Manageprofile extends BaseController
         $user = $this->session->userdata('user');
 
         $load = "booking";
-        if ($user[0]->role !== 'Pemesan') {
+        if (strtolower($user[0]->role) !== 'customer') {
             $load = "dashboard";
         }
 
@@ -37,10 +37,10 @@ class Manageprofile extends BaseController
         $user_id    = $user[0]->id_user;
         $role       = strtolower($user[0]->role);
         $load       = "booking";
-        if ($user[0]->role !== 'Pemesan') {
+        if (strtolower($user[0]->role) !== 'customer') {
             $load = "dashboard";
         }
-        // print_r($role); die;
+
         $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
         $this->form_validation->set_rules('nik', 'NIK', 'required|trim');
         $this->form_validation->set_rules('noTelp', 'Nomor Telepon', 'required|trim');
@@ -49,7 +49,7 @@ class Manageprofile extends BaseController
         $this->form_validation->set_rules('tglLahir', 'Tanggal Lahir', 'required');
         $this->form_validation->set_rules('alamat', 'Alamat', 'required|trim');
 
-        if ($user[0]->role !== 'Admin') {
+        if (strtolower($user[0]->role) !== 'Admin') {
             $this->form_validation->set_rules('rekBNI', 'Rekening BNI', 'required|trim');
             $this->form_validation->set_rules('rekBRI', 'Rekening BRI', 'required|trim');
             $this->form_validation->set_rules('rekMandiri', 'Rekening Mandiri', 'required|trim');

@@ -66,6 +66,9 @@ $month = date('m', strtotime($date));
                     action="<?php echo base_url(); ?>index.php/search/pemesanan/<?= $result->ruangan[0]->id_ruangan . "/" . $result->durasi ?>"
                     method="post">
                     <div class="form-pemesanan-wrap d-flex justify-content-between align-items-center">
+                        <div class="col-md-12">
+                            <div id="notif"></div>
+                        </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Tanggal</label>
@@ -191,7 +194,7 @@ let dd = "<?= $day ?>";
 let mm = "<?= $month ?>";
 
 $(document).ready(function() {
-    console.log(durasi)
+    // console.log(durasi)
 
     var today = new Date();
     var yyyy = today.getFullYear();
@@ -206,12 +209,37 @@ $(document).ready(function() {
         opens: 'right',
         minDate: today,
     }, function(start, end, label) {
+        let notif = '';
         var started = new Date(start.format('MM/DD/YYYY'));
         var ended = new Date(end.format('MM/DD/YYYY'));
         const diffTime = Math.abs(ended - started);
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
         getHarga(durasi, diffDays, id_ruangan);
         $("#pesan").prop("disabled", false);
+        if (durasi == 'Minggu' && diffDays < 7) {
+            notif +=
+                `<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                <strong>Jumlah durasi : ${diffDays} hari, mohon maaf jumlah durasi harus lebih dari sama dengan 7 hari!
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>`;
+            $('#notif')[0].innerHTML = notif;
+            $("#pesan").prop("disabled", true);
+        }
+        if (durasi == 'Bulan' && diffDays < 30) {
+            notif +=
+                `<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                <strong>Jumlah durasi : ${diffDays} hari, mohon maaf jumlah durasi harus lebih dari sama dengan 30 hari!
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>`;
+            $('#notif')[0].innerHTML = notif;
+            $("#pesan").prop("disabled", true);
+        }
+        console.log(durasi + ' - ' + diffDays);
+
     });
 
     // document.getElementById('jmlDurasi').addEventListener('focus', function() {
@@ -231,7 +259,6 @@ $(document).ready(function() {
 });
 
 function getHarga(durasi, jmlDurasi, id_ruangan) {
-    console.log(id_ruangan);
     $(document).ready(() => {
         $.ajax({
             type: "POST",
@@ -249,7 +276,7 @@ function getHarga(durasi, jmlDurasi, id_ruangan) {
                     let harga = items.harga;
                     let total_harga = jmlDurasi * harga;
 
-                    textHtmlRincian += `<div>${jmlDurasi} ${durasi} x Rp ${rubah(harga)}</div>
+                    textHtmlRincian += `<div>${jmlDurasi} Hari x Rp ${rubah(harga)}</div>
             <input type="text" class="form-control" id="hidejmlDurasi" name="hidejmlDurasi" value="${jmlDurasi}" hidden>
             `;
 

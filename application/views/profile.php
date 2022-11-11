@@ -55,7 +55,7 @@ $success = $this->session->flashdata('success');
                                 <small class="text-danger"><?= form_error('noTelp'); ?></small>
                             </div>
                         </div><!-- Col -->
-                        <?php if (in_array($user[0]->role, ['Partner', 'Pemesan'])) : ?>
+                        <?php if (in_array($user[0]->role, ['Partner', 'Customer'])) : ?>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Nomor Rekening Bank BNI</label>
@@ -75,7 +75,7 @@ $success = $this->session->flashdata('success');
                                 <small class="text-danger"><?= form_error('tmptLahir'); ?></small>
                             </div>
                         </div><!-- Col -->
-                        <?php if (in_array($user[0]->role, ['Partner', 'Pemesan'])) : ?>
+                        <?php if (in_array($user[0]->role, ['Partner', 'Customer'])) : ?>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Nomor Rekening Bank BRI</label>
@@ -95,7 +95,7 @@ $success = $this->session->flashdata('success');
                                 <small class="text-danger"><?= form_error('tglLahir'); ?></small>
                             </div>
                         </div><!-- Col -->
-                        <?php if (in_array($user[0]->role, ['Partner', 'Pemesan'])) : ?>
+                        <?php if (in_array($user[0]->role, ['Partner', 'Customer'])) : ?>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Nomor Rekening Bank Mandiri</label>
@@ -115,7 +115,7 @@ $success = $this->session->flashdata('success');
                                 <small class="text-danger"><?= form_error('alamat'); ?></small>
                             </div>
                         </div><!-- Col -->
-                        <?php if (in_array($user[0]->role, ['Partner', 'Pemesan'])) : ?>
+                        <?php if (in_array($user[0]->role, ['Partner', 'Customer'])) : ?>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="control-label">Nomor Rekening Bank BCA</label>

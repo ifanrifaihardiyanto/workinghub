@@ -14,6 +14,7 @@ class Manageuser extends BaseController
         $this->load->library('form_validation', 'upload');
         $this->load->model('Auth_model', 'auth');
         $this->load->model('admin/manageuser_model', 'manage_user');
+        $this->load->model('Manageprofile_model', 'manage_profile');
         $this->load->model('user_model', 'user');
     }
 
@@ -41,22 +42,21 @@ class Manageuser extends BaseController
         $this->loadViews("includes/dashboard/main", $this->global);
     }
 
-    public function add_user()
+    public function tambah()
     {
+        $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
+        $this->form_validation->set_rules('nik', 'NIK', 'required|trim');
+        $this->form_validation->set_rules('noTelp', 'Nomor Telepon', 'required|trim');
         $this->form_validation->set_rules(
             'email',
             'Email',
             'required|trim|valid_email|is_unique[user.username]',
             ['is_unique' => 'Email sudah pernah digunakan!']
         );
-        $this->form_validation->set_rules('role', 'Role', 'required|trim');
-        $this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[8]');
-        $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
-        $this->form_validation->set_rules('nik', 'NIK', 'required|trim');
-        $this->form_validation->set_rules('noTelp', 'Nomor Telepon', 'required|trim');
-        $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
         $this->form_validation->set_rules('tmptLahir', 'Tempat Lahir', 'required|trim');
+        $this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[8]');
         $this->form_validation->set_rules('tglLahir', 'Tanggal Lahir', 'required');
+        $this->form_validation->set_rules('role', 'Role', 'required|trim');
         $this->form_validation->set_rules('alamat', 'Alamat', 'required|trim');
 
         $email  = $this->input->post('email');
@@ -137,7 +137,6 @@ class Manageuser extends BaseController
         $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
         $this->form_validation->set_rules('nik', 'NIK', 'required|trim');
         $this->form_validation->set_rules('noTelp', 'Nomor Telepon', 'required|trim');
-        $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
         $this->form_validation->set_rules('tmptLahir', 'Tempat Lahir', 'required|trim');
         $this->form_validation->set_rules('tglLahir', 'Tanggal Lahir', 'required');
         $this->form_validation->set_rules('alamat', 'Alamat', 'required|trim');

@@ -39,10 +39,10 @@ $success = $this->session->flashdata('success');
                 <div class="d-flex justify-content-between">
                     <h6 class="card-title">List Image</h6>
                     <?php
-                        $disabled = "";
-                        if ($list['remaining_uploads'] == 0) {
-                            $disabled = "disabled";
-                        }
+                    $disabled = "";
+                    if ($list['remaining_uploads'] == 0) {
+                        $disabled = "disabled";
+                    }
                     ?>
                     <button type="button" class="btn btn-info btn-icon" data-toggle="modal" data-target="#tambah"
                         <?= $disabled ?>><i data-feather="plus-circle"></i></button>
@@ -64,16 +64,16 @@ $success = $this->session->flashdata('success');
                                 <td colspan="100%"> Data kosong </td>
                             </tr>
                             <?php } else {
-                            foreach ($list['image'] as $index => $p) : 
-                                if (!empty($p->image)) {
-                                    $data_gambar = explode(', ', $p->image);
-                                }
-          
-                                $cntDataGambar = count($data_gambar);
-                                for ($i = 0; $i < $cntDataGambar; $i++) {
-                                    $data_gambar = explode('workinghub', $data_gambar[$i]);
-                                }
-                            ?>
+                                foreach ($list['image'] as $index => $p) :
+                                    if (!empty($p->image)) {
+                                        $data_gambar = explode(', ', $p->image);
+                                    }
+
+                                    $cntDataGambar = count($data_gambar);
+                                    for ($i = 0; $i < $cntDataGambar; $i++) {
+                                        $data_gambar = explode('workinghub', $data_gambar[$i]);
+                                    }
+                                ?>
                             <tr>
                                 <td><?= ++$index ?></td>
                                 <td><img src="<?php echo base_url(); ?><?= $data_gambar[1] ?>" alt=""></td>
@@ -105,7 +105,8 @@ $success = $this->session->flashdata('success');
                 </button>
             </div>
             <div class="modal-body">
-                <form action="<?php echo base_url(); ?>partner/manageruangan/addImage/<?= $list['id_ruangan'] ?>"
+                <form
+                    action="<?php echo base_url(); ?>partner/manageruangan/insert_or_update_image/<?= $list['id_ruangan'] ?>"
                     method="post" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-sm-12">

@@ -35,13 +35,57 @@ class Notification extends CI_Controller
 		echo 'test notification handler';
 		$json_result = file_get_contents('php://input');
 		$result = json_decode($json_result);
-		$status_code = $result->status_code;
-		$status_message = $result->status_message;
-		$order_code = $result->order_id;
-		$total = $result->payment_amounts[0]->amount;
-		$paid_at = $result->payment_amounts[0]->paid_at;
-		$transaction_status = $result->transaction_status;
+
+		// if ($result) {
+		$notif = $this->veritrans->status('WH-7G4GITS8');
+		// var_dump($notif);
+		// die;
+		// }
+
+		error_log(print_r($result, TRUE));
+
+		$status_code = $notif->status_code;
+		$status_message = $notif->status_message;
+		$order_code = $notif->order_id;
+		$total = $notif->payment_amounts[0]->amount;
+		$paid_at = $notif->payment_amounts[0]->paid_at;
+		$transaction_status = $notif->transaction_status;
 
 		$this->payment->updateStatus($order_code, $status_code, $status_message, $transaction_status, $paid_at, $total);
+
+		//notification handler sample
+
+		/*
+		$transaction = $notif->transaction_status;
+		$type = $notif->payment_type;
+		$order_id = $notif->order_id;
+		$fraud = $notif->fraud_status;
+
+		if ($transaction == 'capture') {
+		  // For credit card transaction, we need to check whether transaction is challenge by FDS or not
+		  if ($type == 'credit_card'){
+		    if($fraud == 'challenge'){
+		      // TODO set payment status in merchant's database to 'Challenge by FDS'
+		      // TODO merchant should decide whether this transaction is authorized or not in MAP
+		      echo "Transaction order_id: " . $order_id ." is challenged by FDS";
+		      } 
+		      else {
+		      // TODO set payment status in merchant's database to 'Success'
+		      echo "Transaction order_id: " . $order_id ." successfully captured using " . $type;
+		      }
+		    }
+		  }
+		else if ($transaction == 'settlement'){
+		  // TODO set payment status in merchant's database to 'Settlement'
+		  echo "Transaction order_id: " . $order_id ." successfully transfered using " . $type;
+		  } 
+		  else if($transaction == 'pending'){
+		  // TODO set payment status in merchant's database to 'Pending'
+		  echo "Waiting customer to finish transaction order_id: " . $order_id . " using " . $type;
+		  } 
+		  else if ($transaction == 'deny') {
+		  // TODO set payment status in merchant's database to 'Denied'
+		  echo "Payment using " . $type . " for transaction order_id: " . $order_id . " is denied.";
+		}*/
 	}
 }

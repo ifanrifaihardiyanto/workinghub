@@ -1,18 +1,17 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 require APPPATH . '/libraries/BaseController.php';
 
-class Manageruangan extends BaseController {
-    
+class Manageruangan extends BaseController
+{
+
     public function __construct()
-	{
-		parent::__construct();
-		//Do your magic here
-        // $this->load->model('Auth_model', 'auth');
-        // $this->load->library('form_validation');
+    {
+        parent::__construct();
+        //Do your magic here
         $this->load->model('admin/Manageruangan_model', 'manage_ruangan');
-	}
+    }
 
     public function index()
     {
@@ -30,7 +29,7 @@ class Manageruangan extends BaseController {
         $this->global['gedung'] = [
             'ruangan' => $ruangan
         ];
-        
+
         $this->profile();
 
         $this->metadata->pageView = "dashboard/admin/validasi_ruangan";

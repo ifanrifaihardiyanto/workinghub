@@ -44,7 +44,9 @@ class Payment_model extends CI_Model
     {
         $sql = "update payment py join `order` o on o.id = py.order_id 
         set py.transaction_status = '$transaction_status', py.status_code = '$status_code', 
-        py.status_message ='$status_message', py.paid_at = '$paid_at', py.amount = '$total' 
+        py.status_message ='$status_message', py.paid_at = '$paid_at', py.amount = '$total' py.activation='1'
         where o.order_code='$order_code'";
+
+        $this->db->query($sql);
     }
 }

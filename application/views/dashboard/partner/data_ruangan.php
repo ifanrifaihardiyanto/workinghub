@@ -49,31 +49,32 @@ $success = $this->session->flashdata('success');
                         </thead>
                         <tbody>
                             <?php foreach ($gedung['ruangan'] as $index => $r) :
-                              $disable = "";
-                            //   print_r($r);
-                              if ($r->activation == '1') {
-                                $aktif = "Aktif";
-                                $status = "success";
-                              } elseif ($r->activation == '2') {
-                                $aktif = "Ditolak";
-                                $status = "danger";
-                                $disable = "disabled";
-                              } elseif ($r->activation == '3') {
-                                $aktif = "Tidak aktif";
-                                $status = "danger";
-                                $disable = "disabled";
-                              } else {
-                                $aktif = "Menunggu persetujuan admin";
-                                $status = "warning";
-                              }
+                                // print_r($r);
+                                $disable = "";
+                                //   print_r($r);
+                                if ($r->activation == '1') {
+                                    $aktif = "Aktif";
+                                    $status = "success";
+                                } elseif ($r->activation == '2') {
+                                    $aktif = "Ditolak";
+                                    $status = "danger";
+                                    $disable = "disabled";
+                                } elseif ($r->activation == '3') {
+                                    $aktif = "Tidak aktif";
+                                    $status = "danger";
+                                    $disable = "disabled";
+                                } else {
+                                    $aktif = "Menunggu persetujuan admin";
+                                    $status = "warning";
+                                }
 
-                              if ($r->discontinue == '1') {
-                                $henti = "Disewakan";
-                                $statusa = "success";
-                              } else {
-                                $henti = "Dihentikan";
-                                $statusa = "danger";
-                              }
+                                if ($r->discontinue == '1') {
+                                    $henti = "Disewakan";
+                                    $statusa = "success";
+                                } else {
+                                    $henti = "Dihentikan";
+                                    $statusa = "danger";
+                                }
                             ?>
                             <tr>
                                 <td><?= ++$index ?></td>
@@ -112,7 +113,7 @@ $success = $this->session->flashdata('success');
                                         </div>
                                         <div class="modal-body">
                                             <form
-                                                action="<?php echo base_url(); ?>partner/manageruangan/edit/<?= $r->id_ruangan ?>/<?= $r->id_gedung ?>"
+                                                action="<?php echo base_url(); ?>partner/manageruangan/edit/<?= $r->id_ruangan ?>"
                                                 method="post" enctype="multipart/form-data">
                                                 <!-- Row -->
                                                 <div class="row">
@@ -154,10 +155,10 @@ $success = $this->session->flashdata('success');
                                                                 multiple="multiple" name="fasilitas[]"
                                                                 id="fasilitas<?= $r->id_ruangan ?>">
                                                                 <?php
-                                                                $data_fas = explode(', ', $r->fasilitas);
+                                                                    $data_fas = explode(', ', $r->facility);
 
-                                                                foreach ($data_fas as $item) :
-                                                                ?>
+                                                                    foreach ($data_fas as $item) :
+                                                                    ?>
                                                                 <option value="<?= $item ?>"
                                                                     <?= in_array($item, $data_fas) ? 'selected' : '' ?>>
                                                                     <?= $item ?></option>
@@ -215,59 +216,63 @@ $success = $this->session->flashdata('success');
                                                         <div class="form-group">
                                                             <label for="customRange1">Tipe Durasi</label>
                                                             <?php
-                                                            $data_durasi = $r->duration;
-                                                            if (!empty($r->duration)) {
-                                                              $data_durasi = explode(', ', $r->duration);
-                                                            }
-                                                            $durasiJ = '';
-                                                            $durasiH = '';
-                                                            $durasiM = '';
-                                                            $durasiB = '';
-                                                            foreach ($data_durasi as $item) {
-                                                              if ($item == 'Jam') {
-                                                                $durasiJ = 'Jam';
-                                                              } elseif ($item == 'Hari') {
-                                                                $durasiH = 'Hari';
-                                                              } elseif ($item == 'Minggu') {
-                                                                $durasiM = 'Minggu';
-                                                              } else {
-                                                                $durasiB = 'Bulan';
-                                                              }
-                                                            }
-                                                            ?>
+                                                                $data_durasi = $r->duration;
+                                                                if (!empty($r->duration)) {
+                                                                    $data_durasi = explode(', ', $r->duration);
+                                                                }
+                                                                $durasiJ = '';
+                                                                $durasiH = '';
+                                                                $durasiM = '';
+                                                                $durasiB = '';
+                                                                foreach ($data_durasi as $item) {
+                                                                    if ($item == 'Jam') {
+                                                                        $durasiJ = 'Jam';
+                                                                    } elseif ($item == 'Hari') {
+                                                                        $durasiH = 'Hari';
+                                                                    } elseif ($item == 'Minggu') {
+                                                                        $durasiM = 'Minggu';
+                                                                    } else {
+                                                                        $durasiB = 'Bulan';
+                                                                    }
+                                                                }
+                                                                ?>
                                                             <div class="form-check">
                                                                 <label class="form-check-label">
                                                                     <input type="checkbox" <?php if ($durasiJ != '') {
-                                                              echo 'checked';
-                                                            } ?> class="form-check-input" name="durasi[]" id="durasi"
-                                                                        value="Jam">
+                                                                                                    echo 'checked';
+                                                                                                } ?>
+                                                                        class="form-check-input" name="durasi[]"
+                                                                        id="durasi" value="Jam">
                                                                     Jam
                                                                 </label>
                                                             </div>
                                                             <div class="form-check">
                                                                 <label class="form-check-label">
                                                                     <input type="checkbox" <?php if ($durasiH != '') {
-                                                              echo 'checked';
-                                                            } ?> class="form-check-input" name="durasi[]" id="durasi"
-                                                                        value="Hari">
+                                                                                                    echo 'checked';
+                                                                                                } ?>
+                                                                        class="form-check-input" name="durasi[]"
+                                                                        id="durasi" value="Hari">
                                                                     Hari
                                                                 </label>
                                                             </div>
                                                             <div class="form-check">
                                                                 <label class="form-check-label">
                                                                     <input type="checkbox" <?php if ($durasiM != '') {
-                                                              echo 'checked';
-                                                            } ?> class="form-check-input" name="durasi[]" id="durasi"
-                                                                        value="Minggu">
+                                                                                                    echo 'checked';
+                                                                                                } ?>
+                                                                        class="form-check-input" name="durasi[]"
+                                                                        id="durasi" value="Minggu">
                                                                     Minggu
                                                                 </label>
                                                             </div>
                                                             <div class="form-check">
                                                                 <label class="form-check-label">
                                                                     <input type="checkbox" <?php if ($durasiB != '') {
-                                                              echo 'checked';
-                                                            } ?> class="form-check-input" name="durasi[]" id="durasi"
-                                                                        value="Bulan">
+                                                                                                    echo 'checked';
+                                                                                                } ?>
+                                                                        class="form-check-input" name="durasi[]"
+                                                                        id="durasi" value="Bulan">
                                                                     Bulan
                                                                 </label>
                                                             </div>

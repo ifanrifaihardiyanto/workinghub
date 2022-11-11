@@ -24,7 +24,6 @@ class Home extends BaseController
         ];
 
         $user = $this->session->userdata('user');
-        // var_dump($user); die;
         $load = "booking";
 
         $profil = [];
@@ -33,17 +32,12 @@ class Home extends BaseController
             $user_id  = $user[0]->id_user;
             $role     = strtolower($user[0]->role);
 
-            if ($user[0]->role !== 'Customer') {
-                $load = "dashboard";
-                $this->metadata->pageView = "test";
+            if (strtolower($user[0]->role) !== 'customer') {
+                redirect('dashboard/dash');
             }
 
             $profil = $this->auth->getDataAll($user_id, $role);
-
-            // var_dump($profil);
-            // die;
         }
-        // var_dump($profil);
 
         $this->global['data'] = (object) [
             'profile' => $profil

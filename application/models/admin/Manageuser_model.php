@@ -34,9 +34,9 @@ class Manageuser_model extends CI_Model
         $this->db->query($sql);
     }
 
-    public function get_id_user($email, $role)
+    public function get_id_user($email, $role, $nama)
     {
-        $sql = "select * from user where role='$role' and username='$email'";
+        $sql = "select * from user where role='$role' and username='$email' order by id desc limit 1";
 
         return $this->db->query($sql)->result();
     }

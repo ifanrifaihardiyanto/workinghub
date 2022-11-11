@@ -17,15 +17,15 @@ class Manageruangan_model extends CI_Model
 
         $count = $this->db->query($sql);
         $count = $count->num_rows();
-        
-        if($count > 0){
-			return $this->db->query($sql)->result();
-		} else {
-			return [(object) [
+
+        if ($count > 0) {
+            return $this->db->query($sql)->result();
+        } else {
+            return [(object) [
                 'id_gedung' => "0",
                 'nama_gedung' => "No Data"
             ]];
-		}
+        }
     }
 
     public function getJenisGedung()
@@ -34,12 +34,12 @@ class Manageruangan_model extends CI_Model
 
         $count = $this->db->query($sql);
         $count = $count->num_rows();
-        
-        if($count > 0){
-			return $this->db->query($sql)->result();
-		} else {
-			return [(object) ['type' => "Data tidak ditemukan, silahkan input jenis gedung!"]];
-		}
+
+        if ($count > 0) {
+            return $this->db->query($sql)->result();
+        } else {
+            return [(object) ['type' => "Data tidak ditemukan, silahkan input jenis gedung!"]];
+        }
     }
 
     public function insertJenisGedung($jnsGedung)
@@ -56,9 +56,9 @@ class Manageruangan_model extends CI_Model
         return $this->db->query($sql)->result();
     }
 
-    public function insertGedung($idJnsGedung, $nmGedung, $lokasi, $kota, $email, $noTelp, $user_id)
+    public function insertGedung($idJnsGedung, $nmGedung, $lokasi, $kota, $email, $noTelp, $jamBuka, $jamTutup, $user_id)
     {
-        $sql = "insert into gedung (name, location, city, email, no_tlp, id_penyedia, id_jenis) 
+        $sql = "insert into building (name, location, city, email, no_tlp, id_penyedia, id_jenis) 
         values 
         ('$nmGedung','$lokasi','$kota','$email','$noTelp','$user_id','$idJnsGedung')";
 
@@ -67,14 +67,14 @@ class Manageruangan_model extends CI_Model
 
     public function find_idgedung_by_id($nmGedung)
     {
-        $sql = "select * from gedung where nama_gedung='$nmGedung'";
+        $sql = "select * from building where name='$nmGedung'";
 
         return $this->db->query($sql)->result();
     }
 
     public function insertRuangan($id_gedung, $nmRuangan, $ukuran, $kapasitas, $hargaJam, $hargaHarian, $hargaMingguan, $hargaBulanan, $deskripsi, $activation, $pemberhentian, $user_id)
     {
-        $sql = "insert into ruangan (name, size, capacity, hourly_price, daily_price, weekly_price, monthly_price, description, activation, discontinue, id_gedung, id_penyedia, created_at, updated_at) 
+        $sql = "insert into room (name, size, capacity, hourly_price, daily_price, weekly_price, monthly_price, description, activation, discontinue, id_gedung, id_penyedia, created_at, updated_at) 
         values 
         ('$nmRuangan','$ukuran','$kapasitas','$hargaJam','$hargaHarian','$hargaMingguan','$hargaBulanan','$deskripsi','$activation','$pemberhentian','$id_gedung','$user_id',now(), now())";
 
@@ -83,21 +83,21 @@ class Manageruangan_model extends CI_Model
 
     public function find_idruangan_by_id($nmRuangan, $idGedung)
     {
-        $sql = "select * from ruangan where name='$nmRuangan' and id_gedung='$idGedung'";
+        $sql = "select * from room where name='$nmRuangan' and id_gedung='$idGedung'";
 
         return $this->db->query($sql)->row();
     }
 
     public function insertFasilitas($fasilitas, $id_ruangan)
     {
-        $sql = "insert into fasilitas (facility, id_ruangan) values ('$fasilitas','$id_ruangan')";
+        $sql = "insert into facilities (facility, id_ruangan) values ('$fasilitas','$id_ruangan')";
 
         $this->db->query($sql);
     }
 
     public function insertDurasi($durasi, $id_ruangan)
     {
-        $sql = "insert into durasi (duration, id_ruangan) values ('$durasi','$id_ruangan')";
+        $sql = "insert into durations (duration, id_ruangan) values ('$durasi','$id_ruangan')";
 
         $this->db->query($sql);
     }
@@ -111,7 +111,7 @@ class Manageruangan_model extends CI_Model
 
     public function insertImage($name, $image, $id_gedung, $id_ruangan, $id_user)
     {
-        $sql = "insert into gambar (name, image, id_ruangan, id_gedung, id_penyedia) 
+        $sql = "insert into room_image (name, image, id_ruangan, id_gedung, id_penyedia) 
         values ('$name','$image','$id_ruangan','$id_gedung','$id_user')";
 
         $this->db->query($sql);
@@ -147,7 +147,7 @@ class Manageruangan_model extends CI_Model
 
     public function find_fasilitas($id_ruangan)
     {
-        $sql = "select * from fasilitas where id_ruangan='$id_ruangan'";
+        $sql = "select * from facilities where id_ruangan='$id_ruangan'";
 
         return $this->db->query($sql)->result();
     }
@@ -164,15 +164,15 @@ class Manageruangan_model extends CI_Model
 
     public function edit($id, $nmRuangan, $ukuran, $kapasitas, $hargaJam, $hargaHarian, $hargaMingguan, $hargaBulanan, $deskripsi)
     {
-        $sql = "update ruangan set nama_ruangan='$nmRuangan', deskripsi='$deskripsi', ukuran='$ukuran', kapasitas='$kapasitas',
-        harga_jam='$hargaJam', harga_harian='$hargaHarian', harga_mingguan='$hargaMingguan', harga_bulanan='$hargaBulanan'
-        where id_ruangan='$id'";
+        $sql = "update room set name='$nmRuangan', description='$deskripsi', size='$ukuran', capacity='$kapasitas',
+        hourly_price='$hargaJam', daily_price='$hargaHarian', weekly_price='$hargaMingguan', monthly_price='$hargaBulanan'
+        where id='$id'";
         $this->db->query($sql);
 
-        $delete_fas = "delete from fasilitas where id_ruangan='$id'";
+        $delete_fas = "delete from facilities where id_ruangan='$id'";
         $this->db->query($delete_fas);
 
-        $delete_durasi = "delete from durasi where id_ruangan='$id'";
+        $delete_durasi = "delete from durations where id_ruangan='$id'";
         $this->db->query($delete_durasi);
     }
 }
