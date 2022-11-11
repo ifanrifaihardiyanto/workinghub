@@ -37,7 +37,7 @@ class Managepenyewaan_model extends CI_Model
 
     public function pendapatan($id_user)
     {
-        $sql = "select r.name, coalesce(sum(py.amount),0) total
+        $sql = "select r.name as name, count(o.building_name) jmlPenyewaan, coalesce(sum(py.amount),0) total
         from `order` o 
         join payment py
         on o.id = py.order_id
@@ -46,7 +46,7 @@ class Managepenyewaan_model extends CI_Model
         right join room r 
         on r.id_penyedia = o.partner_id 
         where py.status_code='200' and p.id='$id_user'
-        group by 1";
+        group by 1 order by 2 desc";
 
         return $this->db->query($sql)->result();
     }

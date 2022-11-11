@@ -28,13 +28,30 @@ class Managepenyewaan extends BaseController
         $data_pendapatan = $this->manage_penyewaan->pendapatan($id_penyedia);
 
         $this->global['penyewaan_on_partner'] = [
-            'data_penyewaan' => $data_penyewaan,
-            'data_pendapatan' => $data_pendapatan
+            'data_penyewaan' => $data_penyewaan
         ];
 
         $this->profile();
 
         $this->metadata->pageView = "dashboard/partner/riwayat_penyewaan";
+
+        $this->loadViews("includes/dashboard/main", $this->global);
+    }
+
+    public function pendapatan()
+    {
+        $user           = $this->session->userdata('user');
+        $id_penyedia    = $user[0]->id;
+
+        $data_pendapatan = $this->manage_penyewaan->pendapatan($id_penyedia);
+
+        $this->global['pendapatan'] = [
+            'data_pendapatan' => $data_pendapatan
+        ];
+
+        $this->profile();
+
+        $this->metadata->pageView = "dashboard/partner/data_pendapatan";
 
         $this->loadViews("includes/dashboard/main", $this->global);
     }

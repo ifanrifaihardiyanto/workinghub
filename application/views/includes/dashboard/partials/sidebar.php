@@ -59,6 +59,10 @@ $user = $this->session->userdata('user');
                             <a href="<?php echo base_url(); ?>partner/managepenyewaan/" class="nav-link">Riwayat
                                 Penyewaan</a>
                         </li>
+                        <li class="nav-item">
+                            <a href="<?php echo base_url(); ?>partner/managepenyewaan/pendapatan" class="nav-link">Data
+                                Pendapatan</a>
+                        </li>
                     </ul>
                 </div>
                 <?php endif; ?>
