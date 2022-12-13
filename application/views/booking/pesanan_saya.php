@@ -12,12 +12,34 @@
             <div class="bd-example">
                 <div class="row">
                     <?php
-          // print_r($result->tagihan);
+          if (count($data->profile) === 0) { ?>
+                    <div class="col-md-12 pd-btm-10">
+                        <div class="alert alert-light text-center" role="alert">Silahkan login untuk melihat histori
+                            pesanan anda!</div>
+                    </div>
+                    <?php
+          } elseif (count($result->tagihan) === 0) { ?>
+                    <div class="col-md-12 pd-btm-10">
+                        <div class="alert alert-light text-center" role="alert">Data pemesanan kosong!</div>
+                    </div>
+                    <?php
+          }
           foreach ($result->tagihan as $item => $list) :
             // print_r($list->aktivasi);
 
             $tgl_penyewaan  = date('d M Y', strtotime($list->mulai_penyewaan));
             $tgl_selesai    = date('d M Y', strtotime($list->selesai_penyewaan));
+            $tgl = date('d M Y');
+
+            if ($tgl_selesai > $tgl) {
+              $test = "Penyewaan Selesai";
+              // $st_bukti = "secondary";
+            } else {
+              $test = "Menunggu Pembayaran";
+              // $st_bukti = "warning";
+            }
+
+            // print_r($tgl_selesai . ' -- ' . $tgl . ' -- ' . $test);
 
             if ($list->kode_status == '200') {
               if ($tgl_selesai < date('d M Y')) {

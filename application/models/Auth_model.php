@@ -40,8 +40,14 @@ class Auth_model extends CI_Model
         values ('$nama','$tmptLahir','$tglLahir','$alamat', '$nik','$email','$noTelp','$rekBNI','$rekBRI','$rekMandiri','$rekBCA','$user_id')";
         }
 
-
         // var_dump($sql);
+
+        $this->db->query($sql);
+    }
+
+    public function updatePassword($email, $password)
+    {
+        $sql = "update user set password='$password' where username='$email'";
 
         $this->db->query($sql);
     }

@@ -101,7 +101,7 @@ class Authenticate extends CI_Controller
         'user' => $result,
       ]);
 
-      $this->session->set_flashdata('success', 'Akun berhasil dibuat. Silahkan login!');
+      $this->session->set_flashdata('success', 'Registrasi berhasil. Silahkan lengkapi data pribadi anda!');
 
       redirect('/authenticate/completed_data');
     }
@@ -140,12 +140,6 @@ class Authenticate extends CI_Controller
 
   public function completed_data()
   {
-    $isLoggedIn = $this->session->userdata('isLoggedIn');
-
-    if (!isset($isLoggedIn) || $isLoggedIn != true) {
-      $this->load->view('auth/booking/completed_data');
-    }
-
     $this->form_validation->set_rules('nama', 'Nama', 'required|trim');
     $this->form_validation->set_rules('nik', 'NIK', 'required|trim');
     $this->form_validation->set_rules('noTelp', 'Nomor Telepon', 'required|trim');
@@ -182,6 +176,33 @@ class Authenticate extends CI_Controller
       $this->session->set_flashdata('success', 'Akun berhasil dibuat. Silahkan login!');
 
       redirect('/authenticate/logging_in');
+    }
+  }
+
+  public function lupa_password()
+  {
+    $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email');
+    $this->form_validation->set_rules('password', 'Password', 'required|trim|min_length[8]');
+
+    if ($this->form_validation->run() == false) {
+      $this->load->view('auth/booking/lupa_password');
+    } else {
+      $email    = $this->input->post('email');
+      $password = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
+
+      $result = $this->auth->getData($email);
+
+      if (empty($result)) {
+        $this->session->set_flashdata('error', 'Email belum terdaftar, silahkan registrasi dahulu!');
+
+        $this->load->view('auth/booking/lupa_password');
+      } else {
+        $this->auth->updatePassword($email, $password);
+
+        $this->session->set_flashdata('success', 'Password telah diperbarui. Silahkan login!');
+
+        redirect('/authenticate');
+      }
     }
   }
 }

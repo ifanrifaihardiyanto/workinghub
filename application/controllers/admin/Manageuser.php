@@ -65,7 +65,7 @@ class Manageuser extends BaseController
             if ($email == '') {
                 $this->session->set_flashdata('error', 'Data input ada yang kosong!');
             } else {
-                $this->session->set_flashdata('error', 'Akun gagal ditambahkan, email sudah pernah dipakai!');
+                $this->session->set_flashdata('error', 'Data user gagal ditambahkan, email sudah pernah dipakai!');
             }
 
             redirect('admin/manageuser');
@@ -94,7 +94,7 @@ class Manageuser extends BaseController
             $this->auth->insertUser($email, $password, $role, $activation);
 
             $user = $this->manage_user->get_id_user($email, $role);
-            $user_id  = $user[0]->id_user;
+            $user_id  = $user[0]->id;
 
             $this->auth->completedData(
                 $user_id,
@@ -114,10 +114,19 @@ class Manageuser extends BaseController
 
             $this->profile();
 
-            $this->session->set_flashdata('success', 'Akun berhasil dibuat. Silahkan login!');
+            $this->session->set_flashdata('success', 'Data user berhasil ditambahkan!');
 
             redirect('/admin/manageuser');
         }
+    }
+
+    public function aktif($id)
+    {
+        $this->manage_user->aktif($id);
+
+        $this->session->set_flashdata('success', 'Data berhasil diaktifkan kembali!');
+
+        redirect('admin/manageuser');
     }
 
     public function nonaktif($id)
@@ -156,25 +165,34 @@ class Manageuser extends BaseController
         $rekMandiri = $this->input->post('rekMandiri');
         $rekBCA     = $this->input->post('rekBCA');
 
-        $this->manage_profile->edit(
-            $id,
-            $nama,
-            $tmptLahir,
-            $tglLahir,
-            $alamat,
-            $nik,
-            $noTelp,
-            $rekBNI,
-            $rekBRI,
-            $rekMandiri,
-            $rekBCA,
-            $role
-        );
+        if ($this->form_validation->run() == false) {
+            $this->profile();
 
-        $this->profile();
+            $this->session->set_flashdata('error', 'Gagal mengubah data!');
 
-        $this->session->set_flashdata('success', 'Berhasil mengubah data!');
+            redirect('admin/manageuser');
+        } else {
 
-        redirect('admin/manageuser');
+            $this->manage_profile->edit(
+                $id,
+                $nama,
+                $tmptLahir,
+                $tglLahir,
+                $alamat,
+                $nik,
+                $noTelp,
+                $rekBNI,
+                $rekBRI,
+                $rekMandiri,
+                $rekBCA,
+                $role
+            );
+
+            $this->profile();
+
+            $this->session->set_flashdata('success', 'Berhasil mengubah data!');
+
+            redirect('admin/manageuser');
+        }
     }
 }

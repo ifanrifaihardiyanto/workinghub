@@ -25,7 +25,6 @@ class Managepenyewaan extends BaseController
         $id_penyedia    = $user[0]->id;
 
         $data_penyewaan = $this->manage_penyewaan->data_penyewaan_on_dashboard($id_penyedia);
-        $data_pendapatan = $this->manage_penyewaan->pendapatan($id_penyedia);
 
         $this->global['penyewaan_on_partner'] = [
             'data_penyewaan' => $data_penyewaan
@@ -46,7 +45,9 @@ class Managepenyewaan extends BaseController
         $data_pendapatan = $this->manage_penyewaan->pendapatan($id_penyedia);
 
         $this->global['pendapatan'] = [
-            'data_pendapatan' => $data_pendapatan
+            'data_activeSewa' => $data_pendapatan->activeSewa,
+            'data_pendapatan' => $data_pendapatan->pendapatan,
+            'total_pendapatan' => $data_pendapatan->total_pendapatan,
         ];
 
         $this->profile();

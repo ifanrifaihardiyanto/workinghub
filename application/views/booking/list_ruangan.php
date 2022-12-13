@@ -1,15 +1,22 @@
 <?php
-foreach ($result->ruangan as $index => $r) :
-  if ($r->duration == 'Jam') {
-    $harga = $r->hourly_price;
-  } elseif ($r->duration == 'Hari') {
-    $harga = $r->daily_price;
-  } elseif ($r->duration == 'Minggu') {
-    $harga = $r->weekly_price;
-  } else {
-    $harga = $r->monthly_price;
-  }
+if (count($result->ruangan) === 0) {
 ?>
+<div class="col-md-12 pd-btm-10">
+    <div class="alert alert-light text-center" role="alert">Data ruangan tidak ditemukan!</div>
+</div>
+<?php
+} else {
+  foreach ($result->ruangan as $index => $r) :
+    if ($r->duration == 'Jam') {
+      $harga = $r->hourly_price;
+    } elseif ($r->duration == 'Hari') {
+      $harga = $r->daily_price;
+    } elseif ($r->duration == 'Minggu') {
+      $harga = $r->weekly_price;
+    } else {
+      $harga = $r->monthly_price;
+    }
+  ?>
 <!-- <div class="col-md-12"> -->
 <a href="<?php echo base_url(); ?>search/detail/<?= $r->id . '/' . $r->duration ?>" target="_blank">
     <div class="list-ruangan">
@@ -18,20 +25,21 @@ foreach ($result->ruangan as $index => $r) :
                 <div class="row">
                     <div class="col-md-4">
                         <?php
-                        if (!empty($r->image)) {
-                          $data_gambar = explode(', ', $r->image);
-                        }
+                if (!empty($r->image)) {
+                  $data_gambar = explode(', ', $r->image);
+                }
 
-                        $cntDataGambar = count($data_gambar);
-                        for ($i = 0; $i < $cntDataGambar; $i++) {
-                          if ($i == 0) {
-                            $data_gambar = explode('workinghub', $data_gambar[$i]);
-                        ?>
+                $cntDataGambar = count($data_gambar);
+                for ($i = 0; $i < $cntDataGambar; $i++) {
+                  if ($i == 0) {
+                    $data_gambar = explode('workinghub', $data_gambar[$i]);
+                    // print_r($data_gambar[1]);
+                ?>
                         <img src="<?php echo base_url(); ?><?= $data_gambar[1] ?>" width="100%" height="250">
                         <?php
-                          }
-                        }
-                        ?>
+                  }
+                }
+                ?>
                     </div>
                     <div class="col-md-5">
                         <div class="card-body">
@@ -60,5 +68,8 @@ foreach ($result->ruangan as $index => $r) :
     </div>
 </a>
 <!-- </div> -->
-<?php endforeach; ?>
+<?php
+  endforeach;
+}
+?>
 <?= $this->pagination->create_links(); ?>

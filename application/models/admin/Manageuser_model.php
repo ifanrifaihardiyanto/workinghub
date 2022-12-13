@@ -22,9 +22,16 @@ class Manageuser_model extends CI_Model
             union all
             select a.id as id_user, a.role as role, a.activation as aktivasi, b.name, b.place_birth, b.date_birth, b.address, b.nik, b.email, b.no_tlp, '0' as rek_bni, '0' as rek_bri, '0' as rek_mandiri, '0' as rek_bca 
             from user a left outer join admin b on a.id = b.id_user where a.role='Admin'
-        ) data_user";
+        ) data_user order by aktivasi desc, role asc";
 
         return $this->db->query($sql)->result();
+    }
+
+    public function aktif($id)
+    {
+        $sql = "update user set activation='1' where id='$id'";
+
+        $this->db->query($sql);
     }
 
     public function nonaktif($id)
@@ -34,7 +41,7 @@ class Manageuser_model extends CI_Model
         $this->db->query($sql);
     }
 
-    public function get_id_user($email, $role, $nama)
+    public function get_id_user($email, $role)
     {
         $sql = "select * from user where role='$role' and username='$email' order by id desc limit 1";
 

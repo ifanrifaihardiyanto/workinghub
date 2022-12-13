@@ -13,6 +13,7 @@ class Search extends BaseController
         $this->load->library('form_validation');
         $this->load->library('upload');
         $this->load->model('Search_model', 'search');
+        $this->load->model('Order_model', 'order');
         $this->load->library('pagination');
     }
 
@@ -126,7 +127,7 @@ class Search extends BaseController
 
         // print_r($result);
 
-        $tersewa = $this->search->tersewa();
+        // $tersewa = $this->search->tersewa();
 
         $this->global['result'] = (object) [
             'ruangan' => $result
@@ -138,11 +139,15 @@ class Search extends BaseController
     public function detail($id, $durasi)
     {
         $result = $this->search->detail($id, $durasi);
+        $reviews = $this->search->reviews($id, $durasi);
+        $isInvalidDate = $this->order->tersewa($id, $durasi);
 
         $this->global['result'] = (object) [
             'ruangan' => $result,
+            'reviews' => $reviews,
             'durasi' => $durasi,
-            'id_ruangan' => $id
+            'id_ruangan' => $id,
+            'activeOrderDate' => $isInvalidDate,
         ];
 
         $this->profile();
@@ -178,9 +183,17 @@ class Search extends BaseController
             $tglSewa   = $this->input->post('tglSewa');
             $exploadTgl = explode(" - ", $tglSewa);
             $tglPenyewaan = $exploadTgl[0];
-            $tglEndPenyewaan = $exploadTgl[1];
             $hidejmlDurasi  = $this->input->post('hidejmlDurasi');
             $hidejmlHarga   = $this->input->post('hidejmlHarga');
+            if ($durasi == 'Minggu') {
+                $jmlDiff = ($hidejmlDurasi * 7);
+                $tglEndPenyewaan = date('m/d/Y', strtotime('+' . $jmlDiff . ' day'));
+            } elseif ($durasi == 'Bulan') {
+                $jmlDiff = ($hidejmlDurasi * 30);
+                $tglEndPenyewaan = date('m/d/Y', strtotime('+' . $jmlDiff . ' day'));
+            } else {
+                $tglEndPenyewaan = $exploadTgl[1];
+            }
 
             $result = $this->search->detail($id, $durasi);
 
@@ -210,9 +223,7 @@ class Search extends BaseController
                 ];
 
                 $this->profile();
-
                 $this->metadata->pageView = "booking/pemesanan";
-
                 $this->loadViews("includes/booking/main", $this->global);
             }
         }
@@ -220,7 +231,6 @@ class Search extends BaseController
 
     public function konfirmasi_pemesanan()
     {
-        $user = $this->session->userdata('user');
         $this->form_validation->set_rules('jmlDurasi', 'Jumlah Durasi', 'required|trim');
         $this->form_validation->set_rules('durasi', 'Durasi', 'required|trim');
         $this->form_validation->set_rules('id_ruangan', 'ID Ruangan', 'required|trim');
@@ -252,9 +262,7 @@ class Search extends BaseController
             ];
 
             $this->profile();
-
             $this->metadata->pageView = "booking/pemesanan";
-
             $this->loadViews("includes/booking/main", $this->global);
         } else {
             $this->global['result'] = (object) [
@@ -269,9 +277,7 @@ class Search extends BaseController
             ];
 
             $this->profile();
-
             $this->metadata->pageView = "booking/konfirmasi_pemesanan";
-
             $this->loadViews("includes/booking/main", $this->global);
         }
     }

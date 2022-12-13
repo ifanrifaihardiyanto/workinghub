@@ -114,7 +114,7 @@ class Payment extends CI_Controller
 
 		$getIdOrder = $this->payment->getOrder($order_code);
 		$activation = 0;
-		$this->payment->insertPayment($status_code, $status_message, $transaction_id, $total, $payment_type, $bank,	$va_number,	$transaction_status, $pdf_instruction, $activation, $getIdOrder->id);
+		$this->payment->insertPayment($status_code, $status_message, $transaction_id, $total, $payment_type, $bank,	$va_number,	$transaction_status, $pdf_instruction, $activation, $getIdOrder->id, $customer_id, $order_code);
 
 		redirect('order/list');
 	}

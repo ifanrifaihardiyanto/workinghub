@@ -58,7 +58,7 @@ class Manageruangan_model extends CI_Model
 
     public function insertGedung($idJnsGedung, $nmGedung, $lokasi, $kota, $email, $noTelp, $jamBuka, $jamTutup, $user_id)
     {
-        $sql = "insert into building (name, location, city, email, no_tlp, id_penyedia, id_jenis) 
+        $sql = "insert into building (name, location, city, email, no_tlp, id_penyedia, id_jenis, created_at, updated_at) 
         values 
         ('$nmGedung','$lokasi','$kota','$email','$noTelp','$user_id','$idJnsGedung')";
 
@@ -77,6 +77,8 @@ class Manageruangan_model extends CI_Model
         $sql = "insert into room (name, size, capacity, hourly_price, daily_price, weekly_price, monthly_price, description, activation, discontinue, id_gedung, id_penyedia, created_at, updated_at) 
         values 
         ('$nmRuangan','$ukuran','$kapasitas','$hargaJam','$hargaHarian','$hargaMingguan','$hargaBulanan','$deskripsi','$activation','$pemberhentian','$id_gedung','$user_id',now(), now())";
+
+        // print_r($sql);
 
         $this->db->query($sql);
     }
@@ -130,7 +132,7 @@ class Manageruangan_model extends CI_Model
         jg.type, b.size, b.capacity, b.hourly_price, b.daily_price, b.weekly_price, b.monthly_price, b.description, 
         b.activation, b.discontinue, f.facility, d.duration, g.image
         from building a 
-        left outer join room b 
+        join room b 
         on a.id = b.id_gedung 
         left outer join building_type jg 
         on a.id_jenis = jg.id

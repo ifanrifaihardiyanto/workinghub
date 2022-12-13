@@ -3,6 +3,12 @@ $this->load->helper('form');
 $date = date('d-m-Y');
 $day  = date('d', strtotime('+1 day', strtotime($date)));
 $month = date('m', strtotime($date));
+
+$date = [];
+foreach ($result->activeOrderDate as $key) {
+    $date = $key;
+}
+$activeOrderDate = implode(',', $date);
 ?>
 <div class="grid-margin">
 </div>
@@ -12,6 +18,10 @@ $month = date('m', strtotime($date));
             <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <?php
+                    // print_r($result->activeOrderDate);
+                    // print_r($result->reviews);
+                    // die;
+
                     if (!empty($result->ruangan[0]->image)) {
                         $data_gambar = explode(', ', $result->ruangan[0]->image);
                     }
@@ -69,25 +79,25 @@ $month = date('m', strtotime($date));
                         <div class="col-md-12">
                             <div id="notif"></div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label>Tanggal</label>
                                 <input type="text" class="form-control" name="tglSewa" id="tglSewa" />
                             </div>
                         </div>
                         <?php
-                        if ($result->durasi !== 'Jam') { ?>
-                        <!-- <div class="col-md-4">
+                        if ($result->durasi == 'Minggu') { ?>
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="Tanggal Penyewaan">Jumlah <?= $result->durasi ?></label>
                                 <input id="jmlDurasi" class="form-control" name="jmlDurasi" type="number">
                                 <small class="text-danger"><?= form_error('jmlDurasi'); ?></small>
                             </div>
-                        </div> -->
+                        </div>
                         <?php } else { ?>
 
                         <?php } ?>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="">Detail Harga</label>
                                 <div class="d-flex justify-content-between">
@@ -132,19 +142,15 @@ $month = date('m', strtotime($date));
                     <hr>
                     <div class="title-detail"><strong>Fasilitas</strong></div>
                     <div class="content-detail d-flex">
+                        <?php
+                        $fasilitas = explode(', ', $result->ruangan[0]->facility);
+
+                        foreach ($fasilitas as $item) {
+                        ?>
                         <ul>
-                            <li>AC</li>
-                            <li>Wifi</li>
-                            <li>Papan Tulis</li>
+                            <li><?= $item ?></li>
                         </ul>
-                        <ul>
-                            <li>Penyimpanan Barang</li>
-                            <li>Proyektor</li>
-                            <li>Kabel</li>
-                        </ul>
-                        <ul>
-                            <li>Snack</li>
-                        </ul>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
@@ -158,43 +164,42 @@ $month = date('m', strtotime($date));
             <div class="col-12">
                 <div class="review-wrap">
                     <div class="title-detail"><strong>Review</strong></div>
-                    <div class="card-review-ruangan d-flex justify-content-between">
-                        <p class="p-2 user"><strong>Abdul</strong></p>
-                        <p class="p-2 user-review">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Semper
-                            sagittis, bibendum risus sem lacus justo. Id metus aliquet tempor in. Tellus justo lectus
-                            convallis purus sit eu amet sed. Risus morbi diam nam amet pellentesque odio nisi nibh
-                            tincidunt. Sed justo, vitae, iaculis vel aliquam sit. Massa augue sit aliquam nisi,
-                            faucibus. Bibendum luctus eu urna lectus in dictumst.</p>
+                    <?php
+                    if (count($result->reviews) === 0) {
+                    ?>
+                    <div class="col-md-12">
+                        <div class="alert alert-light text-center" role="alert">Review tidak ditemukan</div>
                     </div>
+                    <?php
+                    }
+
+                    foreach ($result->reviews as $item) {
+                    ?>
                     <div class="card-review-ruangan d-flex justify-content-between">
-                        <p class="p-2 user"><strong>Abdul</strong></p>
-                        <p class="p-2 user-review">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Semper
-                            sagittis, bibendum risus sem lacus justo. Id metus aliquet tempor in. Tellus justo lectus
-                            convallis purus sit eu amet sed. Risus morbi diam nam amet pellentesque odio nisi nibh
-                            tincidunt. Sed justo, vitae, iaculis vel aliquam sit. Massa augue sit aliquam nisi,
-                            faucibus. Bibendum luctus eu urna lectus in dictumst.</p>
+                        <p class="p-2 user"><strong><?= $item->name ?></strong></p>
+                        <p class="p-2 user-review"><?= $item->review ?></p>
                     </div>
-                    <div class="card-review-ruangan d-flex justify-content-between">
-                        <p class="p-2 user"><strong>Abdul</strong></p>
-                        <p class="p-2 user-review">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Semper
-                            sagittis, bibendum risus sem lacus justo. Id metus aliquet tempor in. Tellus justo lectus
-                            convallis purus sit eu amet sed. Risus morbi diam nam amet pellentesque odio nisi nibh
-                            tincidunt. Sed justo, vitae, iaculis vel aliquam sit. Massa augue sit aliquam nisi,
-                            faucibus. Bibendum luctus eu urna lectus in dictumst.</p>
-                    </div>
+                    <?php } ?>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+<script>
+
+</script>
 <script>
 let durasi = "<?= $result->durasi ?>";
 let id_ruangan = "<?= $result->ruangan[0]->id_ruangan ?>";
 let dd = "<?= $day ?>";
 let mm = "<?= $month ?>";
+let invalidDate = [];
+let disabledArr = [<?= $activeOrderDate ?>];
 
 $(document).ready(function() {
     // console.log(durasi)
+    // console.log(jmlDurasi)
 
     var today = new Date();
     var yyyy = today.getFullYear();
@@ -202,61 +207,138 @@ $(document).ready(function() {
     today = mm + '/' + dd + '/' + yyyy;
 
     let diffDays = 0;
+
+    getDate(today);
+
     getHarga(durasi, diffDays, id_ruangan);
+
     $("#pesan").prop("disabled", true);
 
-    $('#tglSewa').daterangepicker({
-        opens: 'right',
-        minDate: today,
-    }, function(start, end, label) {
-        let notif = '';
-        var started = new Date(start.format('MM/DD/YYYY'));
-        var ended = new Date(end.format('MM/DD/YYYY'));
-        const diffTime = Math.abs(ended - started);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-        getHarga(durasi, diffDays, id_ruangan);
-        $("#pesan").prop("disabled", false);
-        if (durasi == 'Minggu' && diffDays < 7) {
-            notif +=
-                `<div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                <strong>Jumlah durasi : ${diffDays} hari, mohon maaf jumlah durasi harus lebih dari sama dengan 7 hari!
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>`;
-            $('#notif')[0].innerHTML = notif;
-            $("#pesan").prop("disabled", true);
-        }
-        if (durasi == 'Bulan' && diffDays < 30) {
-            notif +=
-                `<div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                <strong>Jumlah durasi : ${diffDays} hari, mohon maaf jumlah durasi harus lebih dari sama dengan 30 hari!
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>`;
-            $('#notif')[0].innerHTML = notif;
-            $("#pesan").prop("disabled", true);
-        }
-        console.log(durasi + ' - ' + diffDays);
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
 
+    var pusher = new Pusher('c14531a571ba79886871', {
+        cluster: 'ap1'
     });
 
-    // document.getElementById('jmlDurasi').addEventListener('focus', function() {
-    //     $("#jmlDurasi").on("input", null, null, function(e) {
-    //         if ($("#jmlDurasi").val().length >= 1) {
-    //             let jmlDurasi = $("#jmlDurasi").val();
+    var channel = pusher.subscribe('my-channel');
+    channel.bind('my-event', function(data) {
+        getDate();
+    });
 
-    //             getHarga(durasi, jmlDurasi, id_ruangan);
-    //             $("#pesan").prop("disabled", false);
-    //         } else {
-    //             let jmlDurasi = 0;
-    //             getHarga(durasi, jmlDurasi, id_ruangan);
-    //             $("#pesan").prop("disabled", true);
-    //         }
-    //     });
-    // });
+    document.getElementById('jmlDurasi').addEventListener('focus', function() {
+        $("#jmlDurasi").on("input", null, null, function(e) {
+            if ($("#jmlDurasi").val().length >= 1) {
+                let diffDays = $("#jmlDurasi").val();
+                getHarga(durasi, diffDays, id_ruangan);
+                $("#pesan").prop("disabled", false);
+            } else {
+                let diffDays = 0;
+                getHarga(durasi, diffDays, id_ruangan);
+                $("#pesan").prop("disabled", true);
+            }
+        });
+    });
+
 });
+
+function getDate(today) {
+    $.ajax({
+        type: "GET",
+        dataType: "JSON",
+        url: '<?php echo base_url() . "index.php/order/isOrderDate" ?>',
+        data: {
+            "id_ruangan": id_ruangan,
+            "durasi": durasi,
+        },
+        success: (response) => {
+            let activeRentDate = Object.values(response.date);
+            console.log(activeRentDate);
+
+            if (durasi == 'Hari') {
+
+                $('#tglSewa').daterangepicker({
+                    opens: 'right',
+                    minDate: today,
+                    isInvalidDate: function(arg) {
+                        // console.log(arg);
+
+                        // Prepare the date comparision
+                        var thisMonth = arg._d.getMonth() + 1;
+                        // Months are 0 based
+                        if (thisMonth < 10) {
+                            thisMonth = "0" + thisMonth; // Leading 0
+                        }
+                        var thisDate = arg._d.getDate();
+                        if (thisDate < 10) {
+                            thisDate = "0" + thisDate; // Leading 0
+                        }
+                        var thisYear = arg._d.getYear() + 1900;
+                        // Years are 1900 based
+
+                        var thisCompare = thisMonth + "/" + thisDate + "/" +
+                            thisYear;
+                        // console.log(thisCompare);
+
+                        if ($.inArray(thisCompare, activeRentDate) != -1) {
+                            // console.log("      ^--------- DATE FOUND HERE");
+                            return true;
+                        }
+                    }
+                }, function(start, end, label) {
+                    let notif = '';
+                    var started = new Date(start.format('MM/DD/YYYY'));
+                    var ended = new Date(end.format('MM/DD/YYYY'));
+                    const diffTime = Math.abs(ended - started);
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 *
+                        24)) + 1;
+                    getHarga(durasi, diffDays, id_ruangan);
+                    $("#pesan").prop("disabled", false);
+                });
+
+            } else {
+                $('#tglSewa').daterangepicker({
+                    opens: 'right',
+                    minDate: today,
+                    singleDatePicker: true,
+                    autoApply: true,
+                    isInvalidDate: function(arg) {
+                        // console.log(arg);
+
+                        // Prepare the date comparision
+                        var thisMonth = arg._d.getMonth() +
+                            1; // Months are 0 based
+                        if (thisMonth < 10) {
+                            thisMonth = "0" + thisMonth; // Leading 0
+                        }
+                        var thisDate = arg._d.getDate();
+                        if (thisDate < 10) {
+                            thisDate = "0" + thisDate; // Leading 0
+                        }
+                        var thisYear = arg._d.getYear() +
+                            1900; // Years are 1900 based
+
+                        var thisCompare = thisMonth + "/" + thisDate + "/" +
+                            thisYear;
+                        // console.log(thisCompare);
+
+                        if ($.inArray(thisCompare, activeRentDate) != -1) {
+                            // console.log("      ^--------- DATE FOUND HERE");
+                            return true;
+                        }
+                    }
+                }, function(start, end, label) {
+                    let notif = '';
+                    var started = new Date(start.format('MM/DD/YYYY'));
+                    var ended = new Date(end.format('MM/DD/YYYY'));
+                    const diffTime = Math.abs(ended - started);
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 *
+                        24)) + 1;
+                });
+            }
+        }
+    });
+}
 
 function getHarga(durasi, jmlDurasi, id_ruangan) {
     $(document).ready(() => {
@@ -276,7 +358,7 @@ function getHarga(durasi, jmlDurasi, id_ruangan) {
                     let harga = items.harga;
                     let total_harga = jmlDurasi * harga;
 
-                    textHtmlRincian += `<div>${jmlDurasi} Hari x Rp ${rubah(harga)}</div>
+                    textHtmlRincian += `<div>${jmlDurasi} ${durasi} x Rp ${rubah(harga)}</div>
             <input type="text" class="form-control" id="hidejmlDurasi" name="hidejmlDurasi" value="${jmlDurasi}" hidden>
             `;
 

@@ -63,4 +63,102 @@ class Order_model extends CI_Model
 
         return $this->db->query($sql)->result();
     }
+
+    public function insert_cancel_rent($cancel_date, $duration, $order_code, $id_ruangan)
+    {
+        $sql = "insert into cancel_rent_date (cancel_date, order_code, duration_type, id_ruangan) 
+        values ('$cancel_date','$order_code', '$duration', '$id_ruangan')";
+
+        $this->db->query($sql);
+    }
+
+    public function cancel_rent($order_code)
+    {
+        $sql = "select cancel_date from cancel_rent_date where order_code='$order_code'";
+
+        return $this->db->query($sql)->result();
+    }
+
+    public function tersewa($id, $durasi)
+    {
+        $sql = "select start_date, case when duration_type='Minggu' then duration_amount * 7
+        when duration_type='Bulan' then duration_amount * 30 else duration_amount end as day_durations
+        from `order` o where end_date > NOW() and room_id='$id' and duration_type='$durasi'";
+
+        $canceldate = "select cancel_date from cancel_rent_date where id_ruangan='$id' and duration_type='$durasi'";
+
+        $cancel = (object) $this->db->query($canceldate)->result();
+        $isInvalidDate = (object) $this->db->query($sql)->result();
+
+        $itemsCancel = array();
+        foreach ($cancel as $key) {
+            $cancelRentDate = date('m/d/Y', strtotime($key->cancel_date));
+            $dateFormat =  '"' . $cancelRentDate . '"';
+            $itemsCancel[] = $dateFormat;
+            // echo $cancelRentDate . '<br>';
+        }
+
+        $items = array();
+        foreach ($isInvalidDate as $d) {
+            $durations = $d->day_durations;
+            // echo $durations . '<br>';
+
+            for ($i = 0; $i < $durations; $i++) {
+                $invalidDate = date('m/d/Y', strtotime('+' . $i . ' day', strtotime($d->start_date)));
+                $dateFormat =  '"' . $invalidDate . '"';
+                // $dateFormat =  $invalidDate;
+                $items[] = $dateFormat;
+            }
+        }
+
+        $compare_date = array_diff($items, $itemsCancel);
+
+        $data = [
+            'isInvalidDate' => $compare_date
+        ];
+
+        return $data;
+    }
+
+    public function rentDate($id, $durasi)
+    {
+        $sql = "select start_date, case when duration_type='Minggu' then duration_amount * 7
+        when duration_type='Bulan' then duration_amount * 30 else duration_amount end as day_durations
+        from `order` o where end_date > NOW() and room_id='$id' and duration_type='$durasi'";
+
+        $canceldate = "select cancel_date from cancel_rent_date where id_ruangan='$id' and duration_type='$durasi'";
+
+        $cancel = (object) $this->db->query($canceldate)->result();
+        $isInvalidDate = (object) $this->db->query($sql)->result();
+
+        $itemsCancel = array();
+        foreach ($cancel as $key) {
+            $cancelRentDate = date('m/d/Y', strtotime($key->cancel_date));
+            // $dateFormat =  '"' . $cancelRentDate . '"';
+            $dateFormat =  $cancelRentDate;
+            $itemsCancel[] = $dateFormat;
+            // echo $cancelRentDate . '<br>';
+        }
+
+        $items = array();
+        foreach ($isInvalidDate as $d) {
+            $durations = $d->day_durations;
+            // echo $durations . '<br>';
+
+            for ($i = 0; $i < $durations; $i++) {
+                $invalidDate = date('m/d/Y', strtotime('+' . $i . ' day', strtotime($d->start_date)));
+                // $dateFormat =  '"' . $invalidDate . '"';
+                $dateFormat =  $invalidDate;
+                $items[] = $dateFormat;
+            }
+        }
+
+        $compare_date = array_diff($items, $itemsCancel);
+
+        $data = [
+            'isInvalidDate' => $compare_date
+        ];
+
+        return $compare_date;
+    }
 }

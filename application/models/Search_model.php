@@ -18,7 +18,7 @@ class Search_model extends CI_Model
 
     public function find_lokasi()
     {
-        $sql = "select distinct location from building";
+        $sql = "select distinct city from building";
 
         return $this->db->query($sql)->result();
     }
@@ -98,7 +98,7 @@ class Search_model extends CI_Model
         on f.id_ruangan = g.id_ruangan
         left outer join durations d 
         on b.id = d.id_ruangan
-        where $kapasitas a.location like '$lokasi' and b.activation = 1 and b.discontinue = 1 and d.duration like '$durasi'
+        where $kapasitas a.city like '$lokasi' and b.activation = 1 and b.discontinue = 1 and d.duration like '$durasi'
         limit $limitation";
 
         // print_r($sql);
@@ -125,6 +125,19 @@ class Search_model extends CI_Model
         where b.id='$id' and d.duration='$durasi'";
 
         // print_r($sql);
+
+        return $this->db->query($sql)->result();
+    }
+
+    public function reviews($id, $durasi)
+    {
+        $sql = "select r.name, review 
+        from room b 
+        left join review r
+        on b.id = r.id_ruangan
+        left join durations d 
+        on b.id = d.id_ruangan 
+        where r.id_ruangan='$id' and d.duration='$durasi'";
 
         return $this->db->query($sql)->result();
     }
@@ -229,19 +242,5 @@ class Search_model extends CI_Model
         $sql = "update pembayaran set nama_bukti='$nama', bukti_pembayaran='$img', status_bukti='1' where kode_pemesanan='$kode_pemesanan'";
 
         $this->db->query($sql);
-    }
-
-    public function tersewa()
-    {
-        $tgl = date('Y-m-d', strtotime('+1 day'));
-        $sql = "select o.room_id, o.start_date, o.end_date, o.duration_type 
-        from `order` o  
-        join payment py 
-        on o.id = py.order_id 
-        where py.activation='1'";
-
-        print_r($sql);
-
-        return $this->db->query($sql)->result();
     }
 }

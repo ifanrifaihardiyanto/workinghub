@@ -32,12 +32,17 @@ class Payment_model extends CI_Model
         $this->db->query($sql);
     }
 
-    public function insertPayment($status_code, $status_message, $transaction_id, $total, $payment_type, $bank,    $va_number,    $transaction_status, $pdf_instruction, $activation, $order_id)
+    public function insertPayment($status_code, $status_message, $transaction_id, $total, $payment_type, $bank,    $va_number,    $transaction_status, $pdf_instruction, $activation, $order_id, $customer_id, $order_code)
     {
         $sql = "insert into payment (status_code, status_message, transaction_id, total, payment_type, bank, va_number,	transaction_status, pdf_instruction, activation, order_id, created_at, updated_at)
         values ('$status_code', '$status_message', '$transaction_id', '$total', '$payment_type', '$bank', '$va_number',	'$transaction_status', '$pdf_instruction', '$activation', '$order_id', now(), now())";
 
         $this->db->query($sql);
+
+        $insert_notif = "insert into notifications (notification, id_user, order_code, created_at, updated_at)
+        values ('Kode pemesanan $order_code sedang menunggu Pembayaran','$customer_id','$order_code', now(), now())";
+
+        $this->db->query($insert_notif);
     }
 
     public function updateStatus($order_code, $status_code, $status_message, $transaction_status, $paid_at, $total)

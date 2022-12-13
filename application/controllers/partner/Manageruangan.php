@@ -14,6 +14,7 @@ class Manageruangan extends BaseController
         $this->load->library('form_validation', 'upload');
         $this->load->model('user_model', 'user');
         $this->load->model('partner/Manageruangan_model', 'manage_ruangan');
+        $this->load->library('form_validation');
     }
 
     public function index()
@@ -333,6 +334,8 @@ class Manageruangan extends BaseController
         $this->form_validation->set_rules('deskripsi', 'Deskripsi', 'required|trim');
 
         if ($this->form_validation->run() == false) {
+            $this->session->set_flashdata('error', 'Data gagal diubah!');
+
             redirect('partner/manageruangan/manage_data_ruangan');
         } else {
 

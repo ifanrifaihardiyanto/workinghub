@@ -41,6 +41,28 @@
                     <div class="col-md-12 stretch-card">
                         <div class="card">
                             <div class="card-body">
+                                <?php
+                                // print_r($gedung);
+                                $this->load->helper('form');
+                                $error = $this->session->flashdata('error');
+                                $success = $this->session->flashdata('success');
+                                ?>
+                                <?php if ($error) : ?>
+                                <div class="alert alert-danger alert-dismissable">
+                                    <button type="button" class="close" data-dismiss="alert"
+                                        aria-hidden="true">×</button>
+                                    <?= $error; ?>
+                                </div>
+                                <?php endif; ?>
+
+                                <?php if ($success) : ?>
+                                <div class="alert alert-success alert-dismissable">
+                                    <button type="button" class="close" data-dismiss="alert"
+                                        aria-hidden="true">×</button>
+                                    <?= $success; ?>
+                                </div>
+                                <?php endif; ?>
+
                                 <h6 class="card-title">Lengkapi Data</h6>
                                 <form action="<?php echo base_url(); ?>index.php/authenticate/completed_data"
                                     method="post">

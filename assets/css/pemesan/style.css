@@ -39463,6 +39463,14 @@ div.tagsinput span.tag a {
   color: #97BFC3;
 }
 
+.branding-lupa-passwd {
+  margin-bottom: 15px;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 48px;
+}
+
 .lengkapi-data {
   margin-bottom: 0px !important;
   padding: 25px;
@@ -39634,8 +39642,12 @@ iconify-icon:hover {
   width: 30%;
 }
 
-.user-review, .detail-pemesan {
+.user-review {
   width: 70%;
+  margin-right: 10px;
+}
+
+.detail-pemesan {
   margin-right: 10px;
 }
 

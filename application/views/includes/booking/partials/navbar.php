@@ -1,7 +1,7 @@
 <?php
 // print_r($data->profile[0]);
 if ($data->profile == null) {
-  // print_r('data null');
+    // print_r('data null');
 }
 ?>
 <nav class="navbar">
@@ -15,7 +15,7 @@ if ($data->profile == null) {
         </ul>
         <ul class="navbar-nav">
             <li class="nav-item dropdown nav-apps">
-                <a class="nav-link" href="#" role="button">
+                <a class="nav-link" href="<?php echo base_url(); ?>notif" role="button">
                     <iconify-icon icon="quill:inbox-newsletter" width="24" height="24"></iconify-icon>
                     <span class="ms-1 me-1 d-none d-md-inline-block">Kotak Masuk</span>
                 </a>

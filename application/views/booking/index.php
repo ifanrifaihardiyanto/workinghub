@@ -31,9 +31,9 @@ $user = $this->session->userdata('user');
                                 <label>Kota / Lokasi</label>
                                 <select class="js-example-basic-single w-100" name="lokasi" id="lokasi">
                                     <?php foreach ($search->lokasi as $lokasi) : ?>
-                                    <option value="<?= $lokasi->location ?>"
-                                        <?= $lokasi->location == $lokasi->location ? 'selected' : '' ?>>
-                                        <?= $lokasi->location ?></option>
+                                    <option value="<?= $lokasi->city ?>"
+                                        <?= $lokasi->city == $lokasi->city ? 'selected' : '' ?>>
+                                        <?= $lokasi->city ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>

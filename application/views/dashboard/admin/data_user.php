@@ -72,6 +72,8 @@ $success = $this->session->flashdata('success');
                                 <td>
                                     <button type="button" class="btn btn-warning btn-icon" data-toggle="modal"
                                         data-target="#edit<?= $q->id_user ?>"><i data-feather="edit"></i></button>
+                                    <button type="button" class="btn btn-success btn-icon" data-toggle="modal"
+                                        data-target="#aktif<?= $q->id_user ?>"><i data-feather="check"></i></button>
                                     <button type="button" class="btn btn-danger btn-icon" data-toggle="modal"
                                         data-target="#nonaktif<?= $q->id_user ?>"><i
                                             data-feather="x-circle"></i></button>
@@ -218,7 +220,32 @@ $success = $this->session->flashdata('success');
                                 </div>
                             </div>
                             <!-- End Modal Edit -->
-                            <!-- Start Modal Delete -->
+                            <!-- Start Modal Aktivasi -->
+                            <div class="modal fade" id="aktif<?= $q->id_user ?>" tabindex="-1" role="dialog"
+                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Akktifkan Kembali User</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div>Apakah anda yakin ingin mengaktifkan kembali user <?= $q->name; ?>?
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                            <a href="<?php echo base_url() ?>admin/manageuser/aktif/<?= $q->id_user ?>"
+                                                type="button" class="btn btn-primary">Aktifkan</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Modal Aktivasi -->
+                            <!-- Start Modal Non-Aktivasi -->
                             <div class="modal fade" id="nonaktif<?= $q->id_user ?>" tabindex="-1" role="dialog"
                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
@@ -230,7 +257,7 @@ $success = $this->session->flashdata('success');
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            <div>Apakah anda yakin ingin menonaktifkan user ini?</div>
+                                            <div>Apakah anda yakin ingin menonaktifkan user <?= $q->name; ?>?</div>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
@@ -241,7 +268,7 @@ $success = $this->session->flashdata('success');
                                     </div>
                                 </div>
                             </div>
-                            <!-- End Modal Delete -->
+                            <!-- End Modal Non-Aktivasi -->
                             <?php endforeach; ?>
                         </tbody>
                     </table>

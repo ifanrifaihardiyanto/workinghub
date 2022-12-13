@@ -11,19 +11,15 @@ $kapasitas    = $this->session->userdata('kapasitas');
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <!-- <form action="<?php echo base_url(); ?>search/find" method="post"> -->
-                    <?php
-                    // var_dump($search['lokasi']);
-                    ?>
                     <div class="booking-wrap d-flex justify-content-between align-items-center">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Kota / Lokasi</label>
                                 <select class="js-example-basic-single w-100" name="lokasi" id="lokasi">
                                     <?php foreach ($search['lokasi'] as $lokasi) : ?>
-                                    <option value="<?= $lokasi->location ?>"
-                                        <?= $nama_lokasi == $lokasi->location ? 'selected' : '' ?>>
-                                        <?= $lokasi->location ?>
+                                    <option value="<?= $lokasi->city ?>"
+                                        <?= $nama_lokasi == $lokasi->city ? 'selected' : '' ?>>
+                                        <?= $lokasi->city ?>
                                     </option>
                                     <?php endforeach; ?>
                                 </select>
