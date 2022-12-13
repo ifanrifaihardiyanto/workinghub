@@ -23,14 +23,14 @@
                         <div class="alert alert-light text-center" role="alert">Kotak masuk kosong!</div>
                     </div>
                     <?php
-                    }
-
-                    foreach ($result->notif[0] as $notify) :
-                    ?>
+                        foreach ($result->notif[0] as $notify) :
+                        ?>
                     <div class="col-md-12 pd-btm-10">
                         <div class="alert alert-info" role="alert"><?= $notify ?></div>
                     </div>
-                    <?php endforeach; ?>
+                    <?php endforeach;
+                    }
+                    ?>
                 </div>
             </div>
         </div>

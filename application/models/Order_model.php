@@ -43,7 +43,8 @@ class Order_model extends CI_Model
         b.weekly_price as harga_mingguan, b.monthly_price as harga_bulanan, b.description as deskripsi, f.facility as fasilitas, g.image as gambar,
         o.order_code as kode_pemesanan, o.order_date as tgl_pemesanan, o.start_date as mulai_penyewaan, o.end_date as selesai_penyewaan, 
         o.duration_type as tipe_durasi, p.transaction_status as status_bukti, p.total as total_pembayaran, o.duration_amount as jml_durasi,
-        p.status_code as kode_status, o.customer as nama, o.no_tlp, o.email, p.payment_type as metode_pembayaran, p.activation as aktivasi
+        p.status_code as kode_status, o.customer as nama, o.no_tlp, o.email, p.payment_type as metode_pembayaran, p.activation as aktivasi,
+        o.start_hour, o.end_hour
         from building a 
         left outer join room b 
         on a.id = b.id_gedung  
@@ -64,17 +65,17 @@ class Order_model extends CI_Model
         return $this->db->query($sql)->result();
     }
 
-    public function insert_cancel_rent($cancel_date, $duration, $order_code, $id_ruangan)
+    public function insert_cancel_rent($cancel_date, $start_hour, $end_hour, $duration, $order_code, $id_ruangan)
     {
-        $sql = "insert into cancel_rent_date (cancel_date, order_code, duration_type, id_ruangan) 
-        values ('$cancel_date','$order_code', '$duration', '$id_ruangan')";
+        $sql = "insert into cancel_rent_date (cancel_date, start_hour, end_hour, order_code, duration_type, id_ruangan) 
+        values ('$cancel_date', '$start_hour', '$end_hour','$order_code', '$duration', '$id_ruangan')";
 
         $this->db->query($sql);
     }
 
     public function cancel_rent($order_code)
     {
-        $sql = "select cancel_date from cancel_rent_date where order_code='$order_code'";
+        $sql = "select cancel_date, start_hour, end_hour from cancel_rent_date where order_code='$order_code'";
 
         return $this->db->query($sql)->result();
     }
@@ -162,14 +163,14 @@ class Order_model extends CI_Model
         return $compare_date;
     }
 
-    public function rentHours($id, $durasi)
+    public function rentHours($id, $durasi, $mulaiPenyewaan)
     {
         $sql = "select start_hour, end_hour 
         from payment p
         join `order` o 
         on p.order_id = o.id 
-        where status_code in ('200','201') and o.room_id='$id' and o.duration_type='$durasi'";
+        where status_code in ('200','201') and o.room_id='$id' and o.duration_type='$durasi' and o.start_date='$mulaiPenyewaan'";
 
-        // print_r($sql);
+        print_r($sql);
     }
 }

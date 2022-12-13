@@ -127,6 +127,14 @@ $month = date('m', strtotime($date));
                                         <p><?= $tgl_selesai ?></p>
                                     </div>
                                     <div class="d-flex justify-content-between">
+                                        <p>Jam Mulai Penyewaan</p>
+                                        <p><?= $result->tagihan[0]->start_hour . ".00" ?></p>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <p>Jam Selesai Penyewaan</p>
+                                        <p><?= $result->tagihan[0]->end_hour . ".00" ?></p>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
                                         <p>Durasi Penyewaan</p>
                                         <p><?= $result->tagihan[0]->jml_durasi . ' ' . $result->tagihan[0]->tipe_durasi ?>
                                         </p>
@@ -172,10 +180,50 @@ $month = date('m', strtotime($date));
                                             value="<?= $result->tagihan[0]->id_ruangan ?>" hidden>
                                         <input type="text" class="form-control" name="durasi" id="durasi"
                                             value="<?= $result->tagihan[0]->tipe_durasi ?>" hidden>
+                                        <!-- <input type="text" class="form-control" name="tglCancel" id="tglCancel"
+                                            value="<?= $result->tagihan[0]->mulai_penyewaan ?>" hidden> -->
+
+                                        <?php if ($result->tagihan[0]->tipe_durasi != 'Jam') { ?>
                                         <div class="form-group">
                                             <!-- <label>Tanggal</label> -->
                                             <input type="text" class="form-control" name="tglCancel" id="tglCancel" />
                                         </div>
+
+                                        <?php } else { ?>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Tanggal</label>
+                                                <input type="text" class="form-control" name="tglCancel"
+                                                    id="tglCancel" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Jam Mulai</label>
+                                                <select class="js-example-basic-single w-100" name="startHour"
+                                                    id="startHour" onchange="changeFunc();">
+                                                    <?php foreach ($result->startHour as $startHour) : ?>
+                                                    <option value="<?= $startHour ?>"
+                                                        <?= $startHour == $startHour ? 'selected' : '' ?>>
+                                                        <?= $startHour . ".00" ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Jam Selesai</label>
+                                                <select class="js-example-basic-single w-100" name="endHour"
+                                                    id="endHour" onchange="changeFunc();">
+                                                    <?php foreach ($result->endHour as $endHour) : ?>
+                                                    <option value="<?= $endHour ?>"
+                                                        <?= $endHour == $endHour ? 'selected' : '' ?>>
+                                                        <?= $endHour . ".00" ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <?php } ?>
                                     </div>
                                     <!-- <input type="submit" value="Simpan" class="btn btn-primary mr-2"> -->
                                     <button type="button" class="btn btn-primary mr-2" data-toggle="modal"
@@ -221,6 +269,10 @@ $month = date('m', strtotime($date));
                                             <tr>
                                                 <th>#</th>
                                                 <th>Tanggal</th>
+                                                <?php if ($result->tagihan[0]->tipe_durasi == 'Jam') { ?>
+                                                <th>Jam Mulai</th>
+                                                <th>Jam Selesai</th>
+                                                <?php } ?>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -230,6 +282,10 @@ $month = date('m', strtotime($date));
                                             <tr>
                                                 <td><?= ++$key ?></td>
                                                 <td><?= $dt->cancel_date ?></td>
+                                                <?php if ($result->tagihan[0]->tipe_durasi == 'Jam') { ?>
+                                                <td><?= $dt->start_hour . ".00" ?></td>
+                                                <td><?= $dt->end_hour . ".00" ?></td>
+                                                <?php } ?>
                                             </tr>
                                             <?php } ?>
                                         </tbody>
@@ -262,7 +318,6 @@ $(document).ready(function() {
 
     $('#tglCancel').daterangepicker({
         opens: 'right',
-        minDate: today,
         singleDatePicker: true,
         autoApply: true,
     }, function(start, end, label) {
