@@ -13,6 +13,8 @@
             $tgl_selesai    = date('d M Y', strtotime($result->tglEndPenyewaan));
             $tgl_end        = date('Y-m-d', strtotime($result->tglEndPenyewaan));
             $jmlDurasi      = $result->hidejmlDurasi;
+            $startHour      = $result->startHour . ".00";
+            $endHour        = $result->endHour . ".00";
             ?>
             <div class="title-page">
                 <h4>Pemesanan Ruangan</h4>
@@ -69,6 +71,10 @@
                                         value="<?= $result->durasi ?>" hidden>
                                     <input id="harga" class="form-control" name="harga" type="text"
                                         value="<?= $result->hidejmlHarga ?>" hidden>
+                                    <input id="startHour" class="form-control" name="startHour" type="text"
+                                        value="<?= $result->startHour ?>" hidden>
+                                    <input id="endHour" class="form-control" name="endHour" type="text"
+                                        value="<?= $result->endHour ?>" hidden>
                                 </div>
                             </div>
                         </div>
@@ -97,6 +103,14 @@
                                         <div class="d-flex justify-content-between">
                                             <p>Durasi Penyewaan</p>
                                             <p><?= $result->hidejmlDurasi . ' ' . $result->durasi ?></p>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <p>Jam Mulai</p>
+                                            <p><?= $startHour ?></p>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <p>Jam Selesai</p>
+                                            <p><?= $endHour ?></p>
                                         </div>
                                     </div>
                                 </div>

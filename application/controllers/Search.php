@@ -148,6 +148,22 @@ class Search extends BaseController
             'durasi' => $durasi,
             'id_ruangan' => $id,
             'activeOrderDate' => $isInvalidDate,
+            'startHour' => array_map(function ($item) {
+                if ($item < 10) {
+                    $startHour = "0$item";
+                } else {
+                    $startHour = "$item";
+                }
+                return $startHour;
+            }, range(8, 22)),
+            'endHour' => array_map(function ($item) {
+                if ($item < 10) {
+                    $endHour = "0$item";
+                } else {
+                    $endHour = "$item";
+                }
+                return $endHour;
+            }, range(8, 22)),
         ];
 
         $this->profile();
@@ -185,17 +201,26 @@ class Search extends BaseController
             $tglPenyewaan = $exploadTgl[0];
             $hidejmlDurasi  = $this->input->post('hidejmlDurasi');
             $hidejmlHarga   = $this->input->post('hidejmlHarga');
+            $result = $this->search->detail($id, $durasi);
             if ($durasi == 'Minggu') {
                 $jmlDiff = ($hidejmlDurasi * 7);
-                $tglEndPenyewaan = date('m/d/Y', strtotime('+' . $jmlDiff . ' day'));
+                $tglEndPenyewaan = date('m/d/Y', strtotime("+$jmlDiff day", strtotime($tglPenyewaan)));
+                $startHour = $result[0]->startHour;
+                $endHour = $result[0]->endHour;
             } elseif ($durasi == 'Bulan') {
                 $jmlDiff = ($hidejmlDurasi * 30);
-                $tglEndPenyewaan = date('m/d/Y', strtotime('+' . $jmlDiff . ' day'));
-            } else {
+                $tglEndPenyewaan = date('m/d/Y', strtotime("+$jmlDiff day", strtotime($tglPenyewaan)));
+                $startHour = $result[0]->startHour;
+                $endHour = $result[0]->endHour;
+            } elseif ($durasi == 'Hari') {
                 $tglEndPenyewaan = $exploadTgl[1];
+                $startHour = $result[0]->startHour;
+                $endHour = $result[0]->endHour;
+            } else {
+                $tglEndPenyewaan = $tglPenyewaan;
+                $startHour  = $this->input->post('startHour');
+                $endHour   = $this->input->post('endHour');
             }
-
-            $result = $this->search->detail($id, $durasi);
 
             if ($this->form_validation->run() == false) {
                 $this->global['result'] = (object) [
@@ -206,6 +231,8 @@ class Search extends BaseController
                     'tglEndPenyewaan' => $tglEndPenyewaan,
                     'jmlDurasi' => $hidejmlDurasi,
                     'hidejmlHarga' => $hidejmlHarga,
+                    'startHour' => $startHour,
+                    'endHour' => $endHour,
                 ];
 
                 $this->profile();
@@ -220,6 +247,8 @@ class Search extends BaseController
                     'tglEndPenyewaan' => $tglEndPenyewaan,
                     'hidejmlDurasi' => $hidejmlDurasi,
                     'hidejmlHarga' => $hidejmlHarga,
+                    'startHour' => $startHour,
+                    'endHour' => $endHour,
                 ];
 
                 $this->profile();
@@ -249,6 +278,8 @@ class Search extends BaseController
         $mulaiPenyewaan     = $this->input->post('tglPenyewaan');
         $selesaiPenyewaan   = $this->input->post('tglSelesai');
         $harga              = $this->input->post('harga');
+        $startHour          = $this->input->post('startHour');
+        $endHour            = $this->input->post('endHour');
         $result             = $this->search->detail($id_ruangan, $durasi);
 
         if ($this->form_validation->run() == false) {
@@ -259,6 +290,8 @@ class Search extends BaseController
                 'tglPenyewaan' => $mulaiPenyewaan,
                 'hidejmlDurasi' => $jmlDurasi,
                 'hidejmlHarga' => $harga,
+                'startHour' => $startHour,
+                'endHour' => $endHour,
             ];
 
             $this->profile();
@@ -274,6 +307,8 @@ class Search extends BaseController
                 'mulaiPenyewaan' => $mulaiPenyewaan,
                 'selesaiPenyewaan' => $selesaiPenyewaan,
                 'hidejmlHarga' => $harga,
+                'startHour' => $startHour,
+                'endHour' => $endHour,
             ];
 
             $this->profile();

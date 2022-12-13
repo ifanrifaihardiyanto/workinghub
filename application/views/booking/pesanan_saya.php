@@ -24,14 +24,17 @@
                     </div>
                     <?php
           }
+          // print_r($result);
           foreach ($result->tagihan as $item => $list) :
             // print_r($list->aktivasi);
 
             $tgl_penyewaan  = date('d M Y', strtotime($list->mulai_penyewaan));
             $tgl_selesai    = date('d M Y', strtotime($list->selesai_penyewaan));
-            $tgl = date('d M Y');
+            $tgl_penyewaan1  = date('Y-m-d', strtotime($list->mulai_penyewaan));
+            $tgl_selesai1    = date('Y-m-d', strtotime($list->selesai_penyewaan));
+            $tgl = date('Y-m-d');
 
-            if ($tgl_selesai > $tgl) {
+            if ($tgl > $tgl_selesai1) {
               $test = "Penyewaan Selesai";
               // $st_bukti = "secondary";
             } else {
@@ -39,10 +42,10 @@
               // $st_bukti = "warning";
             }
 
-            // print_r($tgl_selesai . ' -- ' . $tgl . ' -- ' . $test);
+            // print_r($tgl_selesai1 . ' -- ' . $tgl . ' -- ' . $test);
 
             if ($list->kode_status == '200') {
-              if ($tgl_selesai < date('d M Y')) {
+              if ($tgl > $tgl_selesai1) {
                 $bukti_status = "Penyewaan Selesai";
                 $st_bukti = "secondary";
               } else {
@@ -53,7 +56,7 @@
               $bukti_status = "Pembayaran Kadaluarsa";
               $st_bukti = "secondary";
             } else {
-              if ($tgl_selesai < date('d M Y')) {
+              if ($tgl > $tgl_selesai1) {
                 $bukti_status = "Penyewaan Selesai";
                 $st_bukti = "secondary";
               } else {

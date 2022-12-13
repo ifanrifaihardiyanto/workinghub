@@ -72,12 +72,13 @@ $activeOrderDate = implode(',', $date);
     <div class="container">
         <div class="row">
             <div class="col-12">
+                <div id="notif"></div>
                 <form
                     action="<?php echo base_url(); ?>index.php/search/pemesanan/<?= $result->ruangan[0]->id_ruangan . "/" . $result->durasi ?>"
                     method="post">
                     <div class="form-pemesanan-wrap d-flex justify-content-between align-items-center">
                         <div class="col-md-12">
-                            <div id="notif"></div>
+                            <div id="notifHour"></div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
@@ -94,8 +95,41 @@ $activeOrderDate = implode(',', $date);
                                 <small class="text-danger"><?= form_error('jmlDurasi'); ?></small>
                             </div>
                         </div>
-                        <?php } else { ?>
+                        <?php } elseif ($result->durasi == 'Bulan') { ?>
+                        <div class="form-group">
+                            <label for="Tanggal Penyewaan">Jumlah <?= $result->durasi ?></label>
+                            <input id="jmlDurasi" class="form-control" name="jmlDurasi" type="number">
+                            <small class="text-danger"><?= form_error('jmlDurasi'); ?></small>
+                        </div>
+                        <?php } elseif ($result->durasi == 'Jam') { ?>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Jam Mulai</label>
+                                <select class="js-example-basic-single w-100" name="startHour" id="startHour"
+                                    onchange="changeFunc();">
+                                    <?php foreach ($result->startHour as $startHour) : ?>
+                                    <option value="<?= $startHour ?>" <?= $startHour == $startHour ? 'selected' : '' ?>>
+                                        <?= $startHour . ".00" ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                        <? } { ?>
 
+                        <?php } ?>
+                        <?php if ($result->durasi == 'Jam') { ?>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Jam Selesai</label>
+                                <select class="js-example-basic-single w-100" name="endHour" id="endHour"
+                                    onchange="changeFunc();">
+                                    <?php foreach ($result->endHour as $endHour) : ?>
+                                    <option value="<?= $endHour ?>" <?= $endHour == $endHour ? 'selected' : '' ?>>
+                                        <?= $endHour . ".00" ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
                         <?php } ?>
                         <div class="col-md-6">
                             <div class="form-group">
@@ -197,9 +231,18 @@ let mm = "<?= $month ?>";
 let invalidDate = [];
 let disabledArr = [<?= $activeOrderDate ?>];
 
+// let startHour = $("#startHour option:selected").text();
+// console.log(startHour);
+
 $(document).ready(function() {
+    // $("select.startHour").change(function() {
+    //     var selectedCountry = $(this).children("option:selected").val();
+    //     alert("You have selected the country - " + selectedCountry);
+    // });
     // console.log(durasi)
     // console.log(jmlDurasi)
+
+    changeFunc();
 
     var today = new Date();
     var yyyy = today.getFullYear();
@@ -242,6 +285,33 @@ $(document).ready(function() {
 
 });
 
+function changeFunc() {
+    let startHour = $("#startHour option:selected").val();
+    let endHour = $("#endHour option:selected").val();
+    let textHtmlNotif = '';
+
+    if (endHour < startHour) {
+        textHtmlNotif += `<div class="col-md-12 pd-btm-10">
+                        <div class="alert alert-warning text-center" role="alert">Jam mulai harus lebih kecil dari jam selesai penyewaan!</div>
+                    </div>`;
+    }
+
+    $('#notifHour')[0].innerHTML = textHtmlNotif;
+
+    diffHours = endHour - startHour;
+
+    if (diffHours <= 0) {
+        $("#pesan").prop("disabled", true);
+        diffHours = 0;
+    } else {
+        $("#pesan").prop("disabled", false);
+    }
+
+    getHarga(durasi, diffHours, id_ruangan);
+
+    console.log(endHour - startHour);
+}
+
 function getDate(today) {
     $.ajax({
         type: "GET",
@@ -253,7 +323,7 @@ function getDate(today) {
         },
         success: (response) => {
             let activeRentDate = Object.values(response.date);
-            console.log(activeRentDate);
+            console.log(response);
 
             if (durasi == 'Hari') {
 
@@ -296,7 +366,9 @@ function getDate(today) {
                     $("#pesan").prop("disabled", false);
                 });
 
-            } else {
+            }
+
+            if (durasi == 'Minggu' || durasi == 'Bulan') {
                 $('#tglSewa').daterangepicker({
                     opens: 'right',
                     minDate: today,
@@ -336,9 +408,32 @@ function getDate(today) {
                         24)) + 1;
                 });
             }
+
+            if (durasi == 'Jam') {
+                $('#tglSewa').daterangepicker({
+                    opens: 'right',
+                    minDate: today,
+                    singleDatePicker: true,
+                    autoApply: true
+                }, function(start, end, label) {
+                    let notif = '';
+                    var started = new Date(start.format('MM/DD/YYYY'));
+                    var ended = new Date(end.format('MM/DD/YYYY'));
+                    const diffTime = Math.abs(ended - started);
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 *
+                        24)) + 1;
+                });
+
+
+            }
         }
     });
 }
+
+// const data = ["08", "09"];
+// data.forEach(entry => {
+//     $("#endHour option:contains( " + entry + ")").attr("disabled", "disabled");
+// });
 
 function getHarga(durasi, jmlDurasi, id_ruangan) {
     $(document).ready(() => {

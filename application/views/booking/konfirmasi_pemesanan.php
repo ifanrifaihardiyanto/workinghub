@@ -5,7 +5,7 @@
     <div class="container">
         <div class="headline-page">
             <?php
-            // print_r($result->ruangan[0]);
+            // print_r($result->startHour);
             // print_r($data->profile[0]);
             if (!empty($result->ruangan[0]->image)) {
                 $data_gambar = explode(', ', $result->ruangan[0]->image);
@@ -24,8 +24,7 @@
             $selesai_penyewaan  = date('d M Y', strtotime($result->selesaiPenyewaan));
             $tgl_end            = date('Y-m-d', strtotime($result->selesaiPenyewaan));
             ?>
-            <div class="col-md-12 pd-btm-10">
-                <div class="alert alert-success text-center" role="alert" id="notify"></div>
+            <div class="col-md-12 pd-btm-10" id="notify">
             </div>
             <div class="title-page">
                 <h4>Mohon Review Pesanan Anda</h4>
@@ -73,6 +72,14 @@
                                         <div class="d-flex justify-content-between">
                                             <p>Selesai Penyewaan</p>
                                             <p><?= $selesai_penyewaan ?></p>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <p>Jam Mulai</p>
+                                            <p><?= $result->startHour . ".00" ?></p>
+                                        </div>
+                                        <div class="d-flex justify-content-between">
+                                            <p>Jam Selesai</p>
+                                            <p><?= $result->endHour . ".00" ?></p>
                                         </div>
                                         <div class="d-flex justify-content-between">
                                             <p>Durasi Penyewaan</p>
@@ -134,6 +141,10 @@
                                 value="<?= $data->profile[0]->no_tlp ?>" hidden>
                             <input id="email" class="form-control" name="email" type="text"
                                 value="<?= $data->profile[0]->email ?>" hidden>
+                            <input id="startHour" class="form-control" name="startHour" type="text"
+                                value="<?= $result->startHour ?>" hidden>
+                            <input id="endHour" class="form-control" name="endHour" type="text"
+                                value="<?= $result->endHour ?>" hidden>
                             <input type="hidden" name="result_type" id="result-type" value="">
                             <input type="hidden" name="result_data" id="result-data" value="">
                         </div>
@@ -172,6 +183,8 @@ $('#bayar').click(function(event) {
     let name = $("#name").val();
     let no_tlp = $("#no_tlp").val();
     let email = $("#email").val();
+    let startHour = $("#startHour").val();
+    let endHour = $("#endHour").val();
 
     $.ajax({
         type: 'POST',
@@ -193,13 +206,16 @@ $('#bayar').click(function(event) {
             "name": name,
             "no_tlp": no_tlp,
             "email": email,
+            "startHour": startHour,
+            "endHour": endHour,
         },
         success: function(data) {
             //location = data;
 
             let notifyHtml = '';
 
-            notifyHtml += `Berhasil melakukan pemesanan!`
+            notifyHtml +=
+                `<div class="alert alert-success text-center" role="alert">Berhasil melakukan pemesanan!</div>`
 
             $(`#notify`).html(notifyHtml);
 

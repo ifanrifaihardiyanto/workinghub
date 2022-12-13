@@ -96,6 +96,8 @@ class Payment extends CI_Controller
 		$name = $this->input->post('name');
 		$no_tlp = $this->input->post('no_tlp');
 		$email = $this->input->post('email');
+		$startHour = $this->input->post('startHour');
+		$endHour = $this->input->post('endHour');
 
 		$result = json_decode($this->input->post('result_data'));
 		$status_code = $result->status_code;
@@ -110,7 +112,7 @@ class Payment extends CI_Controller
 		$bank = $result->va_numbers[0]->bank;
 		$va_number = $result->va_numbers[0]->va_number;
 
-		$this->payment->insertOrder($name, $no_tlp, $email, $name_gedung, $name_ruangan, $order_code, $order_date, $start_date, $end_date, $duration_type, $duration_amount, $building_id, $duration_id, $room_id, $partner_id, $customer_id);
+		$this->payment->insertOrder($name, $no_tlp, $email, $name_gedung, $name_ruangan, $order_code, $order_date, $start_date, $end_date, $duration_type, $duration_amount, $building_id, $duration_id, $room_id, $partner_id, $customer_id, $startHour, $endHour);
 
 		$getIdOrder = $this->payment->getOrder($order_code);
 		$activation = 0;

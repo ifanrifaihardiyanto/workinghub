@@ -93,6 +93,7 @@ class Order extends BaseController
         $duration   = $this->input->get('durasi');
 
         $isInvalidDate = $this->order->rentDate($id_ruangan, $duration);
+        $isInvalidHour = $this->order->rentHours($id_ruangan, $duration);
 
         return $this->response(200, [
             "message" => "Successfully get witels.",

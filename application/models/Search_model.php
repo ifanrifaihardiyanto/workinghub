@@ -108,7 +108,8 @@ class Search_model extends CI_Model
 
     public function detail($id, $durasi)
     {
-        $sql = "select a.id as id_gedung, a.id_penyedia, b.id as id_ruangan, d.id as id_durasi, a.name as name_gedung, a.location, 
+        $sql = "select a.id as id_gedung, a.id_penyedia, b.id as id_ruangan, d.id as id_durasi, 
+        a.name as name_gedung, a.location, a.open_hour as startHour, a.close_hour as endHour,
         b.name as name_ruangan, jg.type, b.size, b.capacity, b.hourly_price, b.daily_price, 
         b.weekly_price, b.monthly_price, b.description, f.facility, g.image, d.duration
         from building a 

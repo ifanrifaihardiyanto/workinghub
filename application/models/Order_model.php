@@ -161,4 +161,15 @@ class Order_model extends CI_Model
 
         return $compare_date;
     }
+
+    public function rentHours($id, $durasi)
+    {
+        $sql = "select start_hour, end_hour 
+        from payment p
+        join `order` o 
+        on p.order_id = o.id 
+        where status_code in ('200','201') and o.room_id='$id' and o.duration_type='$durasi'";
+
+        // print_r($sql);
+    }
 }

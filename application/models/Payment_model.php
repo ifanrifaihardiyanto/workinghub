@@ -8,11 +8,11 @@ class Payment_model extends CI_Model
         parent::__construct();
     }
 
-    public function insertOrder($name, $no_tlp, $email, $name_gedung, $name_ruangan, $order_code, $order_date, $start_date, $end_date, $duration_type, $duration_amount, $building_id, $duration_id, $room_id, $partner_id, $customer_id)
+    public function insertOrder($name, $no_tlp, $email, $name_gedung, $name_ruangan, $order_code, $order_date, $start_date, $end_date, $duration_type, $duration_amount, $building_id, $duration_id, $room_id, $partner_id, $customer_id, $startHour, $endHour)
     {
-        $sql = "insert into `order` (customer, no_tlp, email, building_name, room_name, order_code, order_date, start_date, end_date, duration_type, duration_amount, building_id, duration_id, room_id, partner_id, customer_id, created_at, updated_at) 
+        $sql = "insert into `order` (customer, no_tlp, email, building_name, room_name, order_code, order_date, start_date, end_date, start_hour, end_hour, duration_type, duration_amount, building_id, duration_id, room_id, partner_id, customer_id, created_at, updated_at) 
         values 
-        ('$name', '$no_tlp', '$email', '$name_gedung', '$name_ruangan', '$order_code', '$order_date', '$start_date', '$end_date', '$duration_type', '$duration_amount', '$building_id', '$duration_id', '$room_id', '$partner_id', '$customer_id', now(), now())";
+        ('$name', '$no_tlp', '$email', '$name_gedung', '$name_ruangan', '$order_code', '$order_date', '$start_date', '$end_date', '$startHour', '$endHour', '$duration_type', '$duration_amount', '$building_id', '$duration_id', '$room_id', '$partner_id', '$customer_id', now(), now())";
 
         $this->db->query($sql);
     }

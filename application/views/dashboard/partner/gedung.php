@@ -88,9 +88,9 @@ $this->load->helper('form');
                             <div class="form-group">
                                 <label>Jam Tutup</label>
                                 <select class="js-example-basic-single w-100" name="endHour" id="endHour">
-                                    <?php foreach ($gedung['endHour'] as $startHour) : ?>
-                                    <option value="<?= $startHour ?>" <?= $startHour == $startHour ? 'selected' : '' ?>>
-                                        <?= $startHour . ".00" ?></option>
+                                    <?php foreach ($gedung['endHour'] as $endHour) : ?>
+                                    <option value="<?= $endHour ?>" <?= $endHour == $endHour ? 'selected' : '' ?>>
+                                        <?= $endHour . ".00" ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
