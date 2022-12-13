@@ -33,7 +33,23 @@ class Manageruangan extends BaseController
 
         $checkGedung = $this->manage_ruangan->getJenisGedung();
         $this->global['gedung'] = [
-            'jenis_gedung' => $checkGedung
+            'jenis_gedung' => $checkGedung,
+            'startHour' => array_map(function ($item) {
+                if ($item < 10) {
+                    $startHour = "0$item";
+                } else {
+                    $startHour = "$item";
+                }
+                return $startHour;
+            }, range(8, 22)),
+            'endHour' => array_map(function ($item) {
+                if ($item < 10) {
+                    $endHour = "0$item";
+                } else {
+                    $endHour = "$item";
+                }
+                return $endHour;
+            }, range(8, 22)),
         ];
 
         $this->form_validation->set_rules('nmGedung', 'Nama Gedung', 'required|trim');
@@ -42,6 +58,8 @@ class Manageruangan extends BaseController
         $this->form_validation->set_rules('kota', 'Kota', 'required|trim');
         $this->form_validation->set_rules('email', 'Email', 'required|trim');
         $this->form_validation->set_rules('noTelp', 'Nomor Telepon', 'required|trim');
+        $this->form_validation->set_rules('startHour', 'Jam Buka', 'required|trim');
+        $this->form_validation->set_rules('endHour', 'Jam Tutup', 'required|trim');
 
         if ($this->form_validation->run() == false) {
             $this->profile();
@@ -56,8 +74,8 @@ class Manageruangan extends BaseController
             $kota       = $this->input->post('kota');
             $email      = $this->input->post('email');
             $noTelp     = $this->input->post('noTelp');
-            $jamBuka    = $this->input->post('jamBuka');
-            $jamTutup   = $this->input->post('jamTutup');
+            $jamBuka    = $this->input->post('startHour');
+            $jamTutup   = $this->input->post('endHour');
 
             $getJenisGedung = $this->manage_ruangan->getinsertJenisGedung($jnsGedung);
             if (empty($getJenisGedung)) {

@@ -58,9 +58,9 @@ class Manageruangan_model extends CI_Model
 
     public function insertGedung($idJnsGedung, $nmGedung, $lokasi, $kota, $email, $noTelp, $jamBuka, $jamTutup, $user_id)
     {
-        $sql = "insert into building (name, location, city, email, no_tlp, id_penyedia, id_jenis, created_at, updated_at) 
+        $sql = "insert into building (name, location, city, email, no_tlp, open_hour, close_hour, id_penyedia, id_jenis, created_at, updated_at) 
         values 
-        ('$nmGedung','$lokasi','$kota','$email','$noTelp','$user_id','$idJnsGedung')";
+        ('$nmGedung','$lokasi','$kota','$email','$noTelp','$jamBuka','$jamTutup','$user_id','$idJnsGedung', now(), now())";
 
         $this->db->query($sql);
     }

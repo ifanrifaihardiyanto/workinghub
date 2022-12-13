@@ -2,7 +2,7 @@
 $this->load->helper('form');
 //   $error = $this->session->flashdata('error');
 //   $success = $this->session->flashdata('success');
-// print_r($gedung['jenis_gedung']);
+// print_r($gedung['startHour']);
 ?>
 <nav class="page-breadcrumb">
     <ol class="breadcrumb">
@@ -28,7 +28,6 @@ $this->load->helper('form');
                                         <?= $nmGedung->type ?></option>
                                     <?php endforeach; ?>
                                 </select>
-
                             </div>
                         </div><!-- Col -->
                         <div class="col-sm-6">
@@ -76,27 +75,24 @@ $this->load->helper('form');
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="control-label">Jam Buka</label>
-                                <div class="input-group date timepicker" id="jambuka" data-target-input="nearest">
-                                    <input type="text" class="form-control datetimepicker-input" data-target="#jambuka"
-                                        name="jamTutup" id="jamBuka" />
-                                    <div class="input-group-append" data-target="#jambuka" data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i data-feather="clock"></i></div>
-                                    </div>
-                                </div>
+                                <label>Jam Buka</label>
+                                <select class="js-example-basic-single w-100" name="startHour" id="startHour">
+                                    <?php foreach ($gedung['startHour'] as $startHour) : ?>
+                                    <option value="<?= $startHour ?>" <?= $startHour == $startHour ? 'selected' : '' ?>>
+                                        <?= $startHour . ".00" ?></option>
+                                    <?php endforeach; ?>
+                                </select>
                             </div>
                         </div><!-- Col -->
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label class="control-label">Jam Tutup</label>
-                                <div class="input-group date timepicker" id="jamtutup" data-target-input="nearest">
-                                    <input type="text" class="form-control datetimepicker-input" data-target="#jamtutup"
-                                        name="jamTutup" id="jamTutup" />
-                                    <div class="input-group-append" data-target="#jamtutup"
-                                        data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i data-feather="clock"></i></div>
-                                    </div>
-                                </div>
+                                <label>Jam Tutup</label>
+                                <select class="js-example-basic-single w-100" name="endHour" id="endHour">
+                                    <?php foreach ($gedung['endHour'] as $startHour) : ?>
+                                    <option value="<?= $startHour ?>" <?= $startHour == $startHour ? 'selected' : '' ?>>
+                                        <?= $startHour . ".00" ?></option>
+                                    <?php endforeach; ?>
+                                </select>
                             </div>
                         </div><!-- Col -->
                     </div><!-- Row -->
