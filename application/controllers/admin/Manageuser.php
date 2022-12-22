@@ -96,21 +96,7 @@ class Manageuser extends BaseController
             $user = $this->manage_user->get_id_user($email, $role);
             $user_id  = $user[0]->id;
 
-            $this->auth->completedData(
-                $user_id,
-                $nama,
-                $tmptLahir,
-                $tglLahir,
-                $alamat,
-                $nik,
-                $email,
-                $noTelp,
-                $rekBNI,
-                $rekBRI,
-                $rekMandiri,
-                $rekBCA,
-                $role
-            );
+            $this->auth->completedData($user_id, $nama, $tmptLahir, $tglLahir, $alamat, $nik, $email, $noTelp, $rekBNI, $rekBRI, $rekMandiri, $rekBCA, $role);
 
             $this->profile();
 
@@ -173,20 +159,7 @@ class Manageuser extends BaseController
             redirect('admin/manageuser');
         } else {
 
-            $this->manage_profile->edit(
-                $id,
-                $nama,
-                $tmptLahir,
-                $tglLahir,
-                $alamat,
-                $nik,
-                $noTelp,
-                $rekBNI,
-                $rekBRI,
-                $rekMandiri,
-                $rekBCA,
-                $role
-            );
+            $this->manage_profile->edit($id, $nama, $tmptLahir, $tglLahir, $alamat, $nik, $noTelp, $rekBNI, $rekBRI, $rekMandiri, $rekBCA, $role);
 
             $this->profile();
 

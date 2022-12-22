@@ -231,8 +231,7 @@ let mm = "<?= $month ?>";
 let invalidDate = [];
 let disabledArr = [<?= $activeOrderDate ?>];
 
-// let startHour = $("#startHour option:selected").text();
-// console.log(startHour);
+
 
 $(document).ready(function() {
     // $("select.startHour").change(function() {
@@ -323,6 +322,7 @@ function getDate(today) {
         },
         success: (response) => {
             let activeRentDate = Object.values(response.date);
+            let activeRentHour = Object.values(response.hour);
             console.log(response);
 
             if (durasi == 'Hari') {
@@ -424,6 +424,13 @@ function getDate(today) {
                         24)) + 1;
                 });
 
+                activeRentHour.forEach(entry => {
+                    $("#startHour option:contains( " + entry + ")").attr("disabled", "disabled");
+                });
+
+                activeRentHour.forEach(entry => {
+                    $("#endHour option:contains( " + entry + ")").attr("disabled", "disabled");
+                });
 
             }
         }

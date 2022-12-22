@@ -138,20 +138,7 @@ class Manageruangan extends BaseController
             $pengaktifan    = 0;
             $pemberhentian  = 1;
 
-            $this->manage_ruangan->insertRuangan(
-                $idGedung,
-                $nmRuangan,
-                $ukuran,
-                $kapasitas,
-                $hargaJam,
-                $hargaHarian,
-                $hargaMingguan,
-                $hargaBulanan,
-                $deskripsi,
-                $pengaktifan,
-                $pemberhentian,
-                $user_id
-            );
+            $this->manage_ruangan->insertRuangan($idGedung, $nmRuangan, $ukuran, $kapasitas, $hargaJam, $hargaHarian, $hargaMingguan, $hargaBulanan, $deskripsi, $pengaktifan, $pemberhentian, $user_id);
 
             $getRuangan     = $this->manage_ruangan->find_idruangan_by_id($nmRuangan, $idGedung);
             $idRuangan    = $getRuangan->id;

@@ -163,14 +163,44 @@ class Order_model extends CI_Model
         return $compare_date;
     }
 
-    public function rentHours($id, $durasi, $mulaiPenyewaan)
+    public function rentHours($id, $durasi)
     {
         $sql = "select start_hour, end_hour 
         from payment p
         join `order` o 
         on p.order_id = o.id 
-        where status_code in ('200','201') and o.room_id='$id' and o.duration_type='$durasi' and o.start_date='$mulaiPenyewaan'";
+        where status_code in ('200','201') and o.room_id='$id' and o.duration_type='$durasi'";
 
-        print_r($sql);
+        $cancelhour = "select start_hour, end_hour from cancel_rent_date where id_ruangan='$id' and duration_type='$durasi'";
+
+        $cancel = (object) $this->db->query($cancelhour)->result();
+        $isInvalidHour = (object) $this->db->query($sql)->result();
+
+        $itemsCancel = array();
+        foreach ($cancel as $key) {
+            $durations1 = $key->start_hour;
+            $durations = $key->end_hour;
+
+            for ($i = $durations1; $i <= $durations; $i++) {
+                $cancelHour = $i;
+                $itemsCancel[] = $cancelHour;
+            }
+        }
+
+        $items = array();
+        foreach ($isInvalidHour as $d) {
+            $durations1 = $d->start_hour;
+            $durations = $d->end_hour;
+
+            for ($i = $durations1; $i <= $durations; $i++) {
+                $invalidHour = $i;
+                $items[] = $invalidHour;
+            }
+        }
+
+        $compare_hour = array_diff($items, $itemsCancel);
+
+        // print_r($compare_hour);
+        return $compare_hour;
     }
 }

@@ -89,19 +89,19 @@ class Order extends BaseController
 
         $isInvalidDate = $this->order->tersewa($id_ruangan, $duration);
 
-        // $options = array(
-        //     'cluster' => 'ap1',
-        //     'useTLS' => true
-        // );
-        // $pusher = new Pusher\Pusher(
-        //     'c14531a571ba79886871',
-        //     'f16312d08704e9192095',
-        //     '1515905',
-        //     $options
-        // );
+        $options = array(
+            'cluster' => 'ap1',
+            'useTLS' => true
+        );
+        $pusher = new Pusher\Pusher(
+            'c14531a571ba79886871',
+            'f16312d08704e9192095',
+            '1515905',
+            $options
+        );
 
-        // $data['message'] = json_encode($isInvalidDate, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-        // $pusher->trigger('my-channel', 'my-event', $data);
+        $data['message'] = json_encode($isInvalidDate, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        $pusher->trigger('my-channel', 'my-event', $data);
 
         redirect('order/detail_tagihan/' . $order_code);
     }
@@ -110,17 +110,22 @@ class Order extends BaseController
     {
         $id_ruangan = $this->input->get('id_ruangan');
         $duration   = $this->input->get('durasi');
-        if ($duration == 'Jam') {
-            $mulaiPenyewaan = $this->input->get('mulaiPenyewaan');
-        }
 
+        $isInvalidHour = $this->order->rentHours($id_ruangan, $duration);
         $isInvalidDate = $this->order->rentDate($id_ruangan, $duration);
-        $isInvalidHour = $this->order->rentHours($id_ruangan, $duration, $mulaiPenyewaan);
 
-        return $this->response(200, [
-            "message" => "Successfully get witels.",
-            "date" => $isInvalidDate,
-            "hour" => $isInvalidHour,
-        ]);
+        if ($duration == 'Jam') {
+            return $this->response(200, [
+                "message" => "Successfully get witels.",
+                "date" => $isInvalidDate,
+                "hour" => $isInvalidHour,
+            ]);
+        } else {
+            return $this->response(200, [
+                "message" => "Successfully get witels.",
+                "date" => $isInvalidDate,
+                "hour" => "is not hour",
+            ]);
+        }
     }
 }
