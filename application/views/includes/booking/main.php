@@ -25,6 +25,8 @@
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/pemesan/style.css">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="<?php echo base_url(); ?>assets/images/logo.png" />
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/owl.carousel.min.css" type="text/css" />
+    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/style.css" type="text/css" />
     <script src="<?php echo base_url(); ?>assets/vendors/core/core.js"></script>
 </head>
 
@@ -115,6 +117,10 @@
     <script src="<?php echo base_url(); ?>assets/js/timepicker.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/data-table.js"></script>
     <script src="<?php echo base_url(); ?>assets/js/file-upload.js"></script>
+    <script src="<?php echo base_url(); ?>assets/js/jquery.slicknav.js"></script>
+    <script src="<?php echo base_url(); ?>assets/js/owl.carousel.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/js/jquery.nicescroll.min.js"></script>
+    <script src="<?php echo base_url(); ?>assets/js/main.js"></script>
     <!-- end custom js for this page -->
 
 </body>

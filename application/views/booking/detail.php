@@ -15,11 +15,11 @@ $activeOrderDate = implode(',', $date);
 <div class="carousel-img-ruangan">
     <div class="container">
         <div class="card">
-            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+            <!-- <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
                     <?php
                     // print_r($result->activeOrderDate);
-                    // print_r($result->reviews);
+                    // print_r($result->startHour);
                     // die;
 
                     if (!empty($result->ruangan[0]->image)) {
@@ -47,7 +47,50 @@ $activeOrderDate = implode(',', $date);
                     <span class="sr-only">Next</span>
                 </a>
                 <?php } ?>
-            </div>
+            </div> -->
+
+            <section class="">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="product__details__pic">
+                                <div class="product__details__pic__left product__thumb nice-scroll">
+                                    <?php
+                                    // print_r($result->activeOrderDate);
+                                    // print_r($result->startHour);
+                                    // die;
+
+                                    if (!empty($result->ruangan[0]->image)) {
+                                        $data_gambar = explode(', ', $result->ruangan[0]->image);
+                                    }
+
+                                    $cntDataGambar = count($data_gambar);
+                                    for ($i = 0; $i < $cntDataGambar; $i++) {
+                                        $data_img = explode('workinghub', $data_gambar[$i]);
+                                    ?>
+                                    <a class="pt <?php echo ($i == 0) ? "active" : "" ?>" href="#<?= $data_img[1] ?>">
+                                        <img src="<?php echo base_url(); ?><?= $data_img[1] ?>" alt="" />
+                                    </a>
+                                    <?php } ?>
+                                </div>
+                                <div class="product__details__slider__content">
+                                    <div class="product__details__pic__slider owl-carousel">
+                                        <?php
+                                        $cntDataGambar = count($data_gambar);
+                                        for ($i = 0; $i < $cntDataGambar; $i++) {
+                                            $data_img = explode('workinghub', $data_gambar[$i]);
+                                        ?>
+                                        <img data-hash="<?= $data_img[1] ?>" class="product__big__img"
+                                            src="<?php echo base_url(); ?><?= $data_img[1] ?>" alt="" />
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <div class="card-body">
                 <h5 class="card-title">
                     <?= $result->ruangan[0]->name_gedung . ' - ' . $result->ruangan[0]->name_ruangan ?></h5>
@@ -108,8 +151,9 @@ $activeOrderDate = implode(',', $date);
                                 <select class="js-example-basic-single w-100" name="startHour" id="startHour"
                                     onchange="changeFunc();">
                                     <?php foreach ($result->startHour as $startHour) : ?>
-                                    <option value="<?= $startHour ?>" <?= $startHour == $startHour ? 'selected' : '' ?>>
-                                        <?= $startHour . ".00" ?></option>
+                                    <option value="<?= $startHour->hour ?>"
+                                        <?= $startHour->hour == $startHour->hour ? 'selected' : '' ?>>
+                                        <?= $startHour->hour ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -124,8 +168,9 @@ $activeOrderDate = implode(',', $date);
                                 <select class="js-example-basic-single w-100" name="endHour" id="endHour"
                                     onchange="changeFunc();">
                                     <?php foreach ($result->endHour as $endHour) : ?>
-                                    <option value="<?= $endHour ?>" <?= $endHour == $endHour ? 'selected' : '' ?>>
-                                        <?= $endHour . ".00" ?></option>
+                                    <option value="<?= $endHour->hour ?>"
+                                        <?= $endHour->hour == $endHour->hour ? 'selected' : '' ?>>
+                                        <?= $endHour->hour ?></option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
@@ -285,30 +330,42 @@ $(document).ready(function() {
 });
 
 function changeFunc() {
-    let startHour = $("#startHour option:selected").val();
-    let endHour = $("#endHour option:selected").val();
+    const startHour = $("#startHour option:selected").val();
+    const endHour = $("#endHour option:selected").val();
     let textHtmlNotif = '';
 
-    if (endHour < startHour) {
+    let replaceStart = startHour.replace('.', '');
+    let replaceEnd = endHour.replace('.', '');
+
+    let diffHours = replaceEnd - replaceStart;
+
+    let lengthStr = diffHours.toString().length;
+
+    if (lengthStr > 2) {
+        let getStr = diffHours.toString().search('70');
+        let getStrFront = diffHours.toString().slice(0, 1);
+
+        if (getStr == 1) {
+            getStrFront += '.5';
+        }
+
+        let resultDiff = getStrFront;
+
+        console.log(resultDiff);
+
+        $("#pesan").prop("disabled", false);
+
+        getHarga(durasi, resultDiff, id_ruangan);
+
+    } else {
         textHtmlNotif += `<div class="col-md-12 pd-btm-10">
-                        <div class="alert alert-warning text-center" role="alert">Jam mulai harus lebih kecil dari jam selesai penyewaan!</div>
+                        <div class="alert alert-warning text-center" role="alert">Minimal durasi pemesanan 1 jam!</div>
                     </div>`;
+
+        $("#pesan").prop("disabled", true);
     }
 
     $('#notifHour')[0].innerHTML = textHtmlNotif;
-
-    diffHours = endHour - startHour;
-
-    if (diffHours <= 0) {
-        $("#pesan").prop("disabled", true);
-        diffHours = 0;
-    } else {
-        $("#pesan").prop("disabled", false);
-    }
-
-    getHarga(durasi, diffHours, id_ruangan);
-
-    console.log(endHour - startHour);
 }
 
 function getDate(today) {

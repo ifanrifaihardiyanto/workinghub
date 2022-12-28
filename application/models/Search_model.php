@@ -244,4 +244,11 @@ class Search_model extends CI_Model
 
         $this->db->query($sql);
     }
+
+    public function list_hour()
+    {
+        $sql = "select `hour` from list_hour order by `hour` asc";
+
+        return $this->db->query($sql)->result();
+    }
 }

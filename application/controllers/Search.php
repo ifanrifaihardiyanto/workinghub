@@ -141,6 +141,8 @@ class Search extends BaseController
         $result = $this->search->detail($id, $durasi);
         $reviews = $this->search->reviews($id, $durasi);
         $isInvalidDate = $this->order->tersewa($id, $durasi);
+        $listHour = $this->search->list_hour();
+        // print_r($listHour);
 
         $this->global['result'] = (object) [
             'ruangan' => $result,
@@ -148,22 +150,16 @@ class Search extends BaseController
             'durasi' => $durasi,
             'id_ruangan' => $id,
             'activeOrderDate' => $isInvalidDate,
-            'startHour' => array_map(function ($item) {
-                if ($item < 10) {
-                    $startHour = "0$item";
-                } else {
-                    $startHour = "$item";
-                }
-                return $startHour;
-            }, range(8, 22)),
-            'endHour' => array_map(function ($item) {
-                if ($item < 10) {
-                    $endHour = "0$item";
-                } else {
-                    $endHour = "$item";
-                }
-                return $endHour;
-            }, range(8, 22)),
+            'startHour' => $listHour,
+            'endHour' => $listHour,
+            // 'endHour' => array_map(function ($item) {
+            //     if ($item < 10) {
+            //         $endHour = "0$item";
+            //     } else {
+            //         $endHour = "$item";
+            //     }
+            //     return $endHour;
+            // }, range(8, 22)),
         ];
 
         $this->profile();

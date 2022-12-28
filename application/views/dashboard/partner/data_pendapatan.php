@@ -54,33 +54,35 @@
 <div class="row">
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
-            <div class="card-body">
+            <div class="card-header">
                 <h6 class="card-title">Pendapatan</h6>
-                <div class="table-responsive">
-                    <table id="dataTableExample" class="table">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Nama Ruangan</th>
-                                <th>Jumlah Penyewaan</th>
-                                <th>Pendapatan</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            foreach ($pendapatan['data_pendapatan'] as $index => $p) :
-                            ?>
-                            <tr>
-                                <td><?= ++$index ?></td>
-                                <td><?= $p->name ?></td>
-                                <td><?= $p->jmlPenyewaan ?></td>
-                                <td><?= $p->total ?></td>
-                            </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
             </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="example1" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Ruangan</th>
+                            <th>Jumlah Penyewaan</th>
+                            <th>Pendapatan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        foreach ($pendapatan['data_pendapatan'] as $index => $p) :
+                        ?>
+                        <tr>
+                            <td><?= ++$index ?></td>
+                            <td><?= $p->name ?></td>
+                            <td><?= $p->jmlPenyewaan ?></td>
+                            <td><?= $p->total ?></td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
         </div>
     </div>
 </div>
